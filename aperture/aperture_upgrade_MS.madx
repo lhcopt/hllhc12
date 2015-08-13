@@ -1,0 +1,456 @@
+! June 2010, model for TAN,D2,Q4,Q5 aperture: S. Fartoukh
+! Q5 replaced by an MQY, 92mm-ID for D2, 85mm-ID for Q4
+! 15mm assume to adjust b.s. and cold bore in the new D2/Q4, 5mm for the capillary
+! H b.s. orientation for D2
+! change of orientation for the Q5/Q4 b.s. according to Q4 polarity 
+! change of TAN aperture (ellipse instead of circle) and aperture sep. according to actual D1/D2 distance
+! 2011/12/06 updated with new names, adding new elements for SLHC3.1
+! missing corrector package in Q10
+! 2012/04/23 adding tolerenances for D2, Q4, Q5 and relative correctors and bpms
+!            equal to the triplet 0.6mm in radius for ground montion and 1mm for manifacturing
+! 2012/07/13 adding crab cavities
+! 2012/11/07 new default settings  (r, h, v) in mm
+! Ground motion in the triplet (0.6, 0, 0)
+! Ground motion in the rest  (0.84, 0.36)  from JBJ, LHC report 1007
+! Fiducialization for MQ     (0, 0.9, 0.6) from JBJ, LHC report 1007
+! IT    (0.6 , 0,  , 0) +  (0.0, 1  , 1  ) = (0.6 ,    1,   1)
+! D1/D2 (0.84, 0.36, 0) +  (0.0, 1  , 1  ) = (0.84, 1.36, 1  )
+! Q4/Q5 (0.84, 0.36, 0) +  (0.0, 0.9, 0.6) = (0.84, 1.26, 0.6)
+
+
+! Macros
+
+write_OCTAGON(xx1,yy1,xx2,yy2): macro = {
+ printf,text=" %g  %g",value=xx1,yy1;
+ printf,text=" %g  %g",value=xx2,yy2;
+ printf,text="-%g  %g",value=xx2,yy2;
+ printf,text="-%g  %g",value=xx1,yy1;
+ printf,text="-%g -%g",value=xx1,yy1;
+ printf,text="-%g -%g",value=xx2,yy2;
+ printf,text=" %g -%g",value=xx2,yy2;
+ printf,text=" %g -%g",value=xx1,yy1;
+ printf,text=" %g  %g",value=xx1,yy1;
+};
+
+aperture_2in1_def(eee,ttt,ap1,ap2,ap3,ap4,rtol,htol,vtol): macro={
+eeeL1.B1,APERTYPE=ttt,APERTURE:={ap1,ap2,ap3,ap4},APER_TOL:={rtol,htol,vtol};
+eeeR1.B1,APERTYPE=ttt,APERTURE:={ap1,ap2,ap3,ap4},APER_TOL:={rtol,htol,vtol};
+eeeL1.B2,APERTYPE=ttt,APERTURE:={ap1,ap2,ap3,ap4},APER_TOL:={rtol,htol,vtol};
+eeeR1.B2,APERTYPE=ttt,APERTURE:={ap1,ap2,ap3,ap4},APER_TOL:={rtol,htol,vtol};
+eeeL5.B1,APERTYPE=ttt,APERTURE:={ap1,ap2,ap3,ap4},APER_TOL:={rtol,htol,vtol};
+eeeR5.B1,APERTYPE=ttt,APERTURE:={ap1,ap2,ap3,ap4},APER_TOL:={rtol,htol,vtol};
+eeeL5.B2,APERTYPE=ttt,APERTURE:={ap1,ap2,ap3,ap4},APER_TOL:={rtol,htol,vtol};
+eeeR5.B2,APERTYPE=ttt,APERTURE:={ap1,ap2,ap3,ap4},APER_TOL:={rtol,htol,vtol};
+};
+
+!D2 NOMINAL B.S. ORIENTATION
+!g_D2=0.026400;r_D2=0.031300; !nominal D2 beam-screen 
+! g_D2=0.033500;r_D2=0.038500; !new D2 beam-screen 
+! g_D2=0.033500*1.35;r_D2=0.038500*1.35; !new D2 beam-screen 
+! g_D2=0.037000;r_D2=0.042000; !new D2 beam-screen for crab 106mm
+! g_D2=0.036000;r_D2=0.041000; !new D2 beam-screen for crab 105mm
+! g_D2=0.032000;r_D2=0.037000; !new D2 beam-screen for crab 95mm
+! r_tol_D2 =0.0006; h_tol_D2 :=0.0010+h_tol_D2_mod; v_tol_D2 :=0.0010+v_tol_D2_mod;
+r_tol_D2 =0.00084; h_tol_D2 :=0.00136+h_tol_D2_mod; v_tol_D2 :=0.0010+v_tol_D2_mod;
+
+coil_ID_D2=105.; !Coil inner
+t_HE_D2=1.; ! Helium thickness
+t_CB_D2=2.5; ! Cold bore thickness + 0.5 kapton
+d_CB_BS_D2=1.; ! Distance Cold Bore to Beam Screen
+t_BS_D2=1.; ! Beam Screen thickness
+t_CT_D2=5.; ! Cooling tube thickness
+r_D2=coil_ID_D2/2 - t_HE_D2 - t_CB_D2 - d_CB_BS_D2 - t_BS_D2 ;
+g_D2=r_D2 - t_CT_D2;
+
+!r_D2=42+3+0.8; ! TO be check
+!g_D2=r_D2-0.8*2-3*2; ! TO be check
+!r1_D2 = 45 degree halfgap
+!r2_D2 = H,V halfgap
+!r1_D2=38.0;
+!r2_D2=42.5;
+r1_D2=38.0+1-1.5/2; !C. Garion 9/4
+r2_D2=42.5+1-1.5/2; !C. Garion 9/4
+
+r_D2=sqrt((sqrt(2)*r1_D2-r2_D2)^2+r2_D2^2);
+g_D2=r1_D2;
+
+angle1_D2=45-acos(g_d2/r_d2)/pi*180; !22.5 regular octagon
+angle2_D2=90-angle1_D2;
+
+value,r_D2,g_D2,angle1_D2,angle2_D2;
+
+xx1=r_D2*1e-3*cos(angle1_D2/180*pi);!conversion to m
+yy1=r_D2*1e-3*sin(angle1_D2/180*pi);
+xx2=r_D2*1e-3*cos(angle2_D2/180*pi);
+yy2=r_D2*1e-3*sin(angle2_D2/180*pi);
+
+value,xx1,yy1,xx2,yy2;
+
+system,"rm d2_aperture";assign, echo="d2_aperture";
+exec,write_OCTAGON(xx1,yy1,xx2,yy2);
+assign, echo=terminal;
+
+r_D2=r_D2/1000;
+g_D2=g_D2/1000;
+
+
+exec,aperture_2in1_def(MBRD.4,d2_aperture,
+          r_D2,g_D2,angle1_D2,angle2_D2,r_tol_D2, h_tol_D2, v_tol_D2);
+exec,aperture_2in1_def(TCLMA.4,d2_aperture,
+          r_D2,g_D2,angle1_D2,angle2_D2,r_tol_D2, h_tol_D2, v_tol_D2);
+
+! big corrector for crabs
+!g_MC2=0.037000;r_MC2=0.042000; !equal to D2 for the time being
+! r_tol_MC2 =0.0006; h_tol_MC2 :=0.0010+h_tol_MC2_mod; v_tol_MC2 :=0.0010+v_tol_MC2_mod;
+!g_MC2=g_D2;r_MC2=r_D2; !equal to D2 for the time being
+!r_tol_MC2 =r_tol_D2; h_tol_MC2 :=h_tol_D2+h_tol_MC2_mod; v_tol_MC2 :=v_tol_D2+v_tol_MC2_mod;
+
+exec,aperture_2in1_def(MCBRDH.4,d2_aperture,
+          r_D2,g_D2,angle1_D2,angle2_D2,r_tol_D2 , h_tol_D2 , v_tol_D2);
+exec,aperture_2in1_def(MCBRDV.4,d2_aperture,
+          r_D2,g_D2,angle1_D2,angle2_D2,r_tol_D2 , h_tol_D2 , v_tol_D2);
+
+
+
+
+!Q4 NOMINAL B.S. ORIENTATION
+!g_Q4=0.024000;r_Q4=0.028900; !nominal MQY beam-screen
+!g_Q4=0.030000; r_Q4=0.035000; !new MQY beam-screen
+!g_Q4=0.032000; r_Q4=0.037000; !new MQY beam-screen 90 mm
+!r_tol_Q4 =0.0006; h_tol_Q4 :=0.0010+h_tol_Q4_mod; v_tol_Q4 :=0.0010+v_tol_Q4_mod;
+r_tol_Q4 =0.00084; h_tol_Q4 :=0.00126+h_tol_Q4_mod; v_tol_Q4 :=0.0006+v_tol_Q4_mod;
+! Q4/Q5 (0.84, 0.36, 0) +  (0.0, 0.9, 0.6) = (0.84, 1.26, 0.6)
+! B.S B2 like
+
+
+
+
+
+!MCBYYV.4R1.B1, APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYH.4R1.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MQYY.4R1.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYV.4R5.B1, APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYH.4R5.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MQYY.4R5.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYH.4L1.B1, APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYV.4L1.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MQYY.4L1.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYH.4L5.B1, APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYV.4L5.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MQYY.4L5.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYV.4L1.B2, APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYH.4L1.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MQYY.4L1.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYV.4L5.B2, APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYH.4L5.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MQYY.4L5.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ g_Q4,r_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYH.4R1.B2, APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYV.4R1.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MQYY.4R1.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYH.4R5.B2, APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MCBYYV.4R5.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!MQYY.4R5.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
+!                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
+!
+r1_q4=31.9-1.5/2; !C. Garion 9/4  and adding tolerances
+r2_q4=36.9-1.5/2; !C. Garion 9/4  and adding tolerances
+
+r_q4=sqrt((sqrt(2)*r1_q4-r2_q4)^2+r2_q4^2);
+g_q4=r1_q4;
+
+angle1_q4=45-acos(g_q4/r_q4)/pi*180; !22.5 regular octagon
+angle2_q4=90-angle1_q4;
+
+value,r_q4,g_q4,angle1_q4,angle2_q4;
+
+xx1=r_q4/1000*cos(angle1_q4/180*pi);!conversion to m
+yy1=r_q4/1000*sin(angle1_q4/180*pi);
+xx2=r_q4/1000*cos(angle2_q4/180*pi);
+yy2=r_q4/1000*sin(angle2_q4/180*pi);
+
+value,xx1,yy1,xx2,yy2;
+
+system,"rm q4_aperture";assign, echo="q4_aperture";
+exec,write_OCTAGON(xx1,yy1,xx2,yy2);
+assign, echo=terminal;
+
+r_q4=r_q4/1000;
+g_q4=g_q4/1000;
+
+
+exec,aperture_2in1_def(MQYY.4,q4_aperture,
+          r_q4,g_q4,angle1_q4,angle2_q4,r_tol_q4, h_tol_q4, v_tol_q4);
+
+! big corrector for crabs
+!g_MC2=0.037000;r_MC2=0.042000; !equal to q4 for the time being
+! r_tol_MC2 =0.0006; h_tol_MC2 :=0.0010+h_tol_MC2_mod; v_tol_MC2 :=0.0010+v_tol_MC2_mod;
+!g_MC2=g_q4;r_MC2=r_q4; !equal to q4 for the time being
+!r_tol_MC2 =r_tol_q4; h_tol_MC2 :=h_tol_q4+h_tol_MC2_mod; v_tol_MC2 :=v_tol_q4+v_tol_MC2_mod;
+
+exec,aperture_2in1_def(MCBYYH.4,q4_aperture,
+          r_q4,g_q4,angle1_q4,angle2_q4,r_tol_q4 , h_tol_q4 , v_tol_q4);
+exec,aperture_2in1_def(MCBYYV.4,q4_aperture,
+          r_q4,g_q4,angle1_q4,angle2_q4,r_tol_q4 , h_tol_q4 , v_tol_q4);
+
+
+!Q5  NOMINAL B.S ORIENTATION
+! g_Q5=0.017650;r_Q5=0.022550; !nominal MQM b.s.
+ g_Q5=0.024000;r_Q5=0.028900; !nominal MQY beam-screen
+! r_tol_Q5 =0.0006; h_tol_Q5 :=0.0010+h_tol_Q5_mod; v_tol_Q5 :=0.0010+v_tol_Q5_mod;
+ r_tol_Q5 =0.00084; h_tol_Q5 :=0.00126+h_tol_Q5_mod; v_tol_Q5 :=0.0006+v_tol_Q5_mod;
+
+!Q5 B.S. orientation follows collision optics instead of polarity
+
+MQY.5R1.B1,     APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.A5R1.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.5R1.B1 ,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.B5R1.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+
+MQY.5L5.B1,     APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.B5L5.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.5L5.B1 ,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.A5L5.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+
+MQY.5R5.B1,     APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.A5R5.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.5R5.B1 ,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.B5R5.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+
+MQY.5L1.B1,     APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.B5L1.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.5L1.B1 ,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.A5L1.B1,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+
+MQY.5R1.B2,     APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.A5R1.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.5R1.B2 ,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.B5R1.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+
+MQY.5L5.B2,     APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.B5L5.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.5L5.B2 ,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.A5L5.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+
+MQY.5R5.B2,     APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.A5R5.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.5R5.B2 ,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.B5R5.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,    g_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+
+MQY.5L1.B2,     APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.B5L1.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYV.5L1.B2 ,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+MCBYH.A5L1.B2,  APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,    r_Q5,    r_Q5,    r_Q5  } , APER_TOL:={ r_tol_Q5 , h_tol_Q5 , v_tol_Q5 };
+
+
+!!!BPM at D2, Q5 and Q4
+r_BPM_D2=0.0430;  ! is 30 mm nominally
+r_BPM_Q4=0.0375;  ! is 30 mm nominally
+r_BPM_Q5=0.0300;  ! as for BPM for MQY, is 24 mm nominally
+r_BPM_Q6=0.0240;  ! as for BPM for MQY, is 24 mm nominally
+!r_tol_BPM_Q5 =0.0006; h_tol_BPM_Q5 =0.0010; v_tol_BPM_Q5 =0.0010;
+!r_tol_BPM_Q4 =0.0006; h_tol_BPM_Q4 =0.0010; v_tol_BPM_Q4 =0.0010;
+!r_tol_BPM_D2 =0.0006; h_tol_BPM_D2 =0.0010; v_tol_BPM_D2 =0.0010;
+r_tol_BPM_Q5 =r_tol_Q5; h_tol_BPM_Q5 =h_tol_Q5; v_tol_BPM_Q5 =v_tol_Q5;
+r_tol_BPM_Q4 =r_tol_Q4; h_tol_BPM_Q4 =h_tol_Q4; v_tol_BPM_Q4 =v_tol_Q4;
+r_tol_BPM_D2 =r_tol_D2; h_tol_BPM_D2 =h_tol_D2; v_tol_BPM_D2 =v_tol_D2;
+
+exec,aperture_2in1_def(BPMWQ.4,rectellipse,r_BPM_D2,r_BPM_D2,r_BPM_D2,r_BPM_D2,r_tol_BPM_D2 , h_tol_BPM_D2 , v_tol_BPM_D2);
+exec,aperture_2in1_def(BPMQA.4,rectellipse,r_BPM_Q4,r_BPM_Q4,r_BPM_Q4,r_BPM_Q4,r_tol_BPM_Q4 , h_tol_BPM_Q4 , v_tol_BPM_Q4);
+!exec,aperture_2in1_def(BPMQB.4,rectellipse,r_BPM_Q5,r_BPM_Q5,r_BPM_Q5,r_BPM_Q5,r_tol_BPM_Q5 , h_tol_BPM_Q5 , v_tol_BPM_Q5);
+exec,aperture_2in1_def(BPMYA.5,rectellipse,r_BPM_Q5,r_BPM_Q5,r_BPM_Q5,r_BPM_Q5,r_tol_BPM_Q5 , h_tol_BPM_Q5 , v_tol_BPM_Q5);
+exec,aperture_2in1_def(APWL.5,rectellipse,r_BPM_Q5,r_BPM_Q5,r_BPM_Q5,r_BPM_Q5,r_tol_BPM_Q5 , h_tol_BPM_Q5 , v_tol_BPM_Q5);
+
+r_tol_BPM_Q6 =r_tol_Q5; h_tol_BPM_Q6 =h_tol_Q5; v_tol_BPM_Q6 =v_tol_Q5;
+!exec,aperture_2in1_def(BPMQC.6,rectellipse,r_BPM_Q6,r_BPM_Q6,r_BPM_Q6,r_BPM_Q6,r_tol_BPM_Q6 , h_tol_BPM_Q6 , v_tol_BPM_Q6);
+
+! New  TAN with elliptical chamber
+!a_TAN=0.0375; b_TAN=0.0335;
+!a_TAN=0.0410; b_TAN=0.0410;
+!a_TAN=0.0370; b_TAN=0.0320; !95mm
+!was a 26 mm radius circle nominally,see also offset files
+!where the aperture sep. of the TAN has been reduced from 160 mm to 155 mm
+a_TAN=0.0400; b_TAN=0.0400; !95mm
+r_tol_TAN=0.00084;
+h_tol_TAN:=0.00136+h_tol_TAN_mod;v_tol_TAN:=0.001+v_tol_TAN_mod;
+
+!TAXN.4L1,  APERTYPE=RECTELLIPSE, APERTURE:={a_TAN,b_TAN,a_TAN,b_TAN},APER_TOL:={r_tol_TAN,h_tol_TAN,v_tol_TAN};
+!TAXN.4R1,  APERTYPE=RECTELLIPSE, APERTURE:={a_TAN,b_TAN,a_TAN,b_TAN},APER_TOL:={r_tol_TAN,h_tol_TAN,v_tol_TAN};
+!TAXN.4L5 ,  APERTYPE=RECTELLIPSE, APERTURE:={a_TAN,b_TAN,a_TAN,b_TAN},APER_TOL:={r_tol_TAN,h_tol_TAN,v_tol_TAN};
+!TAXN.4R5 ,  APERTYPE=RECTELLIPSE, APERTURE:={a_TAN,b_TAN,a_TAN,b_TAN},APER_TOL:={r_tol_TAN,h_tol_TAN,v_tol_TAN};
+!
+! rectellipse
+TAXN.4L1,  APERTYPE=RECTELLIPSE, APERTURE:={a_TAN,b_TAN,a_TAN,a_TAN},APER_TOL:={r_tol_TAN,h_tol_TAN,v_tol_TAN};
+TAXN.4R1,  APERTYPE=RECTELLIPSE, APERTURE:={a_TAN,b_TAN,a_TAN,a_TAN},APER_TOL:={r_tol_TAN,h_tol_TAN,v_tol_TAN};
+TAXN.4L5 ,  APERTYPE=RECTELLIPSE, APERTURE:={a_TAN,b_TAN,a_TAN,a_TAN},APER_TOL:={r_tol_TAN,h_tol_TAN,v_tol_TAN};
+TAXN.4R5 ,  APERTYPE=RECTELLIPSE, APERTURE:={a_TAN,b_TAN,a_TAN,a_TAN},APER_TOL:={r_tol_TAN,h_tol_TAN,v_tol_TAN};
+
+! Set TCT and TCL opened apertures
+a_TCT=0.05; b_TCT=0.05;
+TCTH.4L1.B1  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTH.4L5.B1  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTV.4L1.B1 ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTV.4L5.B1 ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCLP.4R1.B1  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTH.4R1.B2  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTH.4R5.B2  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTV.4R1.B2 ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTV.4R5.B2 ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCLP.4L1.B2  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTH.5L1.B1  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTH.5L5.B1  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTH.5R1.B2  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTH.5R5.B2  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTV.5L1.B1  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTV.5L5.B1  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTV.5R1.B2  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCTV.5R5.B2  ,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.4R5.B1,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.5R5.B1,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.6R5.B1,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.4L5.B2,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.5L5.B2,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.6L5.B2,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.4R1.B1,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.5R1.B1,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.6R1.B1,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.4L1.B2,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.5L1.B2,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+TCL.6L1.B2,APERTYPE=RECTELLIPSE, APERTURE:={a_TCT,b_TCT,a_TCT,b_TCT},APER_TOL:={0,0,0};
+
+
+
+
+
+
+
+
+
+!New Q5 of IR6
+r_tol_Q5 =0.00084; h_tol_Q5 :=0.00126+h_tol_Q5_mod; v_tol_Q5 :=0.0006+v_tol_Q5_mod;
+!MQYL.5L6.B1, APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,g_Q5,r_Q5,r_Q5},APER_TOL:={ 0.000840,    0.000390,     0.000350 };
+!MQYL.5R6.B1, APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,r_Q5,r_Q5,r_Q5},APER_TOL:={ 0.000840,    0.000710,     0.000350 };
+!MQYL.5L6.B2, APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,r_Q5,r_Q5,r_Q5},APER_TOL:={ 0.000840,    0.000760,     0.000350 };
+!MQYL.5R6.B2, APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,g_Q5,r_Q5,r_Q5},APER_TOL:={ 0.000840,    0.000670,     0.000470 };
+MQY.B5L6.B1, APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,g_Q5,r_Q5,r_Q5},APER_TOL:={ r_tol_Q5,  h_tol_Q5  ,  v_tol_Q5    };
+MQY.B5R6.B1, APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,r_Q5,r_Q5,r_Q5},APER_TOL:={ r_tol_Q5,  h_tol_Q5  ,  v_tol_Q5    };
+MQY.B5L6.B2, APERTYPE=RECTELLIPSE, APERTURE:={ g_Q5,r_Q5,r_Q5,r_Q5},APER_TOL:={ r_tol_Q5,  h_tol_Q5  ,  v_tol_Q5    };
+MQY.B5R6.B2, APERTYPE=RECTELLIPSE, APERTURE:={ r_Q5,g_Q5,r_Q5,r_Q5},APER_TOL:={ r_tol_Q5,  h_tol_Q5  ,  v_tol_Q5    };
+
+
+! Crab cavities
+
+g_CRAB=0.042;
+r_CRAB=0.042;
+
+crab_aperture(NNN): macro {
+acfca.NNNl5.b1,APERTYPE=RECTELLIPSE, APERTURE:={g_CRAB,r_CRAB,r_CRAB,r_CRAB}; ;
+acfca.NNNl5.b2,APERTYPE=RECTELLIPSE, APERTURE:={g_CRAB,r_CRAB,r_CRAB,r_CRAB}; ;
+acfca.NNNr5.b1,APERTYPE=RECTELLIPSE, APERTURE:={g_CRAB,r_CRAB,r_CRAB,r_CRAB}; ;
+acfca.NNNr5.b2,APERTYPE=RECTELLIPSE, APERTURE:={g_CRAB,r_CRAB,r_CRAB,r_CRAB}; ;
+acfca.NNNl1.b1,APERTYPE=RECTELLIPSE, APERTURE:={g_CRAB,r_CRAB,r_CRAB,r_CRAB}; ;
+acfca.NNNl1.b2,APERTYPE=RECTELLIPSE, APERTURE:={g_CRAB,r_CRAB,r_CRAB,r_CRAB}; ;
+acfca.NNNr1.b1,APERTYPE=RECTELLIPSE, APERTURE:={g_CRAB,r_CRAB,r_CRAB,r_CRAB}; ;
+acfca.NNNr1.b2,APERTYPE=RECTELLIPSE, APERTURE:={g_CRAB,r_CRAB,r_CRAB,r_CRAB}; ;
+};
+
+
+
+exec,crab_aperture(A);
+exec,crab_aperture(B);
+exec,crab_aperture(C);
+exec,crab_aperture(D);
+
+
+! Masks
+
+!r_MD2=0.042; g_MD2=0.042;r_tol_MD2=0.0006;h_tol_MD2:=0.001+h_tol_MD2_mod;v_tol_MD2:=0.001+v_tol_MD2_mod;
+!TCLMA.4R1.B1,APERTYPE=RECTELLIPSE,APERTURE:={ g_MD2,r_MD2,r_MD2,r_MD2},APER_TOL:={r_tol_MD2,h_tol_MD2,v_tol_MD2};
+!TCLMA.4R1.B2,APERTYPE=RECTELLIPSE,APERTURE:={ g_MD2,r_MD2,r_MD2,r_MD2},APER_TOL:={r_tol_MD2,h_tol_MD2,v_tol_MD2};
+!TCLMA.4L1.B1,APERTYPE=RECTELLIPSE,APERTURE:={ g_MD2,r_MD2,r_MD2,r_MD2},APER_TOL:={r_tol_MD2,h_tol_MD2,v_tol_MD2};
+!TCLMA.4L1.B2,APERTYPE=RECTELLIPSE,APERTURE:={ g_MD2,r_MD2,r_MD2,r_MD2},APER_TOL:={r_tol_MD2,h_tol_MD2,v_tol_MD2};
+!TCLMA.4R5.B1,APERTYPE=RECTELLIPSE,APERTURE:={ g_MD2,r_MD2,r_MD2,r_MD2},APER_TOL:={r_tol_MD2,h_tol_MD2,v_tol_MD2};
+!TCLMA.4R5.B2,APERTYPE=RECTELLIPSE,APERTURE:={ g_MD2,r_MD2,r_MD2,r_MD2},APER_TOL:={r_tol_MD2,h_tol_MD2,v_tol_MD2};
+!TCLMA.4L5.B1,APERTYPE=RECTELLIPSE,APERTURE:={ g_MD2,r_MD2,r_MD2,r_MD2},APER_TOL:={r_tol_MD2,h_tol_MD2,v_tol_MD2};
+!TCLMA.4L5.B2,APERTYPE=RECTELLIPSE,APERTURE:={ g_MD2,r_MD2,r_MD2,r_MD2},APER_TOL:={r_tol_MD2,h_tol_MD2,v_tol_MD2};
+!
+r_M5=r_Q5; g_M5=g_Q5;r_tol_M5=0.0006;h_tol_M5:=0.001+h_tol_M5_mod;v_tol_M5:=0.001+v_tol_M5_mod;
+TCLMB.5R1.B1,APERTYPE=RECTELLIPSE,APERTURE:={ g_M5,r_M5,r_M5,r_M5},APER_TOL:={r_tol_M5,h_tol_M5,v_tol_M5};
+TCLMB.5R1.B2,APERTYPE=RECTELLIPSE,APERTURE:={ r_M5,g_M5,r_M5,r_M5},APER_TOL:={r_tol_M5,h_tol_M5,v_tol_M5};
+TCLMB.5L1.B1,APERTYPE=RECTELLIPSE,APERTURE:={ r_M5,g_M5,r_M5,r_M5},APER_TOL:={r_tol_M5,h_tol_M5,v_tol_M5};
+TCLMB.5L1.B2,APERTYPE=RECTELLIPSE,APERTURE:={ g_M5,r_M5,r_M5,r_M5},APER_TOL:={r_tol_M5,h_tol_M5,v_tol_M5};
+TCLMB.5R5.B1,APERTYPE=RECTELLIPSE,APERTURE:={ g_M5,r_M5,r_M5,r_M5},APER_TOL:={r_tol_M5,h_tol_M5,v_tol_M5};
+TCLMB.5R5.B2,APERTYPE=RECTELLIPSE,APERTURE:={ r_M5,g_M5,r_M5,r_M5},APER_TOL:={r_tol_M5,h_tol_M5,v_tol_M5};
+TCLMB.5L5.B1,APERTYPE=RECTELLIPSE,APERTURE:={ r_M5,g_M5,r_M5,r_M5},APER_TOL:={r_tol_M5,h_tol_M5,v_tol_M5};
+TCLMB.5L5.B2,APERTYPE=RECTELLIPSE,APERTURE:={ g_M5,r_M5,r_M5,r_M5},APER_TOL:={r_tol_M5,h_tol_M5,v_tol_M5};
+
+r_M6=0.022550; g_M6=0.017650;r_tol_M6=0.0006;h_tol_M6:=0.001+h_tol_M6_mod;v_tol_M6:=0.001+v_tol_M6_mod;
+TCLMC.6R1.B1,APERTYPE=RECTELLIPSE,APERTURE:={ g_M6,r_M6,r_M6,r_M6},APER_TOL:={r_tol_M6,h_tol_M6,v_tol_M6};
+TCLMC.6R1.B2,APERTYPE=RECTELLIPSE,APERTURE:={ r_M6,g_M6,r_M6,r_M6},APER_TOL:={r_tol_M6,h_tol_M6,v_tol_M6};
+TCLMC.6L1.B1,APERTYPE=RECTELLIPSE,APERTURE:={ r_M6,g_M6,r_M6,r_M6},APER_TOL:={r_tol_M6,h_tol_M6,v_tol_M6};
+TCLMC.6L1.B2,APERTYPE=RECTELLIPSE,APERTURE:={ g_M6,r_M6,r_M6,r_M6},APER_TOL:={r_tol_M6,h_tol_M6,v_tol_M6};
+TCLMC.6R5.B1,APERTYPE=RECTELLIPSE,APERTURE:={ g_M6,r_M6,r_M6,r_M6},APER_TOL:={r_tol_M6,h_tol_M6,v_tol_M6};
+TCLMC.6R5.B2,APERTYPE=RECTELLIPSE,APERTURE:={ r_M6,g_M6,r_M6,r_M6},APER_TOL:={r_tol_M6,h_tol_M6,v_tol_M6};
+TCLMC.6L5.B1,APERTYPE=RECTELLIPSE,APERTURE:={ r_M6,g_M6,r_M6,r_M6},APER_TOL:={r_tol_M6,h_tol_M6,v_tol_M6};
+TCLMC.6L5.B2,APERTYPE=RECTELLIPSE,APERTURE:={ g_M6,r_M6,r_M6,r_M6},APER_TOL:={r_tol_M6,h_tol_M6,v_tol_M6};
+
+! NEW MS
+MCBV.10R1.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MCBH.10L5.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MCBV.10R5.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MCBH.10L1.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MCBH.10R1.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MCBV.10L5.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MCBH.10R5.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MCBV.10L1.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MCBV.10R1.B1,   APER_TOL:={ 0.000840,    0.000740,     0.000470 };
+MCBH.10L5.B1,   APER_TOL:={ 0.000840,    0.000580,     0.000690 };
+MCBV.10R5.B1,   APER_TOL:={ 0.000840,    0.000510,     0.000670 };
+MCBH.10L1.B1,   APER_TOL:={ 0.000840,    0.000770,     0.000350 };
+MCBH.10R1.B2,   APER_TOL:={ 0.000840,    0.000870,     0.000470 };
+MCBV.10L5.B2,   APER_TOL:={ 0.000840,    0.001310,     0.000750 };
+MCBH.10R5.B2,   APER_TOL:={ 0.000840,    0.000580,     0.000650 };
+MCBV.10L1.B2,   APER_TOL:={ 0.000840,    0.000670,     0.000410 };
+
+MS.10R1.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MS.10L5.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MS.10R5.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MS.10L1.B1,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MS.10R1.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MS.10L5.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MS.10R5.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MS.10L1.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ 0.022000,    0.017150,    0.022000,  0.022000 };
+MS.10R1.B1,   APER_TOL:={ 0.000840,    0.000740,     0.000470 };
+MS.10L5.B1,   APER_TOL:={ 0.000840,    0.000580,     0.000690 };
+MS.10R5.B1,   APER_TOL:={ 0.000840,    0.000510,     0.000670 };
+MS.10L1.B1,   APER_TOL:={ 0.000840,    0.000770,     0.000350 };
+MS.10R1.B2,   APER_TOL:={ 0.000840,    0.000870,     0.000470 };
+MS.10L5.B2,   APER_TOL:={ 0.000840,    0.001310,     0.000750 };
+MS.10R5.B2,   APER_TOL:={ 0.000840,    0.000580,     0.000650 };
+MS.10L1.B2,   APER_TOL:={ 0.000840,    0.000670,     0.000410 };
+
+
+
+return;

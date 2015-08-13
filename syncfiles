@@ -1,0 +1,1 @@
+rsync -avz /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/* lxplus.cern.ch:/afs/cern.ch/eng/lhc/optics/HLLHCV1.2/

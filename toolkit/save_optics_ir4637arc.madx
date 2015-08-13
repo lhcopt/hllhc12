@@ -1,0 +1,162 @@
+!! S. Fartoukh March 2011, Saving the actual optics for V6.503.
+!!    Merging from SLHC3.0 and ATS_V6.503 save_optics.madx
+!! 2011/11/10 R. De Maria
+!!    adding layout variables
+!!    adding flags for sextupole scheme and thin lens
+!!    adding new crossing scheme for crabs
+!! 2014/07/06 R. De Maria
+!!  rewrite using printf from new madx
+!!  adding offset knobs
+
+system,"rm temp/optics_ir4637arc.madx";
+option,-echo, -info ;assign, echo=temp/optics_ir4637arc.madx;
+
+print_optics_triplet(irn): macro={
+printf,text="kqx.lirn   = %20.10e;",value=kqx.lirn;
+printf,text="ktqx1.lirn = %20.10e;",value=ktqx1.lirn;
+printf,text="ktqx2.lirn = %20.10e;",value=ktqx2.lirn;
+printf,text="kqx.rirn   = %20.10e;",value=kqx.rirn;
+printf,text="ktqx1.rirn = %20.10e;",value=ktqx1.rirn;
+printf,text="ktqx2.rirn = %20.10e;",value=ktqx2.rirn;
+};
+
+
+print_optics_triplet_hl(irn): macro={
+printf,text="kqx1.lirn  = %20.10e;",value=kqx1.lirn;
+printf,text="kqx2a.lirn = %20.10e;",value=kqx2a.lirn;
+printf,text="kqx2b.lirn = %20.10e;",value=kqx2b.lirn;
+printf,text="kqx3.lirn  = %20.10e;",value=kqx3.lirn;
+printf,text="kqx1.rirn  = %20.10e;",value=kqx1.rirn;
+printf,text="kqx2a.rirn = %20.10e;",value=kqx2a.rirn;
+printf,text="kqx2b.rirn = %20.10e;",value=kqx2b.rirn;
+printf,text="kqx3.rirn  = %20.10e;",value=kqx3.rirn;
+};
+
+
+print_optics_quad(ntype,nquad,irn): macro={
+printf,text="Kntypenquad.LirnB1   = %20.10e ;",value=Kntypenquad.LirnB1;
+printf,text="Kntypenquad.LirnB2   = %20.10e ;",value=Kntypenquad.LirnB2;
+printf,text="Kntypenquad.RirnB1   = %20.10e ;",value=Kntypenquad.RirnB1;
+printf,text="Kntypenquad.RirnB2   = %20.10e ;",value=Kntypenquad.RirnB2;
+};
+
+
+print_optics_ms(irn): macro={
+exec,print_optics_quad(Q,4,irn);
+exec,print_optics_quad(Q,5,irn);
+exec,print_optics_quad(Q,6,irn);
+};
+
+print_optics_ds(irn): macro={
+if (irn <> 6){ exec,print_optics_quad(Q,7,irn); };
+exec,print_optics_quad(Q,8,irn);
+exec,print_optics_quad(Q,9,irn);
+exec,print_optics_quad(Q,10,irn);
+exec,print_optics_quad(QTL,11,irn);
+exec,print_optics_quad(QT,12,irn);
+exec,print_optics_quad(QT,13,irn);
+};
+
+
+print_optics_coll(irn): macro={
+printf,text="KQ4.LRirn   = %20.10e ;",value=KQ4.LRirn;
+printf,text="KQT4.Lirn   = %20.10e ;",value=KQT4.Lirn;
+printf,text="KQT4.Rirn   = %20.10e ;",value=KQT4.Rirn;
+printf,text="KQ5.LRirn   = %20.10e ;",value=KQ5.LRirn;
+printf,text="KQT5.Lirn   = %20.10e ;",value=KQT5.Lirn;
+printf,text="KQT5.Rirn   = %20.10e ;",value=KQT5.Rirn;
+exec,print_optics_quad(Q,6,irn);
+exec,print_optics_quad(QTL,7,irn);
+exec,print_optics_quad(QTL,8,irn);
+exec,print_optics_quad(QTL,9,irn);
+exec,print_optics_quad(QTL,10,irn);
+exec,print_optics_quad(QTL,11,irn);
+exec,print_optics_quad(QT,12,irn);
+exec,print_optics_quad(QT,13,irn);
+};
+
+
+print,text=" !***IR4 Optics***";
+exec,print_optics_quad(Q,5,4);
+exec,print_optics_quad(Q,6,4);
+exec,print_optics_ds(4);
+print,text="";
+
+print,text=" !***IR6 Optics***";
+exec,print_optics_quad(Q,4,6);
+exec,print_optics_quad(Q,5,6);
+exec,print_optics_ds(6);
+print,text="";
+
+print,text=" !***IR3 Optics***";
+exec,print_optics_coll(3);
+print,text="";
+
+print,text=" !***IR7 Optics***";
+exec,print_optics_coll(7);
+print,text="";
+
+print_arc_strong(famil): macro={
+printf,text="famil.A81   = %20.10e ;",value=famil.A81;
+printf,text="famil.A12   = %20.10e ;",value=famil.A12;
+printf,text="famil.A45   = %20.10e ;",value=famil.A45;
+printf,text="famil.A56   = %20.10e ;",value=famil.A56;
+};
+
+print_arc_weak(famil): macro={
+printf,text="famil.A23   = %20.10e ;",value=famil.A23;
+printf,text="famil.A34   = %20.10e ;",value=famil.A34;
+printf,text="famil.A67   = %20.10e ;",value=famil.A67;
+printf,text="famil.A78   = %20.10e ;",value=famil.A78;
+};
+
+print_arc_weak_trim(famil,trim,bim): macro={
+printf,text="famil.A81bim= %20.10e ;",value=famil.A81bim;
+printf,text="famil.A12bim= %20.10e ;",value=famil.A12bim;
+printf,text="famil.A45bim= %20.10e ;",value=famil.A45bim;
+printf,text="famil.A56bim= %20.10e ;",value=famil.A56bim;
+printf,text="famil.A23bim:= %20.10e +trim.bim ;",value=famil.A23bim;
+printf,text="famil.A34bim:= %20.10e +trim.bim ;",value=famil.A34bim;
+printf,text="famil.A67bim:= %20.10e +trim.bim ;",value=famil.A67bim;
+printf,text="famil.A78bim:= %20.10e +trim.bim ;",value=famil.A78bim;
+};
+
+
+print_arc_trim(famil,trim,bim): macro={
+printf,text="famil.A81bim:= %20.10e +trim.bim;",value=famil.A81bim;
+printf,text="famil.A12bim:= %20.10e +trim.bim;",value=famil.A12bim;
+printf,text="famil.A45bim:= %20.10e +trim.bim;",value=famil.A45bim;
+printf,text="famil.A56bim:= %20.10e +trim.bim;",value=famil.A56bim;
+printf,text="famil.A23bim:= %20.10e +trim.bim;",value=famil.A23bim;
+printf,text="famil.A34bim:= %20.10e +trim.bim;",value=famil.A34bim;
+printf,text="famil.A67bim:= %20.10e +trim.bim;",value=famil.A67bim;
+printf,text="famil.A78bim:= %20.10e +trim.bim;",value=famil.A78bim;
+};
+
+
+print,text=" !***ARC Optics***";
+print,text=" !QF/QD";
+exec,print_arc_strong(KQF);
+exec,print_arc_strong(KQD);
+exec,print_arc_weak(KQF);
+exec,print_arc_weak(KQD);
+print,text="";
+
+print,text=" !QTF/QTD";
+printf,text="KQTF.B1 =  %20.10e ;",value=KQTF.B1;
+printf,text="KQTD.B1 =  %20.10e ;",value=KQTD.B1;
+printf,text="KQTF.B2 =  %20.10e ;",value=KQTF.B2;
+printf,text="KQTD.B2 =  %20.10e ;",value=KQTD.B2;
+exec,print_arc_weak_trim(KQTF,KQTF,B1);
+exec,print_arc_weak_trim(KQTF,KQTF,B2);
+exec,print_arc_weak_trim(KQTD,KQTD,B1);
+exec,print_arc_weak_trim(KQTD,KQTD,B2);
+print,text="";
+
+assign,echo=terminal ;
+!call,file='temp/optics.madx';
+option,-echo;
+
+set,format=24.12g;
+
+return;

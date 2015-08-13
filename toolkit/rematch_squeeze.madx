@@ -1,0 +1,32 @@
+scxir1=betx_ip1/betx0_ip1; scyir1=bety_ip1/bety0_ip1;
+scxir5=betx_ip5/betx0_ip5; scyir5=bety_ip5/bety0_ip5;
+
+value,scxir1,scyir1,scxir5,scyir5;
+
+
+exec,crossing_disable;
+
+exec,selectIRAUX(7,8,1,2,3,b1,scxir1,scyir1,betx0_ip1,bety0_ip1);
+exec,selectIRAUX(7,8,1,2,3,b2,scxir1,scyir1,betx0_ip1,bety0_ip1);
+exec,selectIRAUX(3,4,5,6,7,b1,scxir5,scyir5,betx0_ip5,bety0_ip5);
+exec,selectIRAUX(3,4,5,6,7,b2,scxir5,scyir5,betx0_ip5,bety0_ip5);
+
+! recheck
+
+on_holdselect=1; jac_calls=   15;jac_tol=1e-22; jac_bisec=3;
+call,file="slhc/toolkit/rematch_ir2b12.madx";
+call,file="slhc/toolkit/rematch_ir8b12.madx";
+call,file="slhc/toolkit/rematch_ir4b1.madx";
+call,file="slhc/toolkit/rematch_ir4b2.madx";
+match_on_dx=0;match_on_dpx=0;!0=match dx and dpx
+call,file="slhc/toolkit/rematch_ir6b1.madx";
+!match_on_dx=1;match_on_dpx=0;!0=match dx and dpx
+call,file="slhc/toolkit/rematch_ir6b2.madx";
+!value,tarir2b1,tarir4b1,tarir6b1,tarir8b1;
+!value,tarir2b2,tarir4b2,tarir6b2,tarir8b2;
+
+tarsqueeze=tarir2b1+tarir4b1+tarir6b1+tarir8b1+
+              tarir2b2+tarir4b2+tarir6b2+tarir8b2;
+
+value,tarsqueeze;
+

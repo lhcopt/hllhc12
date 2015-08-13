@@ -1,0 +1,839 @@
+!! S. Fartoukh March 2011, Saving the actual optics for V6.503.
+!!    Merging from SLHC3.0 and ATS_V6.503 save_optics.madx
+!! 2011/11/10 R. De Maria
+!!    adding layout variables
+!!    adding flags for sextupole scheme and thin lens
+!!    adding new crossing scheme for crabs
+!! 2014/07/06 R. De Maria
+!!  rewrite using printf from new madx
+!!  adding offset knobs
+
+
+
+
+CHECK_OPT2(BIM): macro = {
+
+on_x1aux=on_x1;on_sep1aux=on_sep1;
+on_x2aux=on_x2;on_sep2aux=on_sep2;on_aliceaux=on_alice;
+on_x5aux=on_x1;on_sep5aux=on_sep5;
+on_x8aux=on_x2;on_sep8aux=on_sep8;on_lhcbaux=on_lhcb;
+on_dispaux=on_disp;
+on_sol_atlasaux=on_sol_atlas;on_sol_aliceaux=on_sol_alice;on_sol_cmsaux=on_sol_cms;
+
+on_x1:=0;on_sep1:=0;
+on_x2:=0;on_sep2:=0;on_alice:=0;
+on_x5:=0;on_sep5:=0;
+on_x8:=0;on_sep8:=0;on_lhcb:=0;
+on_disp=0;
+on_sol_atlas=0;on_sol_alice=0;on_sol_cms=0;
+
+!/*
+seqedit,sequence=lhcBIM;
+flatten;
+cycle,start=s.ds.l3.BIM;
+endedit;
+!*/
+
+exec phasearc(1,2,12,BIM);
+exec phasearc(2,3,23,BIM);
+exec phasearc(3,4,34,BIM);
+exec phasearc(4,5,45,BIM);
+exec phasearc(5,6,56,BIM);
+exec phasearc(6,7,67,BIM);
+exec phasearc(7,8,78,BIM);
+exec phasearc(8,1,81,BIM);
+
+exec select(1,81,12,BIM);
+use,sequence=lhcBIM,range=s.ds.l1.BIM/e.ds.r1.BIM;twiss,beta0=bir1BIM,mux=0,muy=0;
+muxIP1BIM=table(twiss,e.ds.r1.BIM,mux)-table(twiss,s.ds.l1.BIM,mux);
+muyIP1BIM=table(twiss,e.ds.r1.BIM,muy)-table(twiss,s.ds.l1.BIM,muy);
+muxIP1BIM_L=table(twiss,IP1,mux)-table(twiss,s.ds.l1.BIM,mux);
+muyIP1BIM_L=table(twiss,IP1,muy)-table(twiss,s.ds.l1.BIM,muy);
+muxIP1BIM_R=table(twiss,e.ds.r1.BIM,mux)-table(twiss,IP1,mux);
+muyIP1BIM_R=table(twiss,e.ds.r1.BIM,muy)-table(twiss,IP1,muy);
+exec select(5,45,56,BIM);
+use,sequence=lhcBIM,range=s.ds.l5.BIM/e.ds.r5.BIM;twiss,beta0=bir5BIM,mux=0,muy=0;
+muxIP5BIM=table(twiss,e.ds.r5.BIM,mux)-table(twiss,s.ds.l5.BIM,mux);
+muyIP5BIM=table(twiss,e.ds.r5.BIM,muy)-table(twiss,s.ds.l5.BIM,muy);
+muxIP5BIM_L=table(twiss,IP5,mux)-table(twiss,s.ds.l5.BIM,mux);
+muyIP5BIM_L=table(twiss,IP5,muy)-table(twiss,s.ds.l5.BIM,muy);
+muxIP5BIM_R=table(twiss,e.ds.r5.BIM,mux)-table(twiss,IP5,mux);
+muyIP5BIM_R=table(twiss,e.ds.r5.BIM,muy)-table(twiss,IP5,muy);
+
+use,sequence=lhcBIM;
+twiss;
+
+QxBIM=table(summ,q1);QyBIM=table(summ,q2);
+QpxBIM=table(summ,dq1);QpyBIM=table(summ,dq2);
+muxIP2BIM=table(twiss,e.ds.r2.BIM,mux)-table(twiss,IP1,mux)-muxIP1BIM_R-mux12BIM;
+muxIP6BIM=table(twiss,e.ds.r6.BIM,mux)-table(twiss,IP5,mux)-muxIP5BIM_R-mux56BIM;
+muxIP8BIM=table(twiss,IP1,mux)-table(twiss,s.ds.l8.BIM,mux)-muxIP1BIM_L-mux81BIM;
+muxIP4BIM=table(twiss,IP5,mux)-table(twiss,s.ds.l4.BIM,mux)-muxIP5BIM_L-mux45BIM;
+muxIP3BIM=table(twiss,e.ds.r3.BIM,mux)-table(twiss,s.ds.l3.BIM,mux);
+muxIP7BIM=table(twiss,e.ds.r7.BIM,mux)-table(twiss,s.ds.l7.BIM,mux);
+muyIP2BIM=table(twiss,e.ds.r2.BIM,muy)-table(twiss,IP1,muy)-muyIP1BIM_R-muy12BIM;
+muyIP6BIM=table(twiss,e.ds.r6.BIM,muy)-table(twiss,IP5,muy)-muyIP5BIM_R-muy56BIM;
+muyIP8BIM=table(twiss,IP1,muy)-table(twiss,s.ds.l8.BIM,muy)-muyIP1BIM_L-muy81BIM;
+muyIP4BIM=table(twiss,IP5,muy)-table(twiss,s.ds.l4.BIM,muy)-muyIP5BIM_L-muy45BIM;
+muyIP3BIM=table(twiss,e.ds.r3.BIM,muy)-table(twiss,s.ds.l3.BIM,muy);
+muyIP7BIM=table(twiss,e.ds.r7.BIM,muy)-table(twiss,s.ds.l7.BIM,muy);
+muxIP2BIM_L=table(twiss,IP2,mux)-table(twiss,IP1,mux)-muxIP1BIM_R-mux12BIM;
+muxIP6BIM_L=table(twiss,IP6,mux)-table(twiss,IP5,mux)-muxIP5BIM_R-mux56BIM;
+muxIP8BIM_R=table(twiss,IP1,mux)-table(twiss,IP8,mux)-muxIP1BIM_L-mux81BIM;
+muxIP4BIM_R=table(twiss,IP5,mux)-table(twiss,IP4,mux)-muxIP5BIM_L-mux45BIM;
+muxIP3BIM_R=table(twiss,e.ds.r3.BIM,mux)-table(twiss,IP3,mux);
+muxIP7BIM_R=table(twiss,e.ds.r7.BIM,mux)-table(twiss,IP7,mux);
+muyIP2BIM_L=table(twiss,IP2,muy)-table(twiss,IP1,muy)-muyIP1BIM_R-muy12BIM;
+muyIP6BIM_L=table(twiss,IP6,muy)-table(twiss,IP5,muy)-muyIP5BIM_R-muy56BIM;
+muyIP8BIM_R=table(twiss,IP1,muy)-table(twiss,IP8,muy)-muyIP1BIM_L-muy81BIM;
+muyIP4BIM_R=table(twiss,IP5,muy)-table(twiss,IP4,muy)-muyIP5BIM_L-muy45BIM;
+muyIP3BIM_R=table(twiss,e.ds.r3.BIM,muy)-table(twiss,IP3,muy);
+muyIP7BIM_R=table(twiss,e.ds.r7.BIM,muy)-table(twiss,IP7,muy);
+muxIP2BIM_R=muxIP2BIM-muxIP2BIM_L;
+muxIP6BIM_R=muxIP6BIM-muxIP6BIM_L;
+muxIP8BIM_L=muxIP8BIM-muxIP8BIM_R;
+muxIP4BIM_L=muxIP4BIM-muxIP4BIM_R;
+muxIP3BIM_L=muxIP3BIM-muxIP3BIM_R;
+muxIP7BIM_L=muxIP7BIM-muxIP7BIM_R;
+muyIP2BIM_R=muyIP2BIM-muyIP2BIM_L;
+muyIP6BIM_R=muyIP6BIM-muyIP6BIM_L;
+muyIP8BIM_L=muyIP8BIM-muyIP8BIM_R;
+muyIP4BIM_L=muyIP4BIM-muyIP4BIM_R;
+muyIP3BIM_L=muyIP3BIM-muyIP3BIM_R;
+muyIP7BIM_L=muyIP7BIM-muyIP7BIM_R;
+betxIP1BIM=table(twiss,IP1,betx);betyIP1BIM=table(twiss,IP1,bety);
+betxIP2BIM=table(twiss,IP2,betx);betyIP2BIM=table(twiss,IP2,bety);
+betxIP3BIM=table(twiss,IP3,betx);betyIP3BIM=table(twiss,IP3,bety);
+betxIP4BIM=table(twiss,IP4,betx);betyIP4BIM=table(twiss,IP4,bety);
+betxIP5BIM=table(twiss,IP5,betx);betyIP5BIM=table(twiss,IP5,bety);
+betxIP6BIM=table(twiss,IP6,betx);betyIP6BIM=table(twiss,IP6,bety);
+betxIP7BIM=table(twiss,IP7,betx);betyIP7BIM=table(twiss,IP7,bety);
+betxIP8BIM=table(twiss,IP8,betx);betyIP8BIM=table(twiss,IP8,bety);
+alfxIP1BIM=table(twiss,IP1,alfx);alfyIP1BIM=table(twiss,IP1,alfy);
+alfxIP2BIM=table(twiss,IP2,alfx);alfyIP2BIM=table(twiss,IP2,alfy);
+alfxIP3BIM=table(twiss,IP3,alfx);alfyIP3BIM=table(twiss,IP3,alfy);
+alfxIP4BIM=table(twiss,IP4,alfx);alfyIP4BIM=table(twiss,IP4,alfy);
+alfxIP5BIM=table(twiss,IP5,alfx);alfyIP5BIM=table(twiss,IP5,alfy);
+alfxIP6BIM=table(twiss,IP6,alfx);alfyIP6BIM=table(twiss,IP6,alfy);
+alfxIP7BIM=table(twiss,IP7,alfx);alfyIP7BIM=table(twiss,IP7,alfy);
+alfxIP8BIM=table(twiss,IP8,alfx);alfyIP8BIM=table(twiss,IP8,alfy);
+dxIP1BIM=table(twiss,IP1,dx);dpxIP1BIM=table(twiss,IP1,dpx);
+dxIP2BIM=table(twiss,IP2,dx);dpxIP2BIM=table(twiss,IP2,dpx);
+dxIP3BIM=table(twiss,IP3,dx);dpxIP3BIM=table(twiss,IP3,dpx);
+dxIP4BIM=table(twiss,IP4,dx);dpxIP4BIM=table(twiss,IP4,dpx);
+dxIP5BIM=table(twiss,IP5,dx);dpxIP5BIM=table(twiss,IP5,dpx);
+dxIP6BIM=table(twiss,IP6,dx);dpxIP6BIM=table(twiss,IP6,dpx);
+dxIP7BIM=table(twiss,IP7,dx);dpxIP7BIM=table(twiss,IP7,dpx);
+dxIP8BIM=table(twiss,IP8,dx);dpxIP8BIM=table(twiss,IP8,dpx);
+
+on_x1:=1;on_sep1:=1;
+on_x2:=1;on_sep2:=1;on_alice:=0;
+on_x5:=1;on_sep5:=1;
+on_x8:=1;on_sep8:=1;on_lhcb:=-0;
+on_disp:=1;
+twiss;
+
+xIP1BIM=table(twiss,IP1,x);yIP1BIM=table(twiss,IP1,y);
+xIP2BIM=table(twiss,IP2,x);yIP2BIM=table(twiss,IP2,y);
+xIP3BIM=table(twiss,IP3,x);yIP3BIM=table(twiss,IP3,y);
+xIP4BIM=table(twiss,IP4,x);yIP4BIM=table(twiss,IP4,y);
+xIP5BIM=table(twiss,IP5,x);yIP5BIM=table(twiss,IP5,y);
+xIP6BIM=table(twiss,IP6,x);yIP6BIM=table(twiss,IP6,y);
+xIP7BIM=table(twiss,IP7,x);yIP7BIM=table(twiss,IP7,y);
+xIP8BIM=table(twiss,IP8,x);yIP8BIM=table(twiss,IP8,y);
+pxIP1BIM=table(twiss,IP1,px);pyIP1BIM=table(twiss,IP1,py);
+pxIP2BIM=table(twiss,IP2,px);pyIP2BIM=table(twiss,IP2,py);
+pxIP3BIM=table(twiss,IP3,px);pyIP3BIM=table(twiss,IP3,py);
+pxIP4BIM=table(twiss,IP4,px);pyIP4BIM=table(twiss,IP4,py);
+pxIP5BIM=table(twiss,IP5,px);pyIP5BIM=table(twiss,IP5,py);
+pxIP6BIM=table(twiss,IP6,px);pyIP6BIM=table(twiss,IP6,py);
+pxIP7BIM=table(twiss,IP7,px);pyIP7BIM=table(twiss,IP7,py);
+pxIP8BIM=table(twiss,IP8,px);pyIP8BIM=table(twiss,IP8,py);
+
+on_x1=on_x1aux;on_sep1=on_sep1aux;
+on_x2=on_x2aux;on_sep2=on_sep2aux;on_alice=on_aliceaux;
+on_x5=on_x1aux;on_sep5=on_sep5aux;
+on_x8=on_x2aux;on_sep8=on_sep8aux;on_lhcb=on_lhcbaux;
+on_disp=on_dispaux;
+on_sol_atlas=on_sol_atlasaux;on_sol_alice=on_sol_aliceaux;on_sol_cms=on_sol_cmsaux;
+
+
+seqedit,sequence=lhcBIM;
+flatten;
+cycle,start=IP1;
+endedit;
+
+
+};
+
+
+if (on_check <> 0) { exec,check_opt2(b1); exec,check_opt2(b2); };
+
+!on_x1aux=on_x1;on_sep1aux=on_sep1;
+!on_x2aux=on_x2;on_sep2aux=on_sep2;on_aliceaux=on_alice;
+!on_x5aux=on_x1;on_sep5aux=on_sep5;
+!on_x8aux=on_x2;on_sep8aux=on_sep8;on_lhcbaux=on_lhcb;
+!on_dispaux=on_disp;
+!on_sol_atlasaux=on_sol_atlas;
+!on_sol_aliceaux=on_sol_alice;
+!on_sol_cmsaux=on_sol_cms;
+!
+!on_x1=1;on_sep1=1;
+!on_x2=1;on_sep2=1;on_alice=1;
+!on_x5=1;on_sep5=1;
+!on_x8=1;on_sep8=1;on_lhcb=-1;
+!on_disp=1;
+!on_sol_atlas=0;on_sol_alice=0;on_sol_cms=0;
+
+
+
+system,"rm temp/optics.madx";
+option,-echo, -info ;assign, echo=temp/optics.madx;
+
+!Status of the squeeze for IR2/4/6/8
+!only affect the QT and MS cabling
+printf,text="ARC_SQUEEZE = %2.1f ;",value=arc_squeeze;
+print,text="";
+
+print,text=" !***LAYOUT***";
+printf,text="l.MQXL        = %20.6f ;",value=l.MQXL;
+printf,text="l.MQX         = %20.6f ;",value=l.MQX;
+printf,text="l.MQYY        = %20.6f ;",value=l.MQYY;
+printf,text="l.MBXF        = %20.6f ;",value=l.MBXF;
+printf,text="l.MBRD        = %20.6f ;",value=l.MBRD;
+printf,text="l.MCBXFA      = %20.6f ;",value=l.MCBXFA;
+printf,text="l.MCBXFB      = %20.6f ;",value=l.MCBXFB;
+printf,text="l.MCBRD       = %20.6f ;",value=l.MCBRD;
+printf,text="l.MCBYY       = %20.6f ;",value=l.MCBYY;
+printf,text="dq1q2a        = %20.6f ;",value=dq1q2a;
+printf,text="dq1aq1b       = %20.6f ;",value=dq1aq1b;
+printf,text="dq2aq2b       = %20.6f ;",value=dq2aq2b;
+printf,text="dq2bq3        = %20.6f ;",value=dq2bq3;
+printf,text="deltaposD2    = %20.6f ;",value=deltaposD2;
+printf,text="deltaposQ4    = %20.6f ;",value=deltaposQ4;
+printf,text="deltaposQ5    = %20.6f ;",value=deltaposQ5;
+printf,text="deltaposQ6    = %20.6f ;",value=deltaposQ6;
+printf,text="on_cutMS.10   = %20.6f ;",value=on_cutMS.10;
+printf,text="on_cutMS.14   = %20.6f ;",value=on_cutMS.14;
+printf,text="is_thin       = %20.6f ;",value=is_thin;
+print,text="";
+
+
+print,text=" !***BETAS in IR1 and IR5***";
+printf,text="betx_IP1    = %20.6f ;",value=betxIP1b1;
+printf,text="bety_IP1    = %20.6f ;",value=betyIP1b1;
+printf,text="betx_IP5    = %20.6f ;",value=betxIP5b1;
+printf,text="bety_IP5    = %20.6f ;",value=betyIP5b1;
+printf,text="betx0_IP1   = %20.6f ;",value=betx0_IP1;
+printf,text="bety0_IP1   = %20.6f ;",value=bety0_IP1;
+printf,text="betx0_IP5   = %20.6f ;",value=betx0_IP5;
+printf,text="bety0_IP5   = %20.6f ;",value=bety0_IP5;
+print,text="";
+
+
+print,text=" !***Exp. configuration in IR1, IR2, IR5 and IR8***";
+printf,text="on_sep1=%g;on_x1=%g;on_os1=%g;on_ox1=%g;phi_IR1=%g;on_o1=%g;phio_ir1=%g;",
+       value=on_sep1,on_x1,on_os1,on_ox1,phi_IR1,on_o1,phio_IR1;
+printf,text="on_sep2=%g;on_x2=%g;on_os2=%g;on_ox2=%g;phi_IR2=%g;",
+       value=on_sep2,on_x2,on_os2,on_ox2,phi_IR2;
+printf,text="on_sep5=%g;on_x5=%g;on_os5=%g;on_ox5=%g;phi_IR5=%g;on_o5=%g;phio_ir5=%g;",
+       value=on_sep5,on_x5,on_os5,on_ox5,phi_IR5,on_o5,phio_IR5;
+printf,text="on_sep8=%g;on_x8=%g;on_os8=%g;on_ox8=%g;phi_IR8=%g;",
+       value=on_sep8,on_x8,on_os8,on_ox8,phi_IR8;
+
+print,text=" !***Beam based alignment crab cavities in IR1 and IR5***";
+printf,text="on_ccp1=%g;on_ccm1=%g;on_ccs1=%g;",
+       value=on_ccp1,on_ccm1,on_ccs1;
+printf,text="on_ccp5=%g;on_ccm5=%g;on_ccs5=%g;",
+       value=on_ccp5,on_ccm5,on_ccs5;
+
+print,text="cphi_IR1:=cos(phi_IR1*pi/180.);sphi_IR1:=sin(phi_IR1*pi/180.);";
+print,text="cphi_IR2:=cos(phi_IR2*pi/180.);sphi_IR2:=sin(phi_IR2*pi/180.);";
+print,text="cphi_IR5:=cos(phi_IR5*pi/180.);sphi_IR5:=sin(phi_IR5*pi/180.);";
+print,text="cphi_IR8:=cos(phi_IR8*pi/180.);sphi_IR8:=sin(phi_IR8*pi/180.);";
+
+print,text="cphio_IR1:=cos(phio_IR1*pi/180.);sphio_IR1:=sin(phio_IR1*pi/180.);";
+print,text="cphio_IR5:=cos(phio_IR5*pi/180.);sphio_IR5:=sin(phio_IR5*pi/180.);";
+
+print,text="on_disp=0;";
+
+printf,text="on_sol_atlas=%g;",value=on_sol_atlas;
+printf,text="on_alice=%g; on_sol_alice=%g;",value=on_alice,on_sol_atlas;
+printf,text="on_sol_cms=%g;",value=on_sol_atlas;
+printf,text="on_lhcb=%g;",value=on_lhcb;
+
+print,text="abas:= 12.00/ 6.0*clight/(7E12)*on_sol_atlas;";
+print,text="abls:= 6.05/12.1*clight/(7E12)*on_sol_alice ;";
+print,text="abcs:= 52.00/13.0*clight/(7E12)*on_sol_cms  ;";
+
+print,text="abxwt.l2      := -0.0000772587268993839836*on_alice ;";
+print,text="abwmd.l2      := +0.0001472587268993839840*on_alice ;";
+print,text="abaw.r2       := -0.0001335474860334838000*on_alice ;";
+print,text="abxwt.r2      := +0.0000635474860334838004*on_alice ;";
+
+print,text="abxws.l8      := -0.000045681598453109894*on_lhcb   ;";
+print,text="abxwh.l8      := +0.000180681598453109894*on_lhcb   ;";
+print,text="ablw.r8       := -0.000180681598453109894*on_lhcb   ;";
+print,text="abxws.r8      := +0.000045681598453109894*on_lhcb   ;";
+print,text="";
+
+
+print,text=" !***Ring Geometry***";
+print,text="";
+print,text=" !Separation/recombination dipoles";
+print,text="";
+print,text="kd1.lr1       :=  ad1.lr1/l.mbxf;";
+print,text="kd2.l1        :=  ad2.l1/l.mbrd ;";
+print,text="kd2.r1        :=  ad2.r1/l.mbrd ;";
+print,text="kd1.l2        :=  ad1.l2/l.mbx  ;";
+print,text="kd1.r2        :=  ad1.r2/l.mbx  ;";
+print,text="kd2.l2        :=  ad2.l2/l.mbrc ;";
+print,text="kd2.r2        :=  ad2.r2/l.mbrc ;";
+print,text="kd3.lr3       :=  ad3.lr3/l.mbw ;";
+print,text="kd4.lr3       :=  ad4.lr3/l.mbw ;";
+print,text="kd3.l4        :=  ad3.l4/l.mbrs ;";
+print,text="kd3.r4        :=  ad3.r4/l.mbrs ;";
+print,text="kd4.l4        :=  ad4.l4/l.mbrb ;";
+print,text="kd4.r4        :=  ad4.r4/l.mbrb ;";
+print,text="kd34.lr3      :=  ad3.lr3/l.mbw ;";
+print,text="kd34.lr7      :=  ad3.lr7/l.mbw ;";
+print,text="kd1.lr5       :=  ad1.lr5/l.mbxf;";
+print,text="kd2.l5        :=  ad2.l5/l.mbrd ;";
+print,text="kd2.r5        :=  ad2.r5/l.mbrd ;";
+print,text="kd3.lr7       :=  ad3.lr7/l.mbw ;";
+print,text="kd4.lr7       :=  ad4.lr7/l.mbw ;";
+print,text="kd1.l8        :=  ad1.l8/l.mbx  ;";
+print,text="kd1.r8        :=  ad1.r8/l.mbx  ;";
+print,text="kd2.l8        :=  ad2.l8/l.mbrc ;";
+print,text="kd2.r8        :=  ad2.r8/l.mbrc ;";
+print,text="ksumd2.l1b2   :=  kd2.l1        ;";
+print,text="ksumd2.l2b2   :=  kd2.l2        ;";
+print,text="ksumd2.l5b2   :=  kd2.l5        ;";
+print,text="ksumd2.l8b2   :=  kd2.l8        ;";
+print,text="ksumd2.r1b2   :=  kd2.l1        ;";
+print,text="ksumd2.r2b2   :=  kd2.l2        ;";
+print,text="ksumd2.r5b2   :=  kd2.l5        ;";
+print,text="ksumd2.r8b2   :=  kd2.l8        ;";
+print,text="";
+print,text=" !Main dipoles";
+print,text="kb.a12        :=  ab.a12/l.mb   ;";
+print,text="kb.a23        :=  ab.a23/l.mb   ;";
+print,text="kb.a34        :=  ab.a34/l.mb   ;";
+print,text="kb.a45        :=  ab.a45/l.mb   ;";
+print,text="kb.a56        :=  ab.a56/l.mb   ;";
+print,text="kb.a67        :=  ab.a67/l.mb   ;";
+print,text="kb.a78        :=  ab.a78/l.mb   ;";
+print,text="kb.a81        :=  ab.a81/l.mb   ;";
+print,text="";
+
+
+print_orbit_knob_ip(corrname,ccc,sss,irn,nnn): macro={
+printf,text="corrnamex = %20.10e ;",value=corrnamex;
+printf,text="corrnames = %20.10e ;",value=corrnames;
+printf,text="corrnameo = %20.10e ;",value=corrnameo;
+printf,text="corrnameccp = %20.10e ;",value=corrnameccp;
+printf,text="corrnameccm = %20.10e ;",value=corrnameccm;
+printf,text="corrnameccs = %20.10e ;",value=corrnameccs;
+printf,text="corrname :=+on_xirn  *cccphi_irirn*(%20.10e)" ,value=corrnamex;
+printf,text="           +on_sepirn*sssphi_irirn*(%20.10e)" ,value=corrnames;
+printf,text="           +on_oirn  *cccphio_irirn*(%20.10e)" ,value=corrnameo;
+printf,text="           +on_ccpnnnirn  *(%20.10e)" ,value=corrnameccp;
+printf,text="           +on_ccmnnnirn  *(%20.10e)" ,value=corrnameccm;
+printf,text="           +on_ccsnnnirn  *(%20.10e);",value=corrnameccs;
+};
+
+
+print_orbit_mcbx(mcbn,irn): macro={
+exec, print_orbit_knob_ip(acbxhmcbn.lirn,c,s,irn,h);
+exec, print_orbit_knob_ip(acbxvmcbn.lirn,s,c,irn,v);
+exec, print_orbit_knob_ip(acbxhmcbn.rirn,c,s,irn,h);
+exec, print_orbit_knob_ip(acbxvmcbn.rirn,s,c,irn,v);
+};
+
+
+print_orbit_acb(acbn1,acbn2,side,irn): macro={
+exec, print_orbit_knob_ip(ACBacbn1Hacbn2.sideirnB1,c,s,irn,H);
+exec, print_orbit_knob_ip(ACBacbn1Vacbn2.sideirnB1,s,c,irn,V);
+exec, print_orbit_knob_ip(ACBacbn1Hacbn2.sideirnB2,c,s,irn,H);
+exec, print_orbit_knob_ip(ACBacbn1Vacbn2.sideirnB2,s,c,irn,V);
+};
+
+
+print_optics_triplet(irn): macro={
+printf,text="kqx.lirn   = %20.10e;",value=kqx.lirn;
+printf,text="ktqx1.lirn = %20.10e;",value=ktqx1.lirn;
+printf,text="ktqx2.lirn = %20.10e;",value=ktqx2.lirn;
+printf,text="kqx.rirn   = %20.10e;",value=kqx.rirn;
+printf,text="ktqx1.rirn = %20.10e;",value=ktqx1.rirn;
+printf,text="ktqx2.rirn = %20.10e;",value=ktqx2.rirn;
+};
+
+
+print_optics_triplet_hl(irn): macro={
+printf,text="kqx1.lirn  = %20.10e;",value=kqx1.lirn;
+printf,text="kqx2a.lirn = %20.10e;",value=kqx2a.lirn;
+printf,text="kqx2b.lirn = %20.10e;",value=kqx2b.lirn;
+printf,text="kqx3.lirn  = %20.10e;",value=kqx3.lirn;
+printf,text="kqx1.rirn  = %20.10e;",value=kqx1.rirn;
+printf,text="kqx2a.rirn = %20.10e;",value=kqx2a.rirn;
+printf,text="kqx2b.rirn = %20.10e;",value=kqx2b.rirn;
+printf,text="kqx3.rirn  = %20.10e;",value=kqx3.rirn;
+};
+
+
+print_optics_quad(ntype,nquad,irn): macro={
+printf,text="Kntypenquad.LirnB1   = %20.10e ;",value=Kntypenquad.LirnB1;
+printf,text="Kntypenquad.LirnB2   = %20.10e ;",value=Kntypenquad.LirnB2;
+printf,text="Kntypenquad.RirnB1   = %20.10e ;",value=Kntypenquad.RirnB1;
+printf,text="Kntypenquad.RirnB2   = %20.10e ;",value=Kntypenquad.RirnB2;
+};
+
+
+print_optics_ms(irn): macro={
+exec,print_optics_quad(Q,4,irn);
+exec,print_optics_quad(Q,5,irn);
+exec,print_optics_quad(Q,6,irn);
+};
+
+print_optics_ds(irn): macro={
+if (irn <> 6){ exec,print_optics_quad(Q,7,irn); };
+exec,print_optics_quad(Q,8,irn);
+exec,print_optics_quad(Q,9,irn);
+exec,print_optics_quad(Q,10,irn);
+exec,print_optics_quad(QTL,11,irn);
+exec,print_optics_quad(QT,12,irn);
+exec,print_optics_quad(QT,13,irn);
+};
+
+
+print_optics_coll(irn): macro={
+printf,text="KQ4.LRirn   = %20.10e ;",value=KQ4.LRirn;
+printf,text="KQT4.Lirn   = %20.10e ;",value=KQT4.Lirn;
+printf,text="KQT4.Rirn   = %20.10e ;",value=KQT4.Rirn;
+printf,text="KQ5.LRirn   = %20.10e ;",value=KQ5.LRirn;
+printf,text="KQT5.Lirn   = %20.10e ;",value=KQT5.Lirn;
+printf,text="KQT5.Rirn   = %20.10e ;",value=KQT5.Rirn;
+exec,print_optics_quad(Q,6,irn);
+exec,print_optics_quad(QTL,7,irn);
+exec,print_optics_quad(QTL,8,irn);
+exec,print_optics_quad(QTL,9,irn);
+exec,print_optics_quad(QTL,10,irn);
+exec,print_optics_quad(QTL,11,irn);
+exec,print_optics_quad(QT,12,irn);
+exec,print_optics_quad(QT,13,irn);
+};
+
+
+print,text=" !***IR1 Optics***";
+exec,print_optics_triplet_hl(1);
+exec,print_optics_ms(1);
+exec,print_optics_ds(1);
+print,text="";
+print,text=" !***IR1 X-scheme***";
+exec,print_orbit_mcbx(1,1);
+exec,print_orbit_mcbx(2,1);
+exec,print_orbit_mcbx(3,1);
+exec,print_orbit_acb(rd,4,l,1);
+exec,print_orbit_acb(rd,4,r,1);
+exec,print_orbit_acb(y,s4,l,1);
+exec,print_orbit_acb(y,s4,r,1);
+exec,print_orbit_acb(y,s5,l,1);
+exec,print_orbit_acb(y,s5,r,1);
+!exec,print_orbit_knob_ip(acbcv5.l1b1,s,c,1,v);
+!exec,print_orbit_knob_ip(acbch5.l1b2,c,s,1,h);
+!exec,print_orbit_knob_ip(acbch5.r1b1,c,s,1,h);
+!exec,print_orbit_knob_ip(acbcv5.r1b2,s,c,1,v);
+exec,print_orbit_knob_ip(acbch6.l1b1,c,s,1,h);
+exec,print_orbit_knob_ip(acbcv6.l1b2,s,c,1,v);
+exec,print_orbit_knob_ip(acbcv6.r1b1,s,c,1,v);
+exec,print_orbit_knob_ip(acbch6.r1b2,c,s,1,h);
+exec,print_orbit_knob_ip(acbcv7.l1b1,s,c,1,v);
+exec,print_orbit_knob_ip(acbch7.l1b2,c,s,1,h);
+exec,print_orbit_knob_ip(acbch7.r1b1,c,s,1,h);
+exec,print_orbit_knob_ip(acbcv7.r1b2,s,c,1,v);
+print,text="";
+print,text=" !***IR1 Crab Cavities***";
+printf,text="ahcrab_l1b1   = %20.10e ;",value=ahcrab_l1b1;
+printf,text="ahcrab_l1b2   = %20.10e ;",value=ahcrab_l1b2;
+printf,text="avcrab_l1b1   = %20.10e ;",value=avcrab_l1b1;
+printf,text="avcrab_l1b2   = %20.10e ;",value=avcrab_l1b2;
+printf,text="ahcrab_r1b1   = %20.10e ;",value=ahcrab_r1b1;
+printf,text="ahcrab_r1b2   = %20.10e ;",value=ahcrab_r1b2;
+printf,text="avcrab_r1b1   = %20.10e ;",value=avcrab_r1b1;
+printf,text="avcrab_r1b2   = %20.10e ;",value=avcrab_r1b2;
+print,text="";
+
+
+print,text=" !***IR5 Optics***";
+exec,print_optics_triplet_hl(5);
+exec,print_optics_ms(5);
+exec,print_optics_ds(5);
+print,text="";
+print,text=" !***IR5 X-scheme***";
+exec,print_orbit_mcbx(1,5);
+exec,print_orbit_mcbx(2,5);
+exec,print_orbit_mcbx(3,5);
+exec,print_orbit_acb(rd,4,l,5);
+exec,print_orbit_acb(rd,4,r,5);
+exec,print_orbit_acb(y,s4,l,5);
+exec,print_orbit_acb(y,s4,r,5);
+exec,print_orbit_acb(y,s5,l,5);
+exec,print_orbit_acb(y,s5,r,5);
+!exec,print_orbit_knob_ip(acbcv5.l5b1,s,c,5,v);
+!exec,print_orbit_knob_ip(acbch5.l5b2,c,s,5,h);
+!exec,print_orbit_knob_ip(acbch5.r5b1,c,s,5,h);
+!exec,print_orbit_knob_ip(acbcv5.r5b2,s,c,5,v);
+exec,print_orbit_knob_ip(acbch6.l5b1,c,s,5,h);
+exec,print_orbit_knob_ip(acbcv6.l5b2,s,c,5,v);
+exec,print_orbit_knob_ip(acbcv6.r5b1,s,c,5,v);
+exec,print_orbit_knob_ip(acbch6.r5b2,c,s,5,h);
+exec,print_orbit_knob_ip(acbcv7.l5b1,s,c,5,v);
+exec,print_orbit_knob_ip(acbch7.l5b2,c,s,5,h);
+exec,print_orbit_knob_ip(acbch7.r5b1,c,s,5,h);
+exec,print_orbit_knob_ip(acbcv7.r5b2,s,c,5,v);
+print,text="";
+print,text=" !***IR5 Crab Cavities***";
+printf,text="ahcrab_l5b1   = %20.10e ;",value=ahcrab_l5b1;
+printf,text="ahcrab_l5b2   = %20.10e ;",value=ahcrab_l5b2;
+printf,text="avcrab_l5b1   = %20.10e ;",value=avcrab_l5b1;
+printf,text="avcrab_l5b2   = %20.10e ;",value=avcrab_l5b2;
+printf,text="ahcrab_r5b1   = %20.10e ;",value=ahcrab_r5b1;
+printf,text="ahcrab_r5b2   = %20.10e ;",value=ahcrab_r5b2;
+printf,text="avcrab_r5b1   = %20.10e ;",value=avcrab_r5b1;
+printf,text="avcrab_r5b2   = %20.10e ;",value=avcrab_r5b2;
+print,text="";
+
+print,text=" !***IR2 Optics***";
+exec,print_optics_triplet(2);
+exec,print_optics_ms(2);
+exec,print_optics_ds(2);
+print,text="";
+print,text=" !***IR2 X-scheme***";
+exec,print_orbit_mcbx(1,2);
+exec,print_orbit_mcbx(2,2);
+exec,print_orbit_mcbx(3,2);
+exec,print_orbit_acb(y,s4,l,2);
+exec,print_orbit_acb(y,s4,r,2);
+exec,print_orbit_acb(y,s5,l,2);
+exec,print_orbit_acb(c,s5,r,2);
+print,text="";
+
+print,text=" !***IR8 Optics***";
+exec,print_optics_triplet(8);
+exec,print_optics_ms(8);
+exec,print_optics_ds(8);
+print,text="";
+print,text=" !***IR8 X-scheme***";
+exec,print_orbit_mcbx(1,8);
+exec,print_orbit_mcbx(2,8);
+exec,print_orbit_mcbx(3,8);
+exec,print_orbit_acb(y,s4,l,8);
+exec,print_orbit_acb(y,s4,r,8);
+exec,print_orbit_acb(c,s5,l,8);
+exec,print_orbit_acb(y,s5,r,8);
+exec,print_orbit_knob_ip(acbwh5.l8b1,c,s,8,h);
+exec,print_orbit_knob_ip(acbch5.l8b1,c,s,8,h);
+print,text="";
+
+print,text=" !***IR4 Optics***";
+exec,print_optics_quad(Q,5,4);
+exec,print_optics_quad(Q,6,4);
+exec,print_optics_ds(4);
+print,text="";
+
+print,text=" !***IR6 Optics***";
+exec,print_optics_quad(Q,4,6);
+exec,print_optics_quad(Q,5,6);
+exec,print_optics_ds(6);
+print,text="";
+
+print,text=" !***IR3 Optics***";
+exec,print_optics_coll(3);
+print,text="";
+
+print,text=" !***IR7 Optics***";
+exec,print_optics_coll(7);
+print,text="";
+
+print_arc_strong(famil): macro={
+printf,text="famil.A81   = %20.10e ;",value=famil.A81;
+printf,text="famil.A12   = %20.10e ;",value=famil.A12;
+printf,text="famil.A45   = %20.10e ;",value=famil.A45;
+printf,text="famil.A56   = %20.10e ;",value=famil.A56;
+};
+
+print_arc_weak(famil): macro={
+printf,text="famil.A23   = %20.10e ;",value=famil.A23;
+printf,text="famil.A34   = %20.10e ;",value=famil.A34;
+printf,text="famil.A67   = %20.10e ;",value=famil.A67;
+printf,text="famil.A78   = %20.10e ;",value=famil.A78;
+};
+
+print_arc_weak_trim(famil,trim,bim): macro={
+printf,text="famil.A81bim= %20.10e ;",value=famil.A81bim;
+printf,text="famil.A12bim= %20.10e ;",value=famil.A12bim;
+printf,text="famil.A45bim= %20.10e ;",value=famil.A45bim;
+printf,text="famil.A56bim= %20.10e ;",value=famil.A56bim;
+printf,text="famil.A23bim:= %20.10e +trim.bim ;",value=famil.A23bim;
+printf,text="famil.A34bim:= %20.10e +trim.bim ;",value=famil.A34bim;
+printf,text="famil.A67bim:= %20.10e +trim.bim ;",value=famil.A67bim;
+printf,text="famil.A78bim:= %20.10e +trim.bim ;",value=famil.A78bim;
+};
+
+
+print_arc_trim(famil,trim,bim): macro={
+printf,text="famil.A81bim:= %20.10e +trim.bim;",value=famil.A81bim;
+printf,text="famil.A12bim:= %20.10e +trim.bim;",value=famil.A12bim;
+printf,text="famil.A45bim:= %20.10e +trim.bim;",value=famil.A45bim;
+printf,text="famil.A56bim:= %20.10e +trim.bim;",value=famil.A56bim;
+printf,text="famil.A23bim:= %20.10e +trim.bim;",value=famil.A23bim;
+printf,text="famil.A34bim:= %20.10e +trim.bim;",value=famil.A34bim;
+printf,text="famil.A67bim:= %20.10e +trim.bim;",value=famil.A67bim;
+printf,text="famil.A78bim:= %20.10e +trim.bim;",value=famil.A78bim;
+};
+
+
+print,text=" !***ARC Optics***";
+print,text=" !QF/QD";
+exec,print_arc_strong(KQF);
+exec,print_arc_strong(KQD);
+exec,print_arc_weak(KQF);
+exec,print_arc_weak(KQD);
+print,text="";
+
+print,text=" !QTF/QTD";
+printf,text="KQTF.B1 =  %20.10e ;",value=KQTF.B1;
+printf,text="KQTD.B1 =  %20.10e ;",value=KQTD.B1;
+printf,text="KQTF.B2 =  %20.10e ;",value=KQTF.B2;
+printf,text="KQTD.B2 =  %20.10e ;",value=KQTD.B2;
+exec,print_arc_weak_trim(KQTF,KQTF,B1);
+exec,print_arc_weak_trim(KQTF,KQTF,B2);
+exec,print_arc_weak_trim(KQTD,KQTD,B1);
+exec,print_arc_weak_trim(KQTD,KQTD,B2);
+print,text="";
+
+print,text=" !KSF/KSD";
+printf,text="KSF.B1 =  %20.10e ;",value=KSF.B1;
+printf,text="KSD.B1 =  %20.10e ;",value=KSD.B1;
+printf,text="KSF.B2 =  %20.10e ;",value=KSF.B2;
+printf,text="KSD.B2 =  %20.10e ;",value=KSD.B2;
+exec,print_arc_weak_trim(KSF1,KSF,B1);
+exec,print_arc_weak_trim(KSF1,KSF,B2);
+exec,print_arc_weak_trim(KSF2,KSF,B1);
+exec,print_arc_weak_trim(KSF2,KSF,B2);
+exec,print_arc_weak_trim(KSD1,KSD,B1);
+exec,print_arc_weak_trim(KSD1,KSD,B2);
+exec,print_arc_weak_trim(KSD2,KSD,B1);
+exec,print_arc_weak_trim(KSD2,KSD,B2);
+print,text="";
+
+print,text=" !KOF/KOD";
+printf,text="KOF.B1 =  %20.10e ;",value=KOF.B1;
+printf,text="KOD.B1 =  %20.10e ;",value=KOD.B1;
+printf,text="KOF.B2 =  %20.10e ;",value=KOF.B2;
+printf,text="KOD.B2 =  %20.10e ;",value=KOD.B2;
+exec,print_arc_trim(KOF,KOF,B1);
+exec,print_arc_trim(KOF,KOF,B2);
+exec,print_arc_trim(KOD,KOD,B1);
+exec,print_arc_trim(KOD,KOD,B2);
+print,text="";
+
+print,text=" !Dispersion correction";
+
+print_orbit_knob_disp(corrname,ccc,sss,irn): macro={
+printf,text="corrnamex = %20.10e ;",value=corrnamex;
+printf,text="corrnames = %20.10e ;",value=corrnames;
+printf,text="corrnameox= %20.10e ;",value=corrnameox;
+printf,text="corrnameos= %20.10e ;",value=corrnameos;
+printf,text="corrname :=+(on_xirn*cccphi_irirn*(%20.10e)",value=corrnamex;
+printf,text="          +on_sepirn*sssphi_irirn*(%20.10e)" ,value=corrnames;
+printf,text="          +on_oxirn *cccphi_irirn*(%20.10e)" ,value=corrnameox;
+printf,text="          +on_osirn *sssphi_irirn*(%20.10e))*on_disp;",
+      value=corrnameos;
+};
+
+if (arc_squeeze==0) {
+exec,OFF_DISPCOR;       ! switching off the arc MCB
+};
+
+print,text=" !Dispersion correction ARC81";
+!exec,print_orbit_knob_disp(acbv13.r8b1,s,c,1);
+!exec,print_orbit_knob_disp(acbh13.r8b2,c,s,1);
+!exec,print_orbit_knob_disp(acbh14.r8b1,c,s,1);
+!exec,print_orbit_knob_disp(acbv14.r8b2,s,c,1);
+exec,print_orbit_knob_disp(acbv15.r8b1,s,c,1);
+exec,print_orbit_knob_disp(acbh15.r8b2,c,s,1);
+exec,print_orbit_knob_disp(acbh16.r8b1,c,s,1);
+exec,print_orbit_knob_disp(acbv16.r8b2,s,c,1);
+exec,print_orbit_knob_disp(acbh12.l1b1,c,s,1);
+exec,print_orbit_knob_disp(acbv12.l1b2,s,c,1);
+exec,print_orbit_knob_disp(acbv13.l1b1,s,c,1);
+exec,print_orbit_knob_disp(acbh13.l1b2,c,s,1);
+exec,print_orbit_knob_disp(acbh14.l1b1,c,s,1);
+exec,print_orbit_knob_disp(acbv14.l1b2,s,c,1);
+exec,print_orbit_knob_disp(acbv15.l1b1,s,c,1);
+exec,print_orbit_knob_disp(acbh15.l1b2,c,s,1);
+print,text=" !Dispersion correction ARC12";
+exec,print_orbit_knob_disp(acbv12.r1b1,s,c,1);
+exec,print_orbit_knob_disp(acbh12.r1b2,c,s,1);
+exec,print_orbit_knob_disp(acbh13.r1b1,c,s,1);
+exec,print_orbit_knob_disp(acbv13.r1b2,s,c,1);
+exec,print_orbit_knob_disp(acbv14.r1b1,s,c,1);
+exec,print_orbit_knob_disp(acbh14.r1b2,c,s,1);
+exec,print_orbit_knob_disp(acbh15.r1b1,c,s,1);
+exec,print_orbit_knob_disp(acbv15.r1b2,s,c,1);
+!exec,print_orbit_knob_disp(acbh13.l2b1,c,s,1);
+!exec,print_orbit_knob_disp(acbv13.l2b2,s,c,1);
+!exec,print_orbit_knob_disp(acbv14.l2b1,s,c,1);
+!exec,print_orbit_knob_disp(acbh14.l2b2,c,s,1);
+exec,print_orbit_knob_disp(acbh15.l2b1,c,s,1);
+exec,print_orbit_knob_disp(acbv15.l2b2,s,c,1);
+exec,print_orbit_knob_disp(acbv16.l2b1,s,c,1);
+exec,print_orbit_knob_disp(acbh16.l2b2,c,s,1);
+print,text=" !Dispersion correction ARC45";
+!exec,print_orbit_knob_disp(acbv13.r4b1,s,c,5);
+!exec,print_orbit_knob_disp(acbh13.r4b2,c,s,5);
+!exec,print_orbit_knob_disp(acbh14.r4b1,c,s,5);
+!exec,print_orbit_knob_disp(acbv14.r4b2,s,c,5);
+exec,print_orbit_knob_disp(acbv15.r4b1,s,c,5);
+exec,print_orbit_knob_disp(acbh15.r4b2,c,s,5);
+exec,print_orbit_knob_disp(acbh16.r4b1,c,s,5);
+exec,print_orbit_knob_disp(acbv16.r4b2,s,c,5);
+exec,print_orbit_knob_disp(acbh12.l5b1,c,s,5);
+exec,print_orbit_knob_disp(acbv12.l5b2,s,c,5);
+exec,print_orbit_knob_disp(acbv13.l5b1,s,c,5);
+exec,print_orbit_knob_disp(acbh13.l5b2,c,s,5);
+exec,print_orbit_knob_disp(acbh14.l5b1,c,s,5);
+exec,print_orbit_knob_disp(acbv14.l5b2,s,c,5);
+exec,print_orbit_knob_disp(acbv15.l5b1,s,c,5);
+exec,print_orbit_knob_disp(acbh15.l5b2,c,s,5);
+print,text=" !Dispersion correction ARC56";
+exec,print_orbit_knob_disp(acbv12.r5b1,s,c,5);
+exec,print_orbit_knob_disp(acbh12.r5b2,c,s,5);
+exec,print_orbit_knob_disp(acbh13.r5b1,c,s,5);
+exec,print_orbit_knob_disp(acbv13.r5b2,s,c,5);
+exec,print_orbit_knob_disp(acbv14.r5b1,s,c,5);
+exec,print_orbit_knob_disp(acbh14.r5b2,c,s,5);
+exec,print_orbit_knob_disp(acbh15.r5b1,c,s,5);
+exec,print_orbit_knob_disp(acbv15.r5b2,s,c,5);
+!exec,print_orbit_knob_disp(acbh13.l6b1,c,s,5);
+!exec,print_orbit_knob_disp(acbv13.l6b2,s,c,5);
+!exec,print_orbit_knob_disp(acbv14.l6b1,s,c,5);
+!exec,print_orbit_knob_disp(acbh14.l6b2,c,s,5);
+exec,print_orbit_knob_disp(acbh15.l6b1,c,s,5);
+exec,print_orbit_knob_disp(acbv15.l6b2,s,c,5);
+exec,print_orbit_knob_disp(acbv16.l6b1,s,c,5);
+exec,print_orbit_knob_disp(acbh16.l6b2,c,s,5);
+
+print_optics_summ_bet(irn): macro={
+printf,text="betxIPirnb1=%11.6f; betyIPirnb1=%11.6f;
+             alfxIPirnb1 =%11.6f; alfyIPirnb1 =%11.6f;
+             dxIPirnb1   =%11.6f; dpxIPirnb1  =%11.6f;",
+       value=betxIPirnb1,betyIPirnb1,alfxIPirnb1,alfyIPirnb1,
+             dxIPirnb1,dpxIPirnb1;
+printf,text="betxIPirnb2=%11.6f; betyIPirnb2=%11.6f;
+             alfxIPirnb2 =%11.6f; alfyIPirnb2 =%11.6f;
+             dxIPirnb2   =%11.6f; dpxIPirnb2  =%11.6f;",
+       value=betxIPirnb2,betyIPirnb2,alfxIPirnb2,alfyIPirnb2,
+             dxIPirnb2,dpxIPirnb2;
+};
+
+print_optics_summ_mu(irn): macro={
+printf,text="muxIPirnb1 =%11.6f; muyIPirnb1 =%11.6f;
+             muxIPirnb1_L=%11.6f; muyIPirnb1_L=%11.6f;
+             muxIPirnb1_R=%11.6f; muyIPirnb1_R=%11.6f;",
+       value=muxIPirnb1,muyIPirnb1,muxIPirnb1_L,muyIPirnb1_L,
+                                   muxIPirnb1_R,muyIPirnb1_R;
+printf,text="muxIPirnb2 =%11.6f; muyIPirnb2 =%11.6f;
+             muxIPirnb2_L=%11.6f; muyIPirnb2_L=%11.6f;
+             muxIPirnb2_R=%11.6f; muyIPirnb2_R=%11.6f;",
+       value=muxIPirnb2,muyIPirnb2,muxIPirnb2_L,muyIPirnb2_L,
+                                   muxIPirnb2_R,muyIPirnb2_R;
+};
+
+print_optics_summ_cross(irn): macro={
+printf,
+  text="xIPirnb1=%9.6f; yIPirnb1=%9.6f; pxIPirnb1=%12.9f; pyIPirnb1=%12.9f;",
+  value=xIPirnb1,yIPirnb1,pxIPirnb1,pyIPirnb1;
+printf,
+  text="xIPirnb2=%9.6f; yIPirnb2=%9.6f; pxIPirnb2=%12.9f; pyIPirnb2=%12.9f;",
+  value=xIPirnb2,yIPirnb2,pxIPirnb2,pyIPirnb2;
+};
+
+
+print_optics_summ_arcs(arcn): macro={
+printf,text="muxcellarcnb1=%12.9f; muycellarcnb1=%12.9f;
+             muxarcnb1=%9.6f; muyarcnb1=%9.6f;",
+       value=muxcellarcnb1,muycellarcnb1,muxarcnb1,muyarcnb1;
+printf,text="muxcellarcnb2=%12.9f; muycellarcnb2=%12.9f;
+             muxarcnb2=%9.6f; muyarcnb2=%9.6f;",
+       value=muxcellarcnb2,muycellarcnb2,muxarcnb2,muyarcnb2;
+};
+
+
+if (on_check <> 0) {
+print,text="";
+print,text=" !****OPTICS SUMMARY****";
+printf,text="Qxb1 = %10.6f ; Qyb1 = %10.6f; Qpxb1= %10.6f; Qpyb1=%10.6f;",
+            value=Qxb1,Qyb1,Qpxb1,Qpyb1;
+printf,text="Qxb2 = %10.6f ; Qyb2 = %10.6f; Qpxb2= %10.6f; Qpyb2=%10.6f;",
+            value=Qxb2,Qyb2,Qpxb2,Qpyb2;
+print,text="";
+
+print,text=" !IR Optics summary (phase, twiss param., dispersion)";
+exec,print_optics_summ_bet(1);
+exec,print_optics_summ_bet(5);
+exec,print_optics_summ_bet(2);
+exec,print_optics_summ_bet(8);
+exec,print_optics_summ_bet(4);
+exec,print_optics_summ_bet(6);
+exec,print_optics_summ_bet(3);
+exec,print_optics_summ_bet(7);
+print,text="";
+exec,print_optics_summ_mu(1);
+exec,print_optics_summ_mu(5);
+exec,print_optics_summ_mu(2);
+exec,print_optics_summ_mu(8);
+exec,print_optics_summ_mu(4);
+exec,print_optics_summ_mu(6);
+exec,print_optics_summ_mu(3);
+exec,print_optics_summ_mu(7);
+print,text="";
+
+print,text=" !Xscheme summary in IR1, IR2,IR5 and IR8";
+exec,print_optics_summ_cross(1);
+exec,print_optics_summ_cross(5);
+exec,print_optics_summ_cross(2);
+exec,print_optics_summ_cross(8);
+print,text="";
+
+print,text=" !Arc Optics summary";
+exec,print_optics_summ_arcs(12);
+exec,print_optics_summ_arcs(23);
+exec,print_optics_summ_arcs(34);
+exec,print_optics_summ_arcs(45);
+exec,print_optics_summ_arcs(56);
+exec,print_optics_summ_arcs(67);
+exec,print_optics_summ_arcs(78);
+exec,print_optics_summ_arcs(81);
+print,text="";
+
+print,text="return;";
+};
+
+assign,echo=terminal ;
+!call,file='temp/optics.madx';
+option,-echo;
+
+!on_x1=on_x1aux;on_sep1=on_sep1aux;
+!on_x2=on_x2aux;on_sep2=on_sep2aux;on_alice=on_aliceaux;
+!on_x5=on_x1aux;on_sep5=on_sep5aux;
+!on_x8=on_x2aux;on_sep8=on_sep8aux;on_lhcb=on_lhcbaux;
+!on_disp=on_dispaux;
+!on_sol_atlas=on_sol_atlasaux;
+!on_sol_alice=on_sol_aliceaux;
+!on_sol_cms=on_sol_cmsaux;
+
+set,format=24.12g;
+
+return;

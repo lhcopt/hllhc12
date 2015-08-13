@@ -1,0 +1,740 @@
+! R. De Maria, 2011/11 rematch crossing scheme with new orbit correctors
+! to close the bump in D2
+! M. Fitterer, 2014/03 added knob for offset of the IP (flag on_ohNIR and on_ovNIR, corr. strength e.g. ACBXH1.LnIRo) and matching routine for matching the offset matchOffset(NIR); 
+! M. Fitterer 2014/03 added corr. strength limits: MCBXFB: 2.5 Tm integrated strength, 1.2 m length; MCBXFA: 4.5 Tm integrated strength, 2.2 m length, MCBRD: 5.0 Tm integrated strenght, 1.5 m length
+!scale = 23348.89927;
+
+!MCBXFB
+climmcbxfb =2.5/scale;!2.5 Tm integrated strength, MCBXFB[HV][12]
+climmcbxfa =4.5/scale;!4.5 Tm integrated strength, MCBXFA[HV]3
+climmcbrd  =7.0/scale;!7.0 Tm integrated strength
+climmcby   =2.25/scale;!2.25 Tm integrated strength (assuming 2.5 T and 0.9 m length)
+climmcbyy  =2.25/scale;!2.25 Tm integrated strength (assuming 2.5 T and 0.9 m length)
+climmcbc   =2.097/scale;!2.33 Tm integrated strength (assuming 2.33 T and l.MCBCH=0.90 m (note l.MCBCV=0.9040 m which is not taken into account)
+
+resetXscheme(nIR) : macro ={
+ACBXH1.LnIR=0;ACBXH1.LnIRx=0;ACBXH1.LnIRs=0;ACBXH1.LnIRo=0;ACBXH1.LnIRcpp=0;ACBXH1.LnIRcpm=0;
+ACBXH1.RnIR=0;ACBXH1.RnIRx=0;ACBXH1.RnIRs=0;ACBXH1.RnIRo=0;ACBXH1.RnIRcpp=0;ACBXH1.RnIRcpm=0;
+ACBXV1.LnIR=0;ACBXV1.LnIRx=0;ACBXV1.LnIRs=0;ACBXV1.LnIRo=0;ACBXV1.LnIRcpp=0;ACBXV1.LnIRcpm=0;
+ACBXV1.RnIR=0;ACBXV1.RnIRx=0;ACBXV1.RnIRs=0;ACBXV1.RnIRo=0;ACBXV1.RnIRcpp=0;ACBXV1.RnIRcpm=0;
+                                                          
+ACBXH2.LnIR=0;ACBXH2.LnIRx=0;ACBXH2.LnIRs=0;ACBXH2.LnIRo=0;ACBXH2.LnIRcpp=0;ACBXH2.LnIRcpm=0;
+ACBXH2.RnIR=0;ACBXH2.RnIRx=0;ACBXH2.RnIRs=0;ACBXH2.RnIRo=0;ACBXH2.RnIRcpp=0;ACBXH2.RnIRcpm=0;
+ACBXV2.LnIR=0;ACBXV2.LnIRx=0;ACBXV2.LnIRs=0;ACBXV2.LnIRo=0;ACBXV2.LnIRcpp=0;ACBXV2.LnIRcpm=0;
+ACBXV2.RnIR=0;ACBXV2.RnIRx=0;ACBXV2.RnIRs=0;ACBXV2.RnIRo=0;ACBXV2.RnIRcpp=0;ACBXV2.RnIRcpm=0;
+                                                          
+ACBXH3.LnIR=0;ACBXH3.LnIRx=0;ACBXH3.LnIRs=0;ACBXH3.LnIRo=0;ACBXH3.LnIRcpp=0;ACBXH3.LnIRcpm=0;
+ACBXH3.RnIR=0;ACBXH3.RnIRx=0;ACBXH3.RnIRs=0;ACBXH3.RnIRo=0;ACBXH3.RnIRcpp=0;ACBXH3.RnIRcpm=0;
+ACBXV3.LnIR=0;ACBXV3.LnIRx=0;ACBXV3.LnIRs=0;ACBXV3.LnIRo=0;ACBXV3.LnIRcpp=0;ACBXV3.LnIRcpm=0;
+ACBXV3.RnIR=0;ACBXV3.RnIRx=0;ACBXV3.RnIRs=0;ACBXV3.RnIRo=0;ACBXV3.RnIRcpp=0;ACBXV3.RnIRcpm=0;
+
+ACBYHS4.LnIRB1=0;ACBYHS4.LnIRB1x=0;ACBYHS4.LnIRB1s=0;ACBYHS4.LnIRB1o=0;ACBYHS4.LnIRB1cpp=0;ACBYHS4.LnIRB1cpm=0;
+ACBYHS4.RnIRB1=0;ACBYHS4.RnIRB1x=0;ACBYHS4.RnIRB1s=0;ACBYHS4.RnIRB1o=0;ACBYHS4.RnIRB1cpp=0;ACBYHS4.RnIRB1cpm=0;
+!acbyhs5.RnIRB1 =0;acbyhs5.RnIRB1x =0;acbyhs5.RnIRB1s =0;acbyhs5.RnIRB1o =0;
+ACBYHS5.LnIRB1=0;ACBYHS5.LnIRB1x=0;ACBYHS5.LnIRB1s=0;ACBYHS5.LnIRB1o=0;ACBYHS5.LnIRB1cpp=0;ACBYHS5.LnIRB1cpm=0;
+ACBYHS5.RnIRB1=0;ACBYHS5.RnIRB1x=0;ACBYHS5.RnIRB1s=0;ACBYHS5.RnIRB1o=0;ACBYHS5.RnIRB1cpp=0;ACBYHS5.RnIRB1cpm=0;
+ACBCH6.LnIRB1 =0;ACBCH6.LnIRB1x =0;ACBCH6.LnIRB1s =0;ACBCH6.LnIRB1o =0;ACBCH6.LnIRB1cpp =0;ACBCH6.LnIRB1cpm =0;
+ACBCH7.RnIRB1 =0;ACBCH7.RnIRB1x =0;ACBCH7.RnIRB1s =0;ACBCH7.RnIRB1o =0;ACBCH7.RnIRB1cpp =0;ACBCH7.RnIRB1cpm =0;
+ 
+ACBYVS4.LnIRB1=0;ACBYVS4.LnIRB1x=0;ACBYVS4.LnIRB1s=0;ACBYVS4.LnIRB1o=0;ACBYVS4.LnIRB1cpp=0;ACBYVS4.LnIRB1cpm=0;
+ACBYVS4.RnIRB1=0;ACBYVS4.RnIRB1x=0;ACBYVS4.RnIRB1s=0;ACBYVS4.RnIRB1o=0;ACBYVS4.RnIRB1cpp=0;ACBYVS4.RnIRB1cpm=0;
+!acbyvs5.LnIRB1 =0;acbyvs5.LnIRB1x =0;acbyvs5.LnIRB1s =0;acbyvs5.LnIRB1o =0;
+ACBYVS5.LnIRB1=0;ACBYVS5.LnIRB1x=0;ACBYVS5.LnIRB1s=0;ACBYVS5.LnIRB1o=0;ACBYVS5.LnIRB1cpp=0;ACBYVS5.LnIRB1cpm=0;
+ACBYVS5.RnIRB1=0;ACBYVS5.RnIRB1x=0;ACBYVS5.RnIRB1s=0;ACBYVS5.RnIRB1o=0;ACBYVS5.RnIRB1cpp=0;ACBYVS5.RnIRB1cpm=0;
+ACBCV6.RnIRB1 =0;ACBCV6.RnIRB1x =0;ACBCV6.RnIRB1s =0;ACBCV6.RnIRB1o =0;ACBCV6.RnIRB1cpp =0;ACBCV6.RnIRB1cpm =0;
+ACBCV7.LnIRB1 =0;ACBCV7.LnIRB1x =0;ACBCV7.LnIRB1s =0;ACBCV7.LnIRB1o =0;ACBCV7.LnIRB1cpp =0;ACBCV7.LnIRB1cpm =0;
+ 
+ACBYHS4.LnIRB2=0;ACBYHS4.LnIRB2x=0;ACBYHS4.LnIRB2s=0;ACBYHS4.LnIRB2o=0;ACBYHS4.LnIRB2cpp=0;ACBYHS4.LnIRB2cpm=0;
+ACBYHS4.RnIRB2=0;ACBYHS4.RnIRB2x=0;ACBYHS4.RnIRB2s=0;ACBYHS4.RnIRB2o=0;ACBYHS4.RnIRB2cpp=0;ACBYHS4.RnIRB2cpm=0;
+!acbyhs5.LnIRB2 =0;acbyhs5.LnIRB2x =0;acbyhs5.LnIRB2s =0;acbyhs5.LnIRB2o =0;
+ACBYHS5.LnIRB2=0;ACBYHS5.LnIRB2x=0;ACBYHS5.LnIRB2s=0;ACBYHS5.LnIRB2o=0;ACBYHS5.LnIRB2cpp=0;ACBYHS5.LnIRB2cpm=0;
+ACBYHS5.RnIRB2=0;ACBYHS5.RnIRB2x=0;ACBYHS5.RnIRB2s=0;ACBYHS5.RnIRB2o=0;ACBYHS5.RnIRB2cpp=0;ACBYHS5.RnIRB2cpm=0;
+ACBCH6.RnIRB2 =0;ACBCH6.RnIRB2x =0;ACBCH6.RnIRB2s =0;ACBCH6.RnIRB2o =0;ACBCH6.RnIRB2cpp =0;ACBCH6.RnIRB2cpm =0;
+ACBCH7.LnIRB2 =0;ACBCH7.LnIRB2x =0;ACBCH7.LnIRB2s =0;ACBCH7.LnIRB2o =0;ACBCH7.LnIRB2cpp =0;ACBCH7.LnIRB2cpm =0;
+
+ACBYVS4.LnIRB2=0;ACBYVS4.LnIRB2x=0;ACBYVS4.LnIRB2s=0;ACBYVS4.LnIRB2o=0;ACBYVS4.LnIRB2cpp=0;ACBYVS4.LnIRB2cpm=0;
+ACBYVS4.RnIRB2=0;ACBYVS4.RnIRB2x=0;ACBYVS4.RnIRB2s=0;ACBYVS4.RnIRB2o=0;ACBYVS4.RnIRB2cpp=0;ACBYVS4.RnIRB2cpm=0;
+!acbyvs5.RnIRB2 =0;acbyvs5.RnIRB2x =0;acbyvs5.RnIRB2s =0;acbyvs5.RnIRB2o =0;
+ACBYVS5.LnIRB2=0;ACBYVS5.LnIRB2x=0;ACBYVS5.LnIRB2s=0;ACBYVS5.LnIRB2o=0;ACBYVS5.LnIRB2cpp=0;ACBYVS5.LnIRB2cpm=0;
+ACBYVS5.RnIRB2=0;ACBYVS5.RnIRB2x=0;ACBYVS5.RnIRB2s=0;ACBYVS5.RnIRB2o=0;ACBYVS5.RnIRB2cpp=0;ACBYVS5.RnIRB2cpm=0;
+ACBCV6.LnIRB2 =0;ACBCV6.LnIRB2x =0;ACBCV6.LnIRB2s =0;ACBCV6.LnIRB2o =0;ACBCV6.LnIRB2cpp =0;ACBCV6.LnIRB2cpm =0;
+ACBCV7.RnIRB2 =0;ACBCV7.RnIRB2x =0;ACBCV7.RnIRB2s =0;ACBCV7.RnIRB2o =0;ACBCV7.RnIRB2cpp =0;ACBCV7.RnIRB2cpm =0;
+
+acbrdH4.LnIRB1=0;acbrdH4.LnIRB1x=0;acbrdH4.LnIRB1s=0;acbrdH4.LnIRB1o=0; acbrdH4.LnIRB1cpp=0; acbrdH4.LnIRB1cpm=0;
+acbrdH4.RnIRB1=0;acbrdH4.RnIRB1x=0;acbrdH4.RnIRB1s=0;acbrdH4.RnIRB1o=0; acbrdH4.RnIRB1cpp=0; acbrdH4.RnIRB1cpm=0;
+acbrdV4.LnIRB1=0;acbrdV4.LnIRB1x=0;acbrdV4.LnIRB1s=0;acbrdV4.LnIRB1o=0; acbrdV4.LnIRB1cpp=0; acbrdV4.LnIRB1cpm=0;
+acbrdV4.RnIRB1=0;acbrdV4.RnIRB1x=0;acbrdV4.RnIRB1s=0;acbrdV4.RnIRB1o=0; acbrdV4.RnIRB1cpp=0; acbrdV4.RnIRB1cpm=0;
+acbrdH4.LnIRB2=0;acbrdH4.LnIRB2x=0;acbrdH4.LnIRB2s=0;acbrdH4.LnIRB2o=0; acbrdH4.LnIRB2cpp=0; acbrdH4.LnIRB2cpm=0;
+acbrdH4.RnIRB2=0;acbrdH4.RnIRB2x=0;acbrdH4.RnIRB2s=0;acbrdH4.RnIRB2o=0; acbrdH4.RnIRB2cpp=0; acbrdH4.RnIRB2cpm=0;
+acbrdV4.LnIRB2=0;acbrdV4.LnIRB2x=0;acbrdV4.LnIRB2s=0;acbrdV4.LnIRB2o=0; acbrdV4.LnIRB2cpp=0; acbrdV4.LnIRB2cpm=0;
+acbrdV4.RnIRB2=0;acbrdV4.RnIRB2x=0;acbrdV4.RnIRB2s=0;acbrdV4.RnIRB2o=0; acbrdV4.RnIRB2cpp=0; acbrdV4.RnIRB2cpm=0;
+
+};
+
+
+valueXschemerel(nIR) : macro ={
+value,ACBXH1.LnIRx/climmcbxfb,ACBXH1.LnIRs/climmcbxfb,ACBXH1.LnIRo/climmcbxfb,ACBXH1.LnIRcpp/climmcbxfb,ACBXH1.LnIRcpm/climmcbxfb;
+value,ACBXH1.RnIRx/climmcbxfb,ACBXH1.RnIRs/climmcbxfb,ACBXH1.RnIRo/climmcbxfb,ACBXH1.RnIRcpp/climmcbxfb,ACBXH1.RnIRcpm/climmcbxfb;
+value,ACBXV1.LnIRx/climmcbxfb,ACBXV1.LnIRs/climmcbxfb,ACBXV1.LnIRo/climmcbxfb,ACBXV1.LnIRcpp/climmcbxfb,ACBXV1.LnIRcpm/climmcbxfb;
+value,ACBXV1.RnIRx/climmcbxfb,ACBXV1.RnIRs/climmcbxfb,ACBXV1.RnIRo/climmcbxfb,ACBXV1.RnIRcpp/climmcbxfb,ACBXV1.RnIRcpm/climmcbxfb;
+
+value,ACBXH2.LnIRx/climmcbxfb,ACBXH2.LnIRs/climmcbxfb,ACBXH2.LnIRo/climmcbxfb,ACBXH2.LnIRcpp/climmcbxfb,ACBXH2.LnIRcpm/climmcbxfb;
+value,ACBXH2.RnIRx/climmcbxfb,ACBXH2.RnIRs/climmcbxfb,ACBXH2.RnIRo/climmcbxfb,ACBXH2.RnIRcpp/climmcbxfb,ACBXH2.RnIRcpm/climmcbxfb;
+value,ACBXV2.LnIRx/climmcbxfb,ACBXV2.LnIRs/climmcbxfb,ACBXV2.LnIRo/climmcbxfb,ACBXV2.LnIRcpp/climmcbxfb,ACBXV2.LnIRcpm/climmcbxfb;
+value,ACBXV2.RnIRx/climmcbxfb,ACBXV2.RnIRs/climmcbxfb,ACBXV2.RnIRo/climmcbxfb,ACBXV2.RnIRcpp/climmcbxfb,ACBXV2.RnIRcpm/climmcbxfb;
+                                                                                          
+value,ACBXH3.LnIRx/climmcbxfa,ACBXH3.LnIRs/climmcbxfa,ACBXH3.LnIRo/climmcbxfa,ACBXH3.LnIRcpp/climmcbxfa,ACBXH3.LnIRcpm/climmcbxfa;
+value,ACBXH3.RnIRx/climmcbxfa,ACBXH3.RnIRs/climmcbxfa,ACBXH3.RnIRo/climmcbxfa,ACBXH3.RnIRcpp/climmcbxfa,ACBXH3.RnIRcpm/climmcbxfa;
+value,ACBXV3.LnIRx/climmcbxfa,ACBXV3.LnIRs/climmcbxfa,ACBXV3.LnIRo/climmcbxfa,ACBXV3.LnIRcpp/climmcbxfa,ACBXV3.LnIRcpm/climmcbxfa;
+value,ACBXV3.RnIRx/climmcbxfa,ACBXV3.RnIRs/climmcbxfa,ACBXV3.RnIRo/climmcbxfa,ACBXV3.RnIRcpp/climmcbxfa,ACBXV3.RnIRcpm/climmcbxfa;
+
+value,ACBYHS4.LnIRB1x/climmcbyy,ACBYHS4.LnIRB1s/climmcbyy,ACBYHS4.LnIRB1o/climmcbyy,ACBYHS4.LnIRB1cpp/climmcbyy,ACBYHS4.LnIRB1cpm/climmcbyy;
+value,ACBYHS4.RnIRB1x/climmcbyy,ACBYHS4.RnIRB1s/climmcbyy,ACBYHS4.RnIRB1o/climmcbyy,ACBYHS4.RnIRB1cpp/climmcbyy,ACBYHS4.RnIRB1cpm/climmcbyy;
+!value,acbyhs5.RnIRB1x ,acbyhs5.RnIRB1s ,acbyhs5.RnIRB1o ;
+value,ACBYHS5.LnIRB1x/climmcby,ACBYHS5.LnIRB1s/climmcby,ACBYHS5.LnIRB1cpp/climmcby,ACBYHS5.LnIRB1o/climmcby,ACBYHS5.LnIRB1cpm/climmcby;
+value,ACBYHS5.RnIRB1x/climmcby,ACBYHS5.RnIRB1s/climmcby,ACBYHS5.RnIRB1cpp/climmcby,ACBYHS5.RnIRB1o/climmcby,ACBYHS5.RnIRB1cpm/climmcby;
+value,ACBCH6.LnIRB1x/climmcbc ,ACBCH6.LnIRB1s/climmcbc ,ACBCH6.LnIRB1o/climmcbc ,ACBCH6.LnIRB1cpp/climmcbc ,ACBCH6.LnIRB1cpm/climmcbc ;
+value,ACBCH7.RnIRB1x/climmcbc ,ACBCH7.RnIRB1s/climmcbc ,ACBCH7.RnIRB1o/climmcbc ,ACBCH7.RnIRB1cpp/climmcbc ,ACBCH7.RnIRB1cpm/climmcbc ;
+                                     
+value,ACBYVS4.LnIRB1x/climmcbyy,ACBYVS4.LnIRB1s/climmcbyy,ACBYVS4.LnIRB1cpp/climmcbyy,ACBYVS4.LnIRB1o/climmcbyy,ACBYVS4.LnIRB1cpm/climmcbyy;
+value,ACBYVS4.RnIRB1x/climmcbyy,ACBYVS4.RnIRB1s/climmcbyy,ACBYVS4.RnIRB1cpp/climmcbyy,ACBYVS4.RnIRB1o/climmcbyy,ACBYVS4.RnIRB1cpm/climmcbyy;
+!value,acbyvs5.LnIRB1x ,acbyvs5.LnIRB1s ,acbyvs5.LnIRB1o ;
+value,ACBYVS5.LnIRB1x/climmcby,ACBYVS5.LnIRB1s/climmcby,ACBYVS5.LnIRB1cpp/climmcby,ACBYVS5.LnIRB1o/climmcby,ACBYVS5.LnIRB1cpm/climmcby;
+value,ACBYVS5.RnIRB1x/climmcby,ACBYVS5.RnIRB1s/climmcby,ACBYVS5.RnIRB1cpp/climmcby,ACBYVS5.RnIRB1o/climmcby,ACBYVS5.RnIRB1cpm/climmcby;
+value,ACBCV6.RnIRB1x/climmcbc ,ACBCV6.RnIRB1s/climmcbc ,ACBCV6.RnIRB1o/climmcbc ,ACBCV6.RnIRB1cpp/climmcbc ,ACBCV6.RnIRB1cpm/climmcbc ;
+value,ACBCV7.LnIRB1x/climmcbc ,ACBCV7.LnIRB1s/climmcbc ,ACBCV7.LnIRB1o/climmcbc ,ACBCV7.LnIRB1cpp/climmcbc ,ACBCV7.LnIRB1cpm/climmcbc ;
+
+value,ACBYHS4.LnIRB2x/climmcbyy,ACBYHS4.LnIRB2s/climmcbyy,ACBYHS4.LnIRB2cpp/climmcbyy,ACBYHS4.LnIRB2o/climmcbyy,ACBYHS4.LnIRB2cpm/climmcbyy;
+value,ACBYHS4.RnIRB2x/climmcbyy,ACBYHS4.RnIRB2s/climmcbyy,ACBYHS4.RnIRB2cpp/climmcbyy,ACBYHS4.RnIRB2o/climmcbyy,ACBYHS4.RnIRB2cpm/climmcbyy;
+!value,acbyhs5.LnIRB2x ,acbyhs5.LnIRB2s ,acbyhs5.LnIRB2o ;
+value,ACBYHS5.LnIRB2x/climmcby,ACBYHS5.LnIRB2s/climmcby,ACBYHS5.LnIRB2cpp/climmcby,ACBYHS5.LnIRB2o/climmcby,ACBYHS5.LnIRB2cpm/climmcby;
+value,ACBYHS5.RnIRB2x/climmcby,ACBYHS5.RnIRB2s/climmcby,ACBYHS5.RnIRB2cpp/climmcby,ACBYHS5.RnIRB2o/climmcby,ACBYHS5.RnIRB2cpm/climmcby;
+value,ACBCH6.RnIRB2x/climmcbc ,ACBCH6.RnIRB2s/climmcbc ,ACBCH6.RnIRB2o/climmcbc ,ACBCH6.RnIRB2cpp/climmcbc ,ACBCH6.RnIRB2cpm/climmcbc ;
+value,ACBCH7.LnIRB2x/climmcbc ,ACBCH7.LnIRB2s/climmcbc ,ACBCH7.LnIRB2o/climmcbc ,ACBCH7.LnIRB2cpp/climmcbc ,ACBCH7.LnIRB2cpm/climmcbc ;
+
+value,ACBYVS4.LnIRB2x/climmcbyy,ACBYVS4.LnIRB2s/climmcbyy,ACBYVS4.LnIRB2cpp/climmcbyy,ACBYVS4.LnIRB2o/climmcbyy,ACBYVS4.LnIRB2cpm/climmcbyy;
+value,ACBYVS4.RnIRB2x/climmcbyy,ACBYVS4.RnIRB2s/climmcbyy,ACBYVS4.RnIRB2cpp/climmcbyy,ACBYVS4.RnIRB2o/climmcbyy,ACBYVS4.RnIRB2cpm/climmcbyy;
+!value,acbyvs5.RnIRB2x ,acbyvs5.RnIRB2s ,acbyvs5.RnIRB2o ;
+value,ACBYVS5.LnIRB2x/climmcby,ACBYVS5.LnIRB2s/climmcby,ACBYVS5.LnIRB2cpp/climmcby,ACBYVS5.LnIRB2o/climmcby,ACBYVS5.LnIRB2cpm/climmcby;
+value,ACBYVS5.RnIRB2x/climmcby,ACBYVS5.RnIRB2s/climmcby,ACBYVS5.RnIRB2cpp/climmcby,ACBYVS5.RnIRB2o/climmcby,ACBYVS5.RnIRB2cpm/climmcby;
+value,ACBCV6.LnIRB2x/climmcbc ,ACBCV6.LnIRB2s/climmcbc ,ACBCV6.LnIRB2o/climmcbc ,ACBCV6.LnIRB2cpp/climmcbc ,ACBCV6.LnIRB2cpm/climmcbc ;
+value,ACBCV7.RnIRB2x/climmcbc ,ACBCV7.RnIRB2s/climmcbc ,ACBCV7.RnIRB2o/climmcbc ,ACBCV7.RnIRB2cpp/climmcbc ,ACBCV7.RnIRB2cpm/climmcbc ;
+
+
+value,acbrdH4.LnIRB1x/climmcbrd,acbrdH4.LnIRB1s/climmcbrd,acbrdH4.LnIRB1o/climmcbrd,acbrdH4.LnIRB1cpp/climmcbrd,acbrdH4.LnIRB1cpm/climmcbrd;
+value,acbrdH4.RnIRB1x/climmcbrd,acbrdH4.RnIRB1s/climmcbrd,acbrdH4.RnIRB1o/climmcbrd,acbrdH4.RnIRB1cpp/climmcbrd,acbrdH4.RnIRB1cpm/climmcbrd;
+value,acbrdV4.LnIRB1x/climmcbrd,acbrdV4.LnIRB1s/climmcbrd,acbrdV4.LnIRB1o/climmcbrd,acbrdV4.LnIRB1cpp/climmcbrd,acbrdV4.LnIRB1cpm/climmcbrd;
+value,acbrdV4.RnIRB1x/climmcbrd,acbrdV4.RnIRB1s/climmcbrd,acbrdV4.RnIRB1o/climmcbrd,acbrdV4.RnIRB1cpp/climmcbrd,acbrdV4.RnIRB1cpm/climmcbrd;
+value,acbrdH4.LnIRB2x/climmcbrd,acbrdH4.LnIRB2s/climmcbrd,acbrdH4.LnIRB2o/climmcbrd,acbrdH4.LnIRB2cpp/climmcbrd,acbrdH4.LnIRB2cpm/climmcbrd;
+value,acbrdH4.RnIRB2x/climmcbrd,acbrdH4.RnIRB2s/climmcbrd,acbrdH4.RnIRB2o/climmcbrd,acbrdH4.RnIRB2cpp/climmcbrd,acbrdH4.RnIRB2cpm/climmcbrd;
+value,acbrdV4.LnIRB2x/climmcbrd,acbrdV4.LnIRB2s/climmcbrd,acbrdV4.LnIRB2o/climmcbrd,acbrdV4.LnIRB2cpp/climmcbrd,acbrdV4.LnIRB2cpm/climmcbrd;
+value,acbrdV4.RnIRB2x/climmcbrd,acbrdV4.RnIRB2s/climmcbrd,acbrdV4.RnIRB2o/climmcbrd,acbrdV4.RnIRB2cpp/climmcbrd,acbrdV4.RnIRB2cpm/climmcbrd;
+
+};
+
+valueXscheme(nIR) : macro ={
+value,ACBXH1.LnIRx*1e6,ACBXH1.LnIRs*1e6,ACBXH1.LnIRo*1e6,ACBXH1.LnIRcpp*1e6,ACBXH1.LnIRcpm*1e6;
+value,ACBXH1.RnIRx*1e6,ACBXH1.RnIRs*1e6,ACBXH1.RnIRo*1e6,ACBXH1.RnIRcpp*1e6,ACBXH1.RnIRcpm*1e6;
+value,ACBXV1.LnIRx*1e6,ACBXV1.LnIRs*1e6,ACBXV1.LnIRo*1e6,ACBXV1.LnIRcpp*1e6,ACBXV1.LnIRcpm*1e6;
+value,ACBXV1.RnIRx*1e6,ACBXV1.RnIRs*1e6,ACBXV1.RnIRo*1e6,ACBXV1.RnIRcpp*1e6,ACBXV1.RnIRcpm*1e6;
+                                                                                       
+value,ACBXH2.LnIRx*1e6,ACBXH2.LnIRs*1e6,ACBXH2.LnIRo*1e6,ACBXH2.LnIRcpp*1e6,ACBXH2.LnIRcpm*1e6;
+value,ACBXH2.RnIRx*1e6,ACBXH2.RnIRs*1e6,ACBXH2.RnIRo*1e6,ACBXH2.RnIRcpp*1e6,ACBXH2.RnIRcpm*1e6;
+value,ACBXV2.LnIRx*1e6,ACBXV2.LnIRs*1e6,ACBXV2.LnIRo*1e6,ACBXV2.LnIRcpp*1e6,ACBXV2.LnIRcpm*1e6;
+value,ACBXV2.RnIRx*1e6,ACBXV2.RnIRs*1e6,ACBXV2.RnIRo*1e6,ACBXV2.RnIRcpp*1e6,ACBXV2.RnIRcpm*1e6;
+                                                                                       
+value,ACBXH3.LnIRx*1e6,ACBXH3.LnIRs*1e6,ACBXH3.LnIRo*1e6,ACBXH3.LnIRcpp*1e6,ACBXH3.LnIRcpm*1e6;
+value,ACBXH3.RnIRx*1e6,ACBXH3.RnIRs*1e6,ACBXH3.RnIRo*1e6,ACBXH3.RnIRcpp*1e6,ACBXH3.RnIRcpm*1e6;
+value,ACBXV3.LnIRx*1e6,ACBXV3.LnIRs*1e6,ACBXV3.LnIRo*1e6,ACBXV3.LnIRcpp*1e6,ACBXV3.LnIRcpm*1e6;
+value,ACBXV3.RnIRx*1e6,ACBXV3.RnIRs*1e6,ACBXV3.RnIRo*1e6,ACBXV3.RnIRcpp*1e6,ACBXV3.RnIRcpm*1e6;
+
+value,ACBYHS4.LnIRB1x,ACBYHS4.LnIRB1s,ACBYHS4.LnIRB1o,ACBYHS4.LnIRB1cpp,ACBYHS4.LnIRB1cpm;
+value,ACBYHS4.RnIRB1x,ACBYHS4.RnIRB1s,ACBYHS4.RnIRB1o,ACBYHS4.RnIRB1cpp,ACBYHS4.RnIRB1cpm;
+!value,acbyhs5.RnIRB1x ,acbyhs5.RnIRB1s ,acbyhs5.RnIRB1o ;
+value,ACBYHS5.LnIRB1x,ACBYHS5.LnIRB1s,ACBYHS5.LnIRB1o,ACBYHS5.LnIRB1cpp,ACBYHS5.LnIRB1cpm;
+value,ACBYHS5.RnIRB1x,ACBYHS5.RnIRB1s,ACBYHS5.RnIRB1o,ACBYHS5.RnIRB1cpp,ACBYHS5.RnIRB1cpm;
+value,ACBCH6.LnIRB1x ,ACBCH6.LnIRB1s ,ACBCH6.LnIRB1o ,ACBCH6.LnIRB1cpp ,ACBCH6.LnIRB1cpm ;
+                                     
+value,ACBYVS4.LnIRB1x,ACBYVS4.LnIRB1s,ACBYVS4.LnIRB1o,ACBYVS4.LnIRB1cpp,ACBYVS4.LnIRB1cp;
+value,ACBYVS4.RnIRB1x,ACBYVS4.RnIRB1s,ACBYVS4.RnIRB1o,ACBYVS4.RnIRB1cpp,ACBYVS4.RnIRB1cp;
+!value,acbyvs5.LnIRB1x ,acbyvs5.LnIRB1s ,acbyvs5.LnIRB1o ;
+value,ACBYVS5.LnIRB1x,ACBYVS5.LnIRB1s,ACBYVS5.LnIRB1o,ACBYVS5.LnIRB1cpp,ACBYVS5.LnIRB1cpm;
+value,ACBYVS5.RnIRB1x,ACBYVS5.RnIRB1s,ACBYVS5.RnIRB1o,ACBYVS5.RnIRB1cpp,ACBYVS5.RnIRB1cpm;
+value,ACBCV6.RnIRB1x ,ACBCV6.RnIRB1s ,ACBCV6.RnIRB1o ,ACBCV6.RnIRB1cpp ,ACBCV6.RnIRB1cpm ;
+                                     
+value,ACBYHS4.LnIRB2x,ACBYHS4.LnIRB2s,ACBYHS4.LnIRB2o,ACBYHS4.LnIRB2cpp,ACBYHS4.LnIRB2cpm;
+value,ACBYHS4.RnIRB2x,ACBYHS4.RnIRB2s,ACBYHS4.RnIRB2o,ACBYHS4.RnIRB2cpp,ACBYHS4.RnIRB2cpm;
+!value,acbyhs5.LnIRB2x ,acbyhs5.LnIRB2s ,acbyhs5.LnIRB2o ;
+value,ACBYHS5.LnIRB2x,ACBYHS5.LnIRB2s,ACBYHS5.LnIRB2o,ACBYHS5.LnIRB2cpp,ACBYHS5.LnIRB2cpm;
+value,ACBYHS5.RnIRB2x,ACBYHS5.RnIRB2s,ACBYHS5.RnIRB2o,ACBYHS5.RnIRB2cpp,ACBYHS5.RnIRB2cpm;
+value,ACBCH6.RnIRB2x ,ACBCH6.RnIRB2s ,ACBCH6.RnIRB2o ,ACBCH6.RnIRB2cpp ,ACBCH6.RnIRB2cpm ;
+                                     
+value,ACBYVS4.LnIRB2x,ACBYVS4.LnIRB2s,ACBYVS4.LnIRB2o,ACBYVS4.LnIRB2cpp,ACBYVS4.LnIRB2cpm;
+value,ACBYVS4.RnIRB2x,ACBYVS4.RnIRB2s,ACBYVS4.RnIRB2o,ACBYVS4.RnIRB2cpp,ACBYVS4.RnIRB2cpm;
+!value,acbyvs5.RnIRB2x ,acbyvs5.RnIRB2s ,acbyvs5.RnIRB2o ;
+value,ACBYVS5.LnIRB2x,ACBYVS5.LnIRB2s,ACBYVS5.LnIRB2o,ACBYVS5.LnIRB2cpp,ACBYVS5.LnIRB2o;
+value,ACBYVS5.RnIRB2x,ACBYVS5.RnIRB2s,ACBYVS5.RnIRB2o,ACBYVS5.RnIRB2cpp,ACBYVS5.RnIRB2cpm;
+value,ACBCV6.LnIRB2x ,ACBCV6.LnIRB2s ,ACBCV6.LnIRB2o ,ACBCV6.LnIRB2cpp ,ACBCV6.LnIRB2cpm ;
+
+value,acbrdH4.LnIRB1x*1e6,acbrdH4.LnIRB1s*1e6,acbrdH4.LnIRB1o*1e6,acbrdH4.LnIRB1cpp*1e6,acbrdH4.LnIRB1cpm*1e6;
+value,acbrdH4.RnIRB1x*1e6,acbrdH4.RnIRB1s*1e6,acbrdH4.RnIRB1o*1e6,acbrdH4.RnIRB1cpp*1e6,acbrdH4.RnIRB1cpm*1e6;
+value,acbrdV4.LnIRB1x*1e6,acbrdV4.LnIRB1s*1e6,acbrdV4.LnIRB1o*1e6,acbrdV4.LnIRB1cpp*1e6,acbrdV4.LnIRB1cpm*1e6;
+value,acbrdV4.RnIRB1x*1e6,acbrdV4.RnIRB1s*1e6,acbrdV4.RnIRB1o*1e6,acbrdV4.RnIRB1cpp*1e6,acbrdV4.RnIRB1cpm*1e6;
+value,acbrdH4.LnIRB2x*1e6,acbrdH4.LnIRB2s*1e6,acbrdH4.LnIRB2o*1e6,acbrdH4.LnIRB2cpp*1e6,acbrdH4.LnIRB2cpm*1e6;
+value,acbrdH4.RnIRB2x*1e6,acbrdH4.RnIRB2s*1e6,acbrdH4.RnIRB2o*1e6,acbrdH4.RnIRB2cpp*1e6,acbrdH4.RnIRB2cpm*1e6;
+value,acbrdV4.LnIRB2x*1e6,acbrdV4.LnIRB2s*1e6,acbrdV4.LnIRB2o*1e6,acbrdV4.LnIRB2cpp*1e6,acbrdV4.LnIRB2cpm*1e6;
+value,acbrdV4.RnIRB2x*1e6,acbrdV4.RnIRB2s*1e6,acbrdV4.RnIRB2o*1e6,acbrdV4.RnIRB2cpp*1e6,acbrdV4.RnIRB2cpm*1e6;
+
+};
+
+
+
+
+cableXscheme(IRN): macro={
+xsinirIRN:=sin(pi/180*phi_irIRN);
+xcosirIRN:=cos(pi/180*phi_irIRN);
+
+acbxh1.lIRN   :=acbxh1.lIRNx   *on_xIRN*xcosirIRN +
+                acbxh1.lIRNs   *on_sepIRN*xsinirIRN +
+                acbxh1.lIRNo   *on_ohIRN +
+                acbxh1.lIRNcpp *on_cpphIRN + acbxh1.lIRNcpm *on_cpmhIRN;
+acbxh1.rIRN   :=acbxh1.rIRNx   *on_xIRN*xcosirIRN +
+                acbxh1.rIRNs   *on_sepIRN*xsinirIRN +
+                acbxh1.rIRNo   *on_ohIRN +
+                acbxh1.rIRNcpp *on_cpphIRN + acbxh1.rIRNcpm *on_cpmhIRN;
+acbxv1.lIRN   :=acbxv1.lIRNx   *on_xIRN*xsinirIRN +
+                acbxv1.lIRNs   *on_sepIRN*xcosirIRN +
+                acbxv1.lIRNo   *on_ovIRN +
+                acbxv1.lIRNcpp *on_cppvIRN + acbxv1.lIRNcpm *on_cpmvIRN;
+acbxv1.rIRN   :=acbxv1.rIRNx   *on_xIRN*xsinirIRN +
+                acbxv1.rIRNs   *on_sepIRN*xcosirIRN +
+                acbxv1.rIRNo   *on_ovIRN +
+                acbxv1.rIRNcpp *on_cppvIRN + acbxv1.rIRNcpm *on_cpmvIRN;
+acbxh2.lIRN   :=acbxh2.lIRNx   *on_xIRN*xcosirIRN +
+                acbxh2.lIRNs   *on_sepIRN*xsinirIRN +
+                acbxh2.lIRNo   *on_ohIRN +
+                acbxh2.lIRNcpp *on_cpphIRN + acbxh2.lIRNcpm*on_cpmhIRN;
+acbxh2.rIRN   :=acbxh2.rIRNx   *on_xIRN*xcosirIRN +
+                acbxh2.rIRNs   *on_sepIRN*xsinirIRN +
+                acbxh2.rIRNo   *on_ohIRN +
+                acbxh2.rIRNcpp *on_cpphIRN + acbxh2.rIRNcpm *on_cpmhIRN;
+acbxv2.lIRN   :=acbxv2.lIRNx   *on_xIRN*xsinirIRN +
+                acbxv2.lIRNs   *on_sepIRN*xcosirIRN +
+                acbxv2.lIRNo   *on_ovIRN +
+                acbxv2.lIRNcpp *on_cppvIRN + acbxv2.lIRNcpm *on_cpmvIRN;
+acbxv2.rIRN   :=acbxv2.rIRNx   *on_xIRN*xsinirIRN +
+                acbxv2.rIRNs   *on_sepIRN*xcosirIRN +
+                acbxv2.rIRNo   *on_ovIRN +
+                acbxv2.rIRNcpp *on_cppvIRN + acbxv2.rIRNcpm *on_cpmvIRN;
+acbxh3.lIRN   :=acbxh3.lIRNx   *on_xIRN*xcosirIRN +
+                acbxh3.lIRNs   *on_sepIRN*xsinirIRN +
+                acbxh3.lIRNo   *on_ohIRN +
+                acbxh3.lIRNcpp *on_cpphIRN + acbxh3.lIRNcpm *on_cpmhIRN;
+acbxh3.rIRN   :=acbxh3.rIRNx   *on_xIRN*xcosirIRN +
+                acbxh3.rIRNs   *on_sepIRN*xsinirIRN +
+                acbxh3.rIRNo   *on_ohIRN +
+                acbxh3.rIRNcpp *on_cpphIRN + acbxh3.rIRNcpm *on_cpmhIRN;
+acbxv3.lIRN   :=acbxv3.lIRNx   *on_xIRN*xsinirIRN +
+                acbxv3.lIRNs   *on_sepIRN*xcosirIRN +
+                acbxv3.lIRNo   *on_ovIRN +
+                acbxv3.lIRNcpp *on_cppvIRN + acbxv3.lIRNcpm *on_cpmvIRN;
+acbxv3.rIRN   :=acbxv3.rIRNx   *on_xIRN*xsinirIRN +
+                acbxv3.rIRNs   *on_sepIRN*xcosirIRN +
+                acbxv3.rIRNo   *on_ovIRN +
+                acbxv3.rIRNcpp *on_cppvIRN + acbxv3.rIRNcpm *on_cpmvIRN;
+
+
+acbrdv4.lIRNb1:=acbrdv4.lIRNb1x   *on_xIRN*xsinirIRN +
+                acbrdv4.lIRNb1s   *on_sepIRN*xcosirIRN +
+                acbrdv4.lIRNb1o   *on_ovIRN +
+                acbrdv4.lIRNb1cpp *on_cppvIRN + acbrdv4.lIRNb1cpm *on_cpmvIRN;
+acbrdv4.rIRNb1:=acbrdv4.rIRNb1x   *on_xIRN*xsinirIRN +
+                acbrdv4.rIRNb1s   *on_sepIRN*xcosirIRN +
+                acbrdv4.rIRNb1o   *on_ovIRN +
+                acbrdv4.rIRNb1cpp *on_cppvIRN + acbrdv4.rIRNb1cpm *on_cpmvIRN;
+acbrdh4.lIRNb1:=acbrdh4.lIRNb1x   *on_xIRN*xcosirIRN +
+                acbrdh4.lIRNb1s   *on_sepIRN*xsinirIRN +
+                acbrdh4.lIRNb1o   *on_ohIRN +
+                acbrdh4.lIRNb1cpp *on_cpphIRN + acbrdh4.lIRNb1cpm *on_cpmhIRN;
+acbrdh4.rIRNb1:=acbrdh4.rIRNb1x   *on_xIRN*xcosirIRN +
+                acbrdh4.rIRNb1s   *on_sepIRN*xsinirIRN +
+                acbrdh4.rIRNb1o   *on_ohIRN +
+                acbrdh4.rIRNb1cpp *on_cpphIRN + acbrdh4.rIRNb1cpm *on_cpmhIRN;
+
+acbrdv4.lIRNb2:=acbrdv4.lIRNb2x   *on_xIRN*xsinirIRN +
+                acbrdv4.lIRNb2s   *on_sepIRN*xcosirIRN +
+                acbrdv4.lIRNb2o   *on_ovIRN +
+                acbrdv4.lIRNb2cpp *on_cppvIRN + acbrdv4.lIRNb2cpm *on_cpmvIRN;
+acbrdv4.rIRNb2:=acbrdv4.rIRNb2x   *on_xIRN*xsinirIRN +
+                acbrdv4.rIRNb2s   *on_sepIRN*xcosirIRN +
+                acbrdv4.rIRNb2o   *on_ovIRN +
+                acbrdv4.rIRNb2cpp *on_cppvIRN + acbrdv4.rIRNb2cpm *on_cpmvIRN;
+acbrdh4.lIRNb2:=acbrdh4.lIRNb2x   *on_xIRN*xcosirIRN +
+                acbrdh4.lIRNb2s   *on_sepIRN*xsinirIRN +
+                acbrdh4.lIRNb2o   *on_ohIRN +
+                acbrdh4.lIRNb2cpp *on_cpphIRN + acbrdh4.lIRNb2cpm *on_cpmhIRN;
+acbrdh4.rIRNb2:=acbrdh4.rIRNb2x   *on_xIRN*xcosirIRN +
+                acbrdh4.rIRNb2s   *on_sepIRN*xsinirIRN +
+                acbrdh4.rIRNb2o   *on_ohIRN +
+                acbrdh4.rIRNb2cpp *on_cpphIRN + acbrdh4.rIRNb2cpm *on_cpmhIRN;
+
+
+acbyvs5.lIRNb1:=acbyvs5.lIRNb1x   *on_xIRN*xsinirIRN +
+                acbyvs5.lIRNb1s   *on_sepIRN*xcosirIRN +
+                acbyvs5.lIRNb1o   *on_ovIRN +
+                acbyvs5.lIRNb1cpp *on_cppvIRN + acbyvs5.lIRNb1cpm *on_cpmvIRN;
+acbyvs5.rIRNb1:=acbyvs5.rIRNb1x   *on_xIRN*xsinirIRN +
+                acbyvs5.rIRNb1s   *on_sepIRN*xcosirIRN +
+                acbyvs5.rIRNb1o   *on_ovIRN +
+                acbyvs5.rIRNb1cpp *on_cppvIRN + acbyvs5.rIRNb1cpm *on_cpmvIRN;
+acbyhs5.lIRNb1:=acbyhs5.lIRNb1x   *on_xIRN*xcosirIRN +
+                acbyhs5.lIRNb1s   *on_sepIRN*xsinirIRN +
+                acbyhs5.lIRNb1o   *on_ohIRN +
+                acbyhs5.lIRNb1cpp *on_cpphIRN + acbyhs5.lIRNb1cpm *on_cpmhIRN;
+acbyhs5.rIRNb1:=acbyhs5.rIRNb1x   *on_xIRN*xcosirIRN +
+                acbyhs5.rIRNb1s   *on_sepIRN*xsinirIRN +
+                acbyhs5.rIRNb1o   *on_ohIRN +
+                acbyhs5.rIRNb1cpp *on_cpphIRN + acbyhs5.rIRNb1cpm *on_cpmhIRN;
+
+acbyvs5.lIRNb2:=acbyvs5.lIRNb2x   *on_xIRN*xsinirIRN +
+                acbyvs5.lIRNb2s   *on_sepIRN*xcosirIRN +
+                acbyvs5.lIRNb2o   *on_ovIRN +
+                acbyvs5.lIRNb2cpp *on_cppvIRN + acbyvs5.lIRNb2cpm *on_cpmvIRN;
+acbyvs5.rIRNb2:=acbyvs5.rIRNb2x   *on_xIRN*xsinirIRN +
+                acbyvs5.rIRNb2s   *on_sepIRN*xcosirIRN +
+                acbyvs5.rIRNb2o   *on_ovIRN +
+                acbyvs5.rIRNb2cpp *on_cppvIRN + acbyvs5.rIRNb2cpm *on_cpmvIRN;
+acbyhs5.lIRNb2:=acbyhs5.lIRNb2x   *on_xIRN*xcosirIRN +
+                acbyhs5.lIRNb2s   *on_sepIRN*xsinirIRN +
+                acbyhs5.lIRNb2o   *on_ohIRN +
+                acbyhs5.lIRNb2cpp *on_cpphIRN + acbyhs5.lIRNb2cpm *on_cpmhIRN;
+acbyhs5.rIRNb2:=acbyhs5.rIRNb2x   *on_xIRN*xcosirIRN +
+                acbyhs5.rIRNb2s   *on_sepIRN*xsinirIRN +
+                acbyhs5.rIRNb2o   *on_ohIRN +
+                acbyhs5.rIRNb2cpp *on_cpphIRN + acbyhs5.rIRNb2cpm *on_cpmhIRN;
+
+
+acbcv6.rIRNb1:=acbcv6.rIRNb1x   *on_xIRN*xsinirIRN +
+               acbcv6.rIRNb1s   *on_sepIRN*xcosirIRN +
+               acbcv6.rIRNb1o   *on_ovIRN +
+               acbcv6.rIRNb1cpp *on_cppvIRN + acbcv6.rIRNb1cpm *on_cpmvIRN;
+acbch6.lIRNb1:=acbch6.lIRNb1x   *on_xIRN*xcosirIRN +
+               acbch6.lIRNb1s   *on_sepIRN*xsinirIRN +
+               acbch6.lIRNb1o   *on_ohIRN +
+               acbch6.lIRNb1cpp *on_cpphIRN + acbch6.lIRNb1cpm *on_cpmhIRN;
+
+acbcv6.lIRNb2:=acbcv6.lIRNb2x   *on_xIRN*xsinirIRN +
+               acbcv6.lIRNb2s   *on_sepIRN*xcosirIRN +
+               acbcv6.lIRNb2o   *on_ovIRN +
+               acbcv6.lIRNb2cpp *on_cppvIRN + acbcv6.lIRNb2cpm *on_cpmvIRN;
+acbch6.rIRNb2:=acbch6.rIRNb2x   *on_xIRN*xcosirIRN +
+               acbch6.rIRNb2s   *on_sepIRN*xsinirIRN +
+               acbch6.rIRNb2o   *on_ohIRN +
+               acbch6.rIRNb2cpp *on_cpphIRN + acbch6.rIRNb2cpm *on_cpmhIRN;
+
+
+acbch7.rIRNb1:=acbch7.rIRNb1x   *on_xIRN*xsinirIRN +
+               acbch7.rIRNb1s   *on_sepIRN*xcosirIRN +
+               acbch7.rIRNb1o   *on_ohIRN +
+               acbch7.rIRNb1cpp *on_cpphIRN + acbch7.rIRNb1cpm *on_cpmhIRN;
+acbcv7.lIRNb1:=acbcv7.lIRNb1x   *on_xIRN*xcosirIRN +
+               acbcv7.lIRNb1s   *on_sepIRN*xsinirIRN +
+               acbcv7.lIRNb1o   *on_ovIRN +
+               acbcv7.lIRNb1cpp *on_cppvIRN + acbcv7.lIRNb1cpm *on_cpmvIRN;
+
+acbch7.lIRNb2:=acbch7.lIRNb2x   *on_xIRN*xsinirIRN +
+               acbch7.lIRNb2s   *on_sepIRN*xcosirIRN +
+               acbch7.lIRNb2o   *on_ohIRN +
+               acbch7.lIRNb2cpp *on_cpphIRN + acbch7.lIRNb2cpm *on_cpmhIRN;
+acbcv7.rIRNb2:=acbcv7.rIRNb2x   *on_xIRN*xcosirIRN +
+               acbcv7.rIRNb2s   *on_sepIRN*xsinirIRN +
+               acbcv7.rIRNb2o   *on_ovIRN +
+               acbcv7.rIRNb2cpp *on_cppvIRN + acbcv7.rIRNb2cpm *on_cpmvIRN;
+};
+
+
+matchXscheme(IRN,VAR1,VAR2,VPHI): macro={
+  auxon_xIRN  =on_xIRN  ;
+  auxon_sepIRN=on_sepIRN;
+  auxphi_IRIRN=phi_IRIRN;
+  auxon_oIRN  =on_oIRN  ;
+  on_xIRN=1;
+  on_sepIRN=1;
+  on_ohIRN=0;
+  on_ovIRN=0;
+  phi_IRIRN=VPHI;
+  Use, period= LHCB1,RANGE=S.DS.LIRN.B1/E.DS.RIRN.B1;
+  Use, period= LHCB2,RANGE=S.DS.LIRN.B2/E.DS.RIRN.B2;
+  match, sequence=LHCB1,LHCB2, beta0= bir5b1,bir5b2,
+                               x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=IPIRN, x  = -Psep*xsinirIRN,
+                                          y  =  Psep*xcosirIRN,
+                                          py =  Xang*xsinirIRN,
+                                          px =  Xang*xcosirIRN;
+  constraint, sequence=lhcb2,range=IPIRN, x  =  Psep*xsinirIRN,
+                                          y  = -Psep*xcosirIRN,
+                                          py = -Xang*xsinirIRN,
+                                          px = -Xang*xcosirIRN;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,x = 0.0, px = 0.0;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,y = 0.0, py = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,x = 0.0, px = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,y = 0.0, py = 0.0;
+  vary, name=acbxh3.lIRNVAR1,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxh2.lIRNVAR1,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  acbxh2.lIRNVAR1:=acbxh1.lIRNVAR1;
+  vary, name=acbxh1.lIRNVAR1,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxh3.rIRNVAR1,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxh2.rIRNVAR1,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  acbxh2.rIRNVAR1:=acbxh1.rIRNVAR1;
+  vary, name=acbxh1.rIRNVAR1,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbrdh4.lIRNb1VAR1,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.lIRNb2VAR1,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.rIRNb1VAR1,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.rIRNb2VAR1,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbxv3.lIRNVAR2,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxv2.lIRNVAR2,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  acbxv2.lIRNVAR2:=acbxv1.lIRNVAR2;
+  vary, name=acbxv1.lIRNVAR2,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxv3.rIRNVAR2,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxv2.rIRNVAR2,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  acbxv2.rIRNVAR2:=acbxv1.rIRNVAR2;
+  vary, name=acbxv1.rIRNVAR2,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbrdv4.lIRNb1VAR2,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.lIRNb2VAR2,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.rIRNb1VAR2,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.rIRNb2VAR2,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  if (acbrdv4.rIRNb1VAR2==0){simplex,calls=200;};
+  jacobian, calls = 10, tolerance=1.E-30,bisec=3;
+  endmatch;
+  tarirIRNxingVPHI=tar;
+  on_xIRN  =auxon_xIRN  ;
+  on_sepIRN=auxon_sepIRN;
+  on_ohIRN  =auxon_ohIRN  ;
+  on_ovIRN  =auxon_ovIRN  ;
+  phi_IRIRN=auxphi_IRIRN;
+};
+
+matchOffset(IRN): macro={
+  auxon_xIRN  =on_xIRN  ;
+  auxon_sepIRN=on_sepIRN;
+  auxphi_IRIRN=phi_IRIRN;
+  auxon_ohIRN  =on_ohIRN  ;
+  auxon_ovIRN  =on_ovIRN  ;
+  on_xIRN=0;
+  on_sepIRN=0;
+  on_ohIRN=1;
+  on_ovIRN=0;
+  Use, period= LHCB1,RANGE=S.DS.LIRN.B1/E.DS.RIRN.B1;
+  Use, period= LHCB2,RANGE=S.DS.LIRN.B2/E.DS.RIRN.B2;
+!**** horizontal plane *******
+  match, sequence=LHCB1,LHCB2, beta0= bir5b1,bir5b2,
+                               x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=IPIRN, x  =  Oipx,
+                                          px =  0;
+  constraint, sequence=lhcb2,range=IPIRN, x  =  Oipx,
+                                          px =  0;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,x = 0.0, px = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,x = 0.0, px = 0.0;
+  acbxh2.lIRNo:=acbxh1.lIRNo;
+  vary, name=acbxh3.lIRNo,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxh2.lIRNo,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxh1.lIRNo,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+!  acbxh3.rIRNo:=-acbxh3.lIRNo;
+!  acbxh2.rIRNo:=-acbxh2.lIRNo;
+!  acbxh1.rIRNo:=-acbxh1.lIRNo;
+  acbxh2.rIRNo:=acbxh1.rIRNo;
+  vary, name=acbxh3.rIRNo,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxh2.rIRNo,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxh1.rIRNo,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbrdh4.lIRNb1o,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.lIRNb2o,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.rIRNb1o,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.rIRNb2o,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  jacobian, calls = 10, tolerance=1.E-30,bisec=3;
+  endmatch;
+  tarirIRNoffseth=tar;
+  on_ohIRN=0;
+  on_ovIRN=1;
+!**** vertical plane *******
+  match, sequence=LHCB1,LHCB2, beta0= bir5b1,bir5b2,
+                               x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=IPIRN, y  =  Oipy,
+                                          py =  0;
+  constraint, sequence=lhcb2,range=IPIRN, y  =  Oipy,
+                                          py =  0;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,y = 0.0, py = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,y = 0.0, py = 0.0;
+  acbxv2.lIRNo:=acbxv1.lIRNo;
+  vary, name=acbxv3.lIRNo,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxv2.lIRNo,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxv1.lIRNo,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+!  acbxv3.rIRNo:=-acbxv3.lIRNo;
+!  acbxv2.rIRNo:=-acbxv2.lIRNo;
+!  acbxv1.rIRNo:=-acbxv1.lIRNo;
+  acbxv2.rIRNo:=acbxv1.rIRNo;
+  vary, name=acbxv3.rIRNo,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxv2.rIRNo,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxv1.rIRNo,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbrdv4.lIRNb1o,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.lIRNb2o,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.rIRNb1o,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.rIRNb2o,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  jacobian, calls = 10, tolerance=1.E-30,bisec=3;
+  endmatch;
+  tarirIRNoffsetv=tar;
+  on_xIRN  =auxon_xIRN  ;
+  on_sepIRN=auxon_sepIRN;
+  on_ohIRN  =auxon_ohIRN  ;
+  on_ovIRN  =auxon_ovIRN  ;
+};
+
+matchOrbcrab(IRN): macro={
+  auxon_xIRN  =on_xIRN  ;
+  auxon_sepIRN=on_sepIRN;
+  auxphi_IRIRN=phi_IRIRN;
+  auxon_ohIRN  =on_ohIRN  ;
+  auxon_ovIRN  =on_ovIRN  ;
+  auxon_cpphIRN  =on_cpphIRN  ;
+  auxon_cpmhIRN  =on_cpmhIRN  ;
+  on_xIRN=0;
+  on_sepIRN=0;
+  on_ohIRN=0;
+  on_ovIRN=0;
+  on_cpphIRN = 1;
+  on_cpmhIRN = 0;
+  Use, period= LHCB1,RANGE=S.DS.LIRN.B1/E.DS.RIRN.B1;
+  Use, period= LHCB2,RANGE=S.DS.LIRN.B2/E.DS.RIRN.B2;
+!**** horizontal plane *******
+  match, sequence=LHCB1,LHCB2, beta0= bir5b1,bir5b2, x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=ACFD.LIRNB1, x  =  Occx, px=0.0;
+  constraint, sequence=lhcb2,range=ACFD.LIRNB2, x  =  Occx, px=0.0;
+  constraint, sequence=lhcb1,range=IPIRN, x  =  0, px =  0;
+  constraint, sequence=lhcb2,range=IPIRN, x  =  0, px =  0;
+  constraint, sequence=lhcb1,range=ACFD.RIRNB1, x  =  Occx, px=0.0;
+  constraint, sequence=lhcb2,range=ACFD.RIRNB2, x  =  Occx, px=0.0;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,x = 0.0, px = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,x = 0.0, px = 0.0;
+  acbxh2.lIRNcpp:=acbxh1.lIRNcpp;
+  acbxh2.rIRNcpp:=acbxh1.rIRNcpp;
+!  acbxh3.lIRNcpp:=acbxh1.lIRNcpp;
+!  acbxh3.rIRNcpp:=acbxh1.rIRNcpp;
+!  acbxh3.lIRNcpp:=acbxh2.lIRNcpp;
+!  acbxh3.rIRNcpp:=acbxh2.rIRNcpp;
+  vary, name=acbxh1.lIRNcpp;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxh1.rIRNcpp;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+!  vary, name=acbxh2.lIRNcpp;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+!  vary, name=acbxh2.rIRNcpp;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxh3.lIRNcpp;!,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+  vary, name=acbxh3.rIRNcpp;!,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+  vary, name=acbrdh4.lIRNb1cpp;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.lIRNb2cpp;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.rIRNb1cpp;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.rIRNb2cpp;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+!  vary, name=acbyhs4.rIRNb1cpp;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyhs4.lIRNb1cpp;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyhs4.rIRNb2cpp;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyhs4.lIRNb2cpp;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+  vary, name=acbyhs5.lIRNb1cpp;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyhs5.lIRNb2cpp;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyhs5.rIRNb1cpp;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyhs5.rIRNb2cpp;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbch6.lIRNb1cpp;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbch6.rIRNb2cpp;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbch7.rIRNb1cpp;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbch7.lIRNb2cpp;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  jacobian, calls = 10, tolerance=1.E-30,bisec=3;
+  endmatch;
+  tarirIRNcpph=tar;
+  on_cpphIRN = 0;
+  on_cpmhIRN = 1;
+  match, sequence=LHCB1,LHCB2, beta0= bir5b1,bir5b2, x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=ACFD.LIRNB1, x  =  Occx, px =0.0;
+  constraint, sequence=lhcb2,range=ACFD.LIRNB2, x  = -Occx, px =0.0;
+  constraint, sequence=lhcb1,range=IPIRN, x  =  0, px =  0;
+  constraint, sequence=lhcb2,range=IPIRN, x  =  0, px =  0;
+  constraint, sequence=lhcb1,range=ACFD.RIRNB1, x  =  Occx, px=0.0;
+  constraint, sequence=lhcb2,range=ACFD.RIRNB2, x  = -Occx, px=0.0;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,x = 0.0, px = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,x = 0.0, px = 0.0;
+  acbxh2.lIRNcpm:=acbxh1.lIRNcpm;
+  acbxh2.rIRNcpm:=acbxh1.rIRNcpm;
+!  acbxh3.lIRNcpm:=acbxh1.lIRNcpm;
+!  acbxh3.rIRNcpm:=acbxh1.rIRNcpm;
+!  acbxh3.lIRNcpm:=acbxh2.lIRNcpm;
+!  acbxh3.rIRNcpm:=acbxh2.rIRNcpm;
+  vary, name=acbxh1.lIRNcpm;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxh1.rIRNcpm;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+!  vary, name=acbxh2.lIRNcpm;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+!  vary, name=acbxh2.rIRNcpm;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxh3.lIRNcpm;!,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+  vary, name=acbxh3.rIRNcpm;!,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+  vary, name=acbrdh4.lIRNb1cpm;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.lIRNb2cpm;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.rIRNb1cpm;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdh4.rIRNb2cpm;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+!  vary, name=acbyhs4.rIRNb1cpm;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyhs4.lIRNb1cpm;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyhs4.rIRNb2cpm;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyhs4.lIRNb2cpm;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+  vary, name=acbyhs5.lIRNb1cpm;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyhs5.lIRNb2cpm;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyhs5.rIRNb1cpm;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyhs5.rIRNb2cpm;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbch6.lIRNb1cpm;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbch6.rIRNb2cpm;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbch7.rIRNb1cpm;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbch7.lIRNb2cpm;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  jacobian, calls = 10, tolerance=1.E-30,bisec=3;
+  endmatch;
+  tarirIRNcpmh=tar;
+  on_cpphIRN = 0; on_cpmhIRN = 0;
+!**** vertical plane *******
+  on_cppvIRN = 1;
+  on_cpmvIRN = 0;
+  match, sequence=LHCB1,LHCB2, beta0= bir5b1,bir5b2, x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=ACFD.LIRNB1, y  =  Occy, py = 0.0;
+  constraint, sequence=lhcb2,range=ACFD.LIRNB2, y  =  Occy, py = 0.0;
+  constraint, sequence=lhcb1,range=IPIRN, y  =  0, py =  0;
+  constraint, sequence=lhcb2,range=IPIRN, y  =  0, py =  0;
+  constraint, sequence=lhcb1,range=ACFD.RIRNB1, y  =  Occy, py = 0.0;
+  constraint, sequence=lhcb2,range=ACFD.RIRNB2, y  =  Occy, py = 0.0;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,y = 0.0, py = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,y = 0.0, py = 0.0;
+  acbxv2.lIRNcpp:=acbxv1.lIRNcpp;
+  acbxv2.rIRNcpp:=acbxv1.rIRNcpp;
+!  acbxv3.lIRNcpp:=acbxv1.lIRNcpp;
+!  acbxv3.rIRNcpp:=acbxv1.rIRNcpp;
+!  acbxv3.lIRNcpp:=acbxv2.lIRNcpp;
+!  acbxv3.rIRNcpp:=acbxv2.rIRNcpp;
+  vary, name=acbxv1.lIRNcpp;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxv1.rIRNcpp;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+!  vary, name=acbxv2.lIRNcpp;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+!  vary, name=acbxv2.rIRNcpp;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxv3.lIRNcpp;!,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+  vary, name=acbxv3.rIRNcpp;!,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+  vary, name=acbrdv4.lIRNb1cpp;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.lIRNb2cpp;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.rIRNb1cpp;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.rIRNb2cpp;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+!  vary, name=acbyvs4.rIRNb1cpp;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyvs4.lIRNb1cpp;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyvs4.rIRNb2cpp;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyvs4.lIRNb2cpp;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+  vary, name=acbyvs5.lIRNb1cpp;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyvs5.lIRNb2cpp;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyvs5.rIRNb1cpp;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyvs5.rIRNb2cpp;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbcv6.rIRNb1cpp;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbcv6.lIRNb2cpp;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbcv7.lIRNb1cpp;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbcv7.rIRNb2cpp;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  jacobian, calls = 10, tolerance=1.E-30,bisec=3;
+  endmatch;
+  tarirIRNcppv=tar;
+  on_cppvIRN = 0;
+  on_cpmvIRN = 1;
+  match, sequence=LHCB1,LHCB2, beta0= bir5b1,bir5b2, x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=ACFD.LIRNB1, y  =  Occy, py =0.0;
+  constraint, sequence=lhcb2,range=ACFD.LIRNB2, y  = -Occy, py =0.0;
+  constraint, sequence=lhcb1,range=IPIRN, y  =  0, py =  0;
+  constraint, sequence=lhcb2,range=IPIRN, y  =  0, py =  0;
+  constraint, sequence=lhcb1,range=ACFD.RIRNB1, y  =  Occy, py =0.0;
+  constraint, sequence=lhcb2,range=ACFD.RIRNB2, y  = -Occy, py =0.0;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,y = 0.0, py = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,y = 0.0, py = 0.0;
+  acbxv2.lIRNcpm:=acbxv1.lIRNcpm;
+  acbxv2.rIRNcpm:=acbxv1.rIRNcpm;
+!  acbxv3.lIRNcpm:=acbxv1.lIRNcpm;
+!  acbxv3.rIRNcpm:=acbxv1.rIRNcpm;
+!  acbxv3.lIRNcpm:=acbxv2.lIRNcpm;
+!  acbxv3.rIRNcpm:=acbxv2.rIRNcpm;
+  vary, name=acbxv1.lIRNcpm;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxv1.rIRNcpm;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+!  vary, name=acbxv2.lIRNcpm;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+!  vary, name=acbxv2.rIRNcpm;!,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxv3.lIRNcpm;!,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+  vary, name=acbxv3.rIRNcpm;!,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+  vary, name=acbrdv4.lIRNb1cpm;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.lIRNb2cpm;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.rIRNb1cpm;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+  vary, name=acbrdv4.rIRNb2cpm;!,step=1.e-12,lower=-climmcbrd,upper=climmcbrd;
+!  vary, name=acbyvs4.rIRNb1cpm;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyvs4.lIRNb1cpm;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyvs4.rIRNb2cpm;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+!  vary, name=acbyvs4.lIRNb2cpm;!, step=1.0E-15,lower=-climmcbyy,upper=climmcbyy;
+  vary, name=acbyvs5.lIRNb1cpm;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyvs5.lIRNb2cpm;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyvs5.rIRNb1cpm;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbyvs5.rIRNb2cpm;!, step=1.0E-15,lower=-climmcby,upper=climmcby;
+  vary, name=acbcv6.rIRNb1cpm;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbcv6.lIRNb2cpm;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbcv7.lIRNb1cpm;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  vary, name=acbcv7.rIRNb2cpm;!, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  jacobian, calls = 10, tolerance=1.E-30,bisec=3;
+  endmatch;
+  tarirIRNcpmv=tar;
+  on_cppvIRN = 0; on_cpmvIRN = 0;
+  on_xIRN  =auxon_xIRN  ;
+  on_sepIRN=auxon_sepIRN;
+  on_ohIRN  =auxon_ohIRN  ;
+  on_ovIRN  =auxon_ovIRN  ;
+  on_cpphIRN  =auxon_cpphIRN  ;
+  on_cppvIRN  =auxon_cppvIRN  ;
+  on_cpmhIRN  =auxon_cpmhIRN  ;
+  on_cpmvIRN  =auxon_cpmvIRN  ;
+};
+
+seqedit,sequence=lhcb1;flatten;cycle,start=IP3;endedit;
+seqedit,sequence=lhcb2;flatten;cycle,start=IP3;endedit;
+
+exec,crossing_save;
+exec,crossing_disable;
+!nrjaux= beam%lhcb1->energy;
+
+
+!if (nrjaux<4999.9999){
+!  Xang=170e-6;
+!  Psep=2.00e-3;
+!};
+!
+!if (nrjaux>5000.0000){
+!  Xang=290e-6;
+!  Psep=0.75e-3;
+!};
+!
+
+
+exec,selectIR15(5,45,56,b1); exec,selectIR15(5,45,56,b2);
+
+set,format="22.3f";
+
+exec,resetXscheme(1);
+exec,resetXscheme(5);
+exec,cableXscheme(1);
+exec,cableXscheme(5);
+
+exec,matchOrbCrab(1);
+exec,matchOrbCrab(5);
+
+!exec,matchOffset(1);
+!exec,matchOffset(5);
+
+!exec,matchXscheme(1,x,s,0);
+!exec,matchXscheme(5,s,x,90);
+!exec,matchXscheme(1,s,x,90);
+!exec,matchXscheme(5,x,s,0);
+
+!exec,valueXschemerel(5);
+!exec,valueXscheme(5);
+!exec,valueXschemerel(1);
+
+set,format="22.18e";
+value,tarir1xing90,tarir1xing0,tarir1offseth,tarir1offsetv,tarir5xing90,tarir5xing0,tarir5offseth,tarir5offsetv;
+value,tarir1cpph,tarir1cppv,tarir1cpmh,tarir1cpmv,tarir5cpph,tarir5cppv,tarir5cpmh,tarir5cpmv;
+exec,cableXscheme(1);
+exec,cableXscheme(5);
+exec,crossing_restore;
+set,format="22.18e";
+
+!xing=170e-6;
+!xsep=2.5e-3;

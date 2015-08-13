@@ -1,0 +1,18 @@
+muxip1b1=round(muxip1b1*1e4)/1e4; muxip1b2=round(muxip1b2*1e4)/1e4;muyip1b1=round(muyip1b1*1e4)/1e4; muyip1b2=round(muyip1b2*1e4)/1e4;
+muxip2b1=round(muxip2b1*1e4)/1e4; muxip2b2=round(muxip2b2*1e4)/1e4;muyip2b1=round(muyip2b1*1e4)/1e4; muyip2b2=round(muyip2b2*1e4)/1e4;
+muxip3b1=round(muxip3b1*1e4)/1e4; muxip3b2=round(muxip3b2*1e4)/1e4;muyip3b1=round(muyip3b1*1e4)/1e4; muyip3b2=round(muyip3b2*1e4)/1e4;
+muxip4b1=round(muxip4b1*1e4)/1e4; muxip4b2=round(muxip4b2*1e4)/1e4;muyip4b1=round(muyip4b1*1e4)/1e4; muyip4b2=round(muyip4b2*1e4)/1e4;
+muxip5b1=round(muxip5b1*1e4)/1e4; muxip5b2=round(muxip5b2*1e4)/1e4;muyip5b1=round(muyip5b1*1e4)/1e4; muyip5b2=round(muyip5b2*1e4)/1e4;
+muxip6b1=round(muxip6b1*1e4)/1e4; muxip6b2=round(muxip6b2*1e4)/1e4;muyip6b1=round(muyip6b1*1e4)/1e4; muyip6b2=round(muyip6b2*1e4)/1e4;
+muxip7b1=round(muxip7b1*1e4)/1e4; muxip7b2=round(muxip7b2*1e4)/1e4;muyip7b1=round(muyip7b1*1e4)/1e4; muyip7b2=round(muyip7b2*1e4)/1e4;
+muxip8b1=round(muxip8b1*1e4)/1e4; muxip8b2=round(muxip8b2*1e4)/1e4;muyip8b1=round(muyip8b1*1e4)/1e4; muyip8b2=round(muyip8b2*1e4)/1e4;
+
+xIP1b1=round(xIP1b1*1.e6)/1.e6; yIP1b1=round(yIP1b1*1.e6)/1.e6; pxIP1b1=round(pxIP1b1*1.e9)/1.e9; pyIP1b1=round(pyIP1b1*1.e9)/1.e9;
+xIP1b2=round(xIP1b2*1.e6)/1.e6; yIP1b2=round(yIP1b2*1.e6)/1.e6; pxIP1b2=round(pxIP1b2*1.e9)/1.e9; pyIP1b2=round(pyIP1b2*1.e9)/1.e9;
+xIP5b1=round(xIP5b1*1.e6)/1.e6; yIP5b1=round(yIP5b1*1.e6)/1.e6; pxIP5b1=round(pxIP5b1*1.e9)/1.e9; pyIP5b1=round(pyIP5b1*1.e9)/1.e9;
+xIP5b2=round(xIP5b2*1.e6)/1.e6; yIP5b2=round(yIP5b2*1.e6)/1.e6; pxIP5b2=round(pxIP5b2*1.e9)/1.e9; pyIP5b2=round(pyIP5b2*1.e9)/1.e9;
+xIP2b1=round(xIP2b1*1.e6)/1.e6; yIP2b1=round(yIP2b1*1.e6)/1.e6; pxIP2b1=round(pxIP2b1*1.e9)/1.e9; pyIP2b1=round(pyIP2b1*1.e9)/1.e9;
+xIP2b2=round(xIP2b2*1.e6)/1.e6; yIP2b2=round(yIP2b2*1.e6)/1.e6; pxIP2b2=round(pxIP2b2*1.e9)/1.e9; pyIP2b2=round(pyIP2b2*1.e9)/1.e9;
+xIP8b1=round(xIP8b1*1.e6)/1.e6; yIP8b1=round(yIP8b1*1.e6)/1.e6; pxIP8b1=round(pxIP8b1*1.e9)/1.e9; pyIP8b1=round(pyIP8b1*1.e9)/1.e9;
+xIP8b2=round(xIP8b2*1.e6)/1.e6; yIP8b2=round(yIP8b2*1.e6)/1.e6; pxIP8b2=round(pxIP8b2*1.e9)/1.e9; pyIP8b2=round(pyIP8b2*1.e9)/1.e9;
+

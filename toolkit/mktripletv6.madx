@@ -1,0 +1,232 @@
+! 2011/11/22 R. De Maria Generate optimized triplet layouts
+
+
+Option, -warn,-info,-echo;
+
+lq1=0.00;
+lq2=0.00;
+endseq=165;
+b2err=1;
+!sequence
+!ffocus: sequence,refer = CENTRE, L = 172.227;
+ffocus: sequence,refer = CENTRE, L := endseq;
+q11 :quadrupole,l:=l1/2,k1:= k1,at:=lstar+l1/4;
+q12 :quadrupole,l:=l1/2,k1:= k1*b2err,at:=lstar+l1*3/4+lq1;
+q2a1:quadrupole,l:=l2/2,k1:=-k2,at:=lstar+l1+lq1+d12+l2/4;
+q2a2:quadrupole,l:=l2/2,k1:=-k2,at:=lstar+l1+lq1+lq2+d12+l2*3/4;
+q2b1:quadrupole,l:=l2/2,k1:=-k2,at:=lstar+l1+lq1+lq2+d12+d22+l2*5/4;
+q2b2:quadrupole,l:=l2/2,k1:=-k2,at:=lstar+l1+lq1+2*lq2+d12+d22+l2*7/4;
+q31 :quadrupole,l:=l3/2,k1:= k3*b2err,at:=lstar+l1+lq1+2*lq2+d12+2*l2+d22+d23+l3/4;
+q32 :quadrupole,l:=l3/2,k1:= k3,at:=lstar+l1+2*lq1+2*lq2+d12+2*l2+d22+d23+l3*3/4;
+endsequence;
+beam;
+
+
+r_tol_IT=0.0006;
+h_tol_IT=0.0010;
+v_tol_IT=0.0010;
+
+OCTAGON(xx1,yy1,xx2,yy2): macro = {
+ print,text=" 0.0xx1   0.0yy1";
+ print,text=" 0.0xx2   0.0yy2";
+ print,text="-0.0xx2   0.0yy2";
+ print,text="-0.0xx1   0.0yy1";
+ print,text="-0.0xx1  -0.0yy1";
+ print,text="-0.0xx2  -0.0yy2";
+ print,text=" 0.0xx2  -0.0yy2";
+ print,text=" 0.0xx1  -0.0yy1";
+};
+
+def_apocta(q11): macro={
+  q11, APERTYPE="Q1_APERTURE",
+       APER_TOL={r_tol_IT,h_tol_IT,v_tol_IT};
+};
+
+def_aprect(q11): macro={
+  q11,  APERTYPE=RECTELLIPSE,
+        APERTURE={r_Q1,r_Q1,r_Q1,r_Q1},
+        APER_TOL={r_tol_IT,h_tol_IT,v_tol_IT};
+};
+
+def_apcircle(q11): macro={
+  q11, APERTYPE=CIRCLE,
+       APERTURE={r_Q1},
+       APER_TOL={r_tol_IT,h_tol_IT,v_tol_IT};
+};
+
+set_aperture(ap_dmm,appppp): macro={
+ angle1=22.5;angle2=67.5;
+ r_Q1=ap_dmm/2000;
+ xx1=r_Q1*1000*cos(angle1/180*pi);
+ yy1=r_Q1*1000*sin(angle1/180*pi);
+ xx2=r_Q1*1000*cos(angle2/180*pi);
+ yy2=r_Q1*1000*sin(angle2/180*pi);
+ value,xx1,yy1,xx2,yy2;
+ system, "rm  -f Q1_APERTURE";
+ assign, echo="Q1_APERTURE";
+ exec, OCTAGON($xx1, $yy1, $xx2, $yy2);
+ assign, echo=terminal;
+ exec,def_apappppp(q11 ); exec,def_apappppp(q12 );
+ exec,def_apappppp(q2a1); exec,def_apappppp(q2a2);
+ exec,def_apappppp(q2b1); exec,def_apappppp(q2b2);
+ exec,def_apappppp(q31 ); exec,def_apappppp(q32 );
+};
+
+
+calc_triplet(bxs,bys): macro= {
+   use,sequence=ffocus;
+   twiss,betx=bxs,bety=bys;
+   bq2a1=table(twiss,q2a1,betymax);
+   bq2a2=table(twiss,q2a2,betymax);
+   bq2b1=table(twiss,q2b1,betymax);
+   bq2b2=table(twiss,q2b2,betymax);
+   bq31=table(twiss,q31,betxmax);
+   bq32=table(twiss,q32,betxmax);
+   bq2max=bq2a1;
+   if (bq2a2>bq2max){ bq2max=bq2a2;};
+   if (bq2b1>bq2max){ bq2max=bq2b1;};
+   if (bq2b2>bq2max){ bq2max=bq2b2;};
+   bq3max=bq32;
+   alfxend=table(twiss,FFOCUS$END,alfx);
+   alfyend=table(twiss,FFOCUS$END,alfy);
+   betxend=table(twiss,FFOCUS$END,betx);
+   betyend=table(twiss,FFOCUS$END,bety);
+};
+
+mk_triplet(bxs,bys,grad,posq4,betxq4,betyq4): macro={
+
+d12=dq1q2a; d22=dq2aq2b;d23=dq2bq3;lq1=dq1aq1b; lq2=dq2222;
+
+
+imbmax=1;
+endseq=posq4;
+value,endseq;
+
+tbetx:=table(twiss,betx); tbety:=table(twiss,bety);
+talfx:=table(twiss,alfx); talfy:=table(twiss,alfy);
+tk1l :=table(twiss,k1l); tl:=table(twiss,l);
+betxmax:=tbetx+talfx^2/tbetx/abs(tk1l/tl);
+betymax:=tbety+talfy^2/tbety/abs(tk1l/tl);
+select,flag=twiss,clear;
+select,flag=twiss,column=name,s,l,angle,k1l,hkick,vkick,kick,betx,bety,alfx,alfy,dx,dpx,dy,dpy,mux,muy,x,y,px,py,betxmax,betymax;
+
+
+!bxs=0.60; !bys=0.60; !grad=100;
+!betxq4=700; !betyq4=1200;
+brho=7e12/clight; k=grad/brho;
+!if (grad>=120 ) { l1=7.0; l2=6; };
+!if (grad>=400 ) { l1=4.2; l2=4.2; };
+
+!lstar=23;
+
+l1=7.145; l2=6.735;
+if (grad<120 )  { l1=9.145; l2=7.735; };
+d12:=d23; l3:=l1;
+
+k1:=k; k2:=k; k3:=k;
+match,use_macro;
+vary,name=l1;
+vary,name=l2;
+vary,name=k3;
+use_macro,name=calc_triplet(bxs,bys);
+constraint, expr= bq3max = imbmax*bq2max;
+constraint, expr= betxend  =betxq4;
+constraint, expr= betyend  =betyq4;
+!constraint, expr= 1e5*alfxend    >2e5;
+!constraint, expr= 1e5*alfyend    >2e5;
+jacobian,calls=60,tolerance=1e-14,bisec=9;
+endmatch;
+
+if (k3>k) {
+k1:=k; k2=k; k3=k;
+match,use_macro;
+vary,name=l1;
+vary,name=l2;
+vary,name=k1;
+use_macro,name=calc_triplet(bxs,bys);
+constraint, expr= bq3max = imbmax*bq2max;
+constraint, expr= betxend  =betxq4;
+constraint, expr= betyend  =betyq4;
+constraint, expr= 1e5*alfxend    >2e5;
+constraint, expr= 1e5*alfyend    >2e5;
+jacobian,calls=60,tolerance=1e-14,bisec=9;
+endmatch;
+};
+
+
+if (tar>1e-10){return;};
+
+bq3orig=bq3max;
+
+l1=round(l1*500)/500;
+l2=round(l2*500)/500;
+l3=round(l3*500)/500;
+d12=round(d12*500)/500;
+d22=round(d22*500)/500;
+d23=round(d23*500)/500;
+
+
+!match,use_macro;
+!vary,name=k1,upper=k;
+!vary,name=k2,upper=k;
+!vary,name=k3,upper=k;
+!use_macro,name=calc_triplet(bxs,bys);
+!constraint, expr= bq3max = imbmax*bq2max;
+!constraint, expr= betxend  =betxq4;
+!constraint, expr= betyend  =betyq4;
+!constraint, expr= 1e5*alfxend    >2e5;
+!constraint, expr= 1e5*alfyend    >2e5;
+!jacobian,calls=60,tolerance=1e-14,bisec=9;
+!endmatch;
+
+
+l.mqxl:=l1;l.mqx:=l2;
+dq1q2a:=d12;dq2aq2b:=d22;dq2bq3:=d23;dq1aq1b=lq1; dq2222=lq2;
+kqx1.l1 =-k1;  kqx1.r1=k1;  kqx1.l5=-k1;  kqx1.r5=k1;
+kqx2a.l1=-k2; kqx2a.r1=k2; kqx2a.l5=-k2; kqx2a.r5=k2;
+kqx2b.l1=-k2; kqx2b.r1=k2; kqx2b.l5=-k2; kqx2b.r5=k2;
+kqx3.l1 =-k3;  kqx3.r1=k3;  kqx3.l5=-k3;  kqx3.r5=k3;
+exec,calc_triplet(bxs,bys);
+g1=kqx1.r1*brho;g2=kqx2a.r1*brho; g3=kqx3.r5*brho;
+!value,lstar;
+value,g1,g2,g3;
+totlen:=lstar+l1+d12+2*l2+d22+d23+l3+4*lq1+2*lq2;
+!show,l.mqxl,l.mqx,totlen;
+value,lstar,l.mqxl,l.mqx,dq1q2a,dq2aq2b,dq2bq3,lq1,lq2,totlen;
+!value,bq3orig
+value,bq3max;
+!value,bq2a1,bq2a2,bq2b1,bq2b2,bq31,bq32;
+!value,alfxend;
+!value,alfyend;
+!value,bq3max*bxs;
+};
+
+calc_aperture(bxs,bys,dsep,cangle,psep):macro={
+cx=cos(cangle/180*pi);sx=sin(cangle/180*pi);
+xip=psep*sx; yip=psep*cx;
+gemit=emittance_norm/NRJ*pmass;
+pxip=sqrt(gemit/bxs)*dsep*cx;
+pyip=sqrt(gemit/bys)*dsep*sx;
+value,xip,yip,pxip,pyip;
+select,flag=twiss,clear;
+select,flag=twiss,column=name,s,l,angle,k1l,k2l,hkick,vkick,kick,betx,bety,dx,dy,x,y;
+beam, sequence=ffocus,particle=proton,energy=NRJ,
+      NPART=1.15E11, sige=4.5e-4*sqrt(450./NRJ);
+twiss,betx=bxs,bety=bys,x=xip,y=yip,px=pxip,py=pyip,file=temp/twiss_triplet.tfs;
+select,flag=aperture,clear;
+select,flag=aperture,column=name,s,betx,bety,dx,dy,x,y,n1,apertype,aper_1,aper_2,aper_3,aper_4,Rtol,xtol,ytol;
+aperture,cor=COmax, dp=dPmax, spec=SPECIF,interval=1.0,
+         halo={6,halor,halox,haloy},bbeat=apbbeat,
+         exn=emittance_norm,eyn=emittance_norm,
+         file=temp/ap_triplet.tfs;
+};
+
+!__round(xv,xn): macro={ if ( xv-xn > 0.5) { xv=xn+1; } else { xv=xn; }; };
+!round(xv,digits): macro={
+!!  xv=round(xv*digits)/digits;
+!  xtmp=xv*digits;
+!  exec,__round(xtmp,$xtmp);
+!  xv=xtmp/digits;
+!};
+
+

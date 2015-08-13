@@ -1,0 +1,9 @@
+on_holdselect=0; jac_calls=   15;jac_tol=1e-22; jac_bisec=3;
+call,file="slhc/toolkit/rematch_ir3b1.madx";
+call,file="slhc/toolkit/rematch_ir3b2.madx";
+call,file="slhc/toolkit/rematch_ir7b1.madx";
+call,file="slhc/toolkit/rematch_ir7b2.madx";
+
+
+tarir37b12=tarir3b1+tarir3b2+tarir7b1+tarir7b2;
+value,tarir37b12;

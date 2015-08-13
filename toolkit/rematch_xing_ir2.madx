@@ -1,0 +1,368 @@
+! R. De Maria, 2011/11 rematch crossing scheme with new orbit correctors
+! to close the bump in D2
+
+
+resetXscheme(nIR) : macro ={
+ACBXH1.LnIR=0;ACBXH1.LnIRx=0;ACBXH1.LnIRs=0;
+ACBXH1.RnIR=0;ACBXH1.RnIRx=0;ACBXH1.RnIRs=0;
+ACBXV1.LnIR=0;ACBXV1.LnIRx=0;ACBXV1.LnIRs=0;
+ACBXV1.RnIR=0;ACBXV1.RnIRx=0;ACBXV1.RnIRs=0;
+
+ACBXH2.LnIR=0;ACBXH2.LnIRx=0;ACBXH2.LnIRs=0;
+ACBXH2.RnIR=0;ACBXH2.RnIRx=0;ACBXH2.RnIRs=0;
+ACBXV2.LnIR=0;ACBXV2.LnIRx=0;ACBXV2.LnIRs=0;
+ACBXV2.RnIR=0;ACBXV2.RnIRx=0;ACBXV2.RnIRs=0;
+
+ACBXH3.LnIR=0;ACBXH3.LnIRx=0;ACBXH3.LnIRs=0;
+ACBXH3.RnIR=0;ACBXH3.RnIRx=0;ACBXH3.RnIRs=0;
+ACBXV3.LnIR=0;ACBXV3.LnIRx=0;ACBXV3.LnIRs=0;
+ACBXV3.RnIR=0;ACBXV3.RnIRx=0;ACBXV3.RnIRs=0;
+
+ACBYHS4.LnIRB1=0;ACBYHS4.LnIRB1x=0;ACBYHS4.LnIRB1s=0;
+ACBYHS4.RnIRB1=0;ACBYHS4.RnIRB1x=0;ACBYHS4.RnIRB1s=0;
+ACBCH6.LnIRB1 =0;ACBCH6.LnIRB1x =0;ACBCH6.LnIRB1s =0;
+ACBCH5.RnIRB1 =0;ACBCH5.RnIRB1x =0;ACBCH5.RnIRB1s =0;
+
+ACBYVS4.LnIRB1=0;ACBYVS4.LnIRB1x=0;ACBYVS4.LnIRB1s=0;
+ACBYVS4.RnIRB1=0;ACBYVS4.RnIRB1x=0;ACBYVS4.RnIRB1s=0;
+ACBCV5.LnIRB1 =0;ACBCV5.LnIRB1x =0;ACBCV5.LnIRB1s =0;
+ACBCV6.RnIRB1 =0;ACBCV6.RnIRB1x =0;ACBCV6.RnIRB1s =0;
+
+ACBYHS4.LnIRB2=0;ACBYHS4.LnIRB2x=0;ACBYHS4.LnIRB2s=0;
+ACBYHS4.RnIRB2=0;ACBYHS4.RnIRB2x=0;ACBYHS4.RnIRB2s=0;
+ACBCH5.LnIRB2 =0;ACBCH5.LnIRB2x =0;ACBCH5.LnIRB2s =0;
+ACBCH6.RnIRB2 =0;ACBCH6.RnIRB2x =0;ACBCH6.RnIRB2s =0;
+
+ACBYVS4.LnIRB2=0;ACBYVS4.LnIRB2x=0;ACBYVS4.LnIRB2s=0;
+ACBYVS4.RnIRB2=0;ACBYVS4.RnIRB2x=0;ACBYVS4.RnIRB2s=0;
+ACBCV6.LnIRB2 =0;ACBCV6.LnIRB2x =0;ACBCV6.LnIRB2s =0;
+ACBCV5.RnIRB2 =0;ACBCV5.RnIRB2x =0;ACBCV5.RnIRB2s =0;
+
+acbrdH4.LnIRB1=0;acbrdH4.LnIRB1x=0;acbrdH4.LnIRB1s=0;
+acbrdH4.RnIRB1=0;acbrdH4.RnIRB1x=0;acbrdH4.RnIRB1s=0;
+acbrdV4.LnIRB1=0;acbrdV4.LnIRB1x=0;acbrdV4.LnIRB1s=0;
+acbrdV4.RnIRB1=0;acbrdV4.RnIRB1x=0;acbrdV4.RnIRB1s=0;
+acbrdH4.LnIRB2=0;acbrdH4.LnIRB2x=0;acbrdH4.LnIRB2s=0;
+acbrdH4.RnIRB2=0;acbrdH4.RnIRB2x=0;acbrdH4.RnIRB2s=0;
+acbrdV4.LnIRB2=0;acbrdV4.LnIRB2x=0;acbrdV4.LnIRB2s=0;
+acbrdV4.RnIRB2=0;acbrdV4.RnIRB2x=0;acbrdV4.RnIRB2s=0;
+
+acbyhs4.LnIRB1=0;acbyhs4.LnIRB1x=0;acbyhs4.LnIRB1s=0;
+acbyhs4.RnIRB1=0;acbyhs4.RnIRB1x=0;acbyhs4.RnIRB1s=0;
+acbyvs4.LnIRB1=0;acbyvs4.LnIRB1x=0;acbyvs4.LnIRB1s=0;
+acbyvs4.RnIRB1=0;acbyvs4.RnIRB1x=0;acbyvs4.RnIRB1s=0;
+acbyhs4.LnIRB2=0;acbyhs4.LnIRB2x=0;acbyhs4.LnIRB2s=0;
+acbyhs4.RnIRB2=0;acbyhs4.RnIRB2x=0;acbyhs4.RnIRB2s=0;
+acbyvs4.LnIRB2=0;acbyvs4.LnIRB2x=0;acbyvs4.LnIRB2s=0;
+acbyvs4.RnIRB2=0;acbyvs4.RnIRB2x=0;acbyvs4.RnIRB2s=0;
+
+acbyhs5.LnIRB1=0;acbyhs5.LnIRB1x=0;acbyhs5.LnIRB1s=0;
+acbyhs5.RnIRB1=0;acbyhs5.RnIRB1x=0;acbyhs5.RnIRB1s=0;
+acbyvs5.LnIRB1=0;acbyvs5.LnIRB1x=0;acbyvs5.LnIRB1s=0;
+acbyvs5.RnIRB1=0;acbyvs5.RnIRB1x=0;acbyvs5.RnIRB1s=0;
+acbyhs5.LnIRB2=0;acbyhs5.LnIRB2x=0;acbyhs5.LnIRB2s=0;
+acbyhs5.RnIRB2=0;acbyhs5.RnIRB2x=0;acbyhs5.RnIRB2s=0;
+acbyvs5.LnIRB2=0;acbyvs5.LnIRB2x=0;acbyvs5.LnIRB2s=0;
+acbyvs5.RnIRB2=0;acbyvs5.RnIRB2x=0;acbyvs4.RnIRB2s=0;
+};
+
+
+valueXscheme(nIR) : macro ={
+value,ACBXH1.LnIRx*1e6,ACBXH1.LnIRs*1e6;
+value,ACBXH1.RnIRx*1e6,ACBXH1.RnIRs*1e6;
+value,ACBXV1.LnIRx*1e6,ACBXV1.LnIRs*1e6;
+value,ACBXV1.RnIRx*1e6,ACBXV1.RnIRs*1e6;
+
+value,ACBXH2.LnIRx*1e6,ACBXH2.LnIRs*1e6;
+value,ACBXH2.RnIRx*1e6,ACBXH2.RnIRs*1e6;
+value,ACBXV2.LnIRx*1e6,ACBXV2.LnIRs*1e6;
+value,ACBXV2.RnIRx*1e6,ACBXV2.RnIRs*1e6;
+
+value,ACBXH3.LnIRx*1e6,ACBXH3.LnIRs*1e6;
+value,ACBXH3.RnIRx*1e6,ACBXH3.RnIRs*1e6;
+value,ACBXV3.LnIRx*1e6,ACBXV3.LnIRs*1e6;
+value,ACBXV3.RnIRx*1e6,ACBXV3.RnIRs*1e6;
+
+!value,ACBYHS4.LnIRB1x,ACBYHS4.LnIRB1s;
+!value,ACBYHS4.RnIRB1x,ACBYHS4.RnIRB1s;
+!value,ACBCH6.LnIRB1x ,ACBCH6.LnIRB1s ;
+!value,ACBCH5.RnIRB1x ,ACBCH5.RnIRB1s ;
+!
+!value,ACBYVS4.LnIRB1x,ACBYVS4.LnIRB1s;
+!value,ACBYVS4.RnIRB1x,ACBYVS4.RnIRB1s;
+!value,ACBCV5.LnIRB1x ,ACBCV5.LnIRB1s ;
+!value,ACBCV6.RnIRB1x ,ACBCV6.RnIRB1s ;
+!
+!value,ACBYHS4.LnIRB2x,ACBYHS4.LnIRB2s;
+!value,ACBYHS4.RnIRB2x,ACBYHS4.RnIRB2s;
+!value,ACBCH5.LnIRB2x ,ACBCH5.LnIRB2s ;
+!value,ACBCH6.RnIRB2x ,ACBCH6.RnIRB2s ;
+!
+!value,ACBYVS4.LnIRB2x,ACBYVS4.LnIRB2s;
+!value,ACBYVS4.RnIRB2x,ACBYVS4.RnIRB2s;
+!value,ACBCV6.LnIRB2x ,ACBCV6.LnIRB2s ;
+!value,ACBCV5.RnIRB2x ,ACBCV5.RnIRB2s ;
+
+value,acbrdH4.LnIRB1x*1e6,acbrdH4.LnIRB1s*1e6;
+value,acbrdH4.LnIRB2x*1e6,acbrdH4.LnIRB2s*1e6;
+value,acbrdH4.RnIRB1x*1e6,acbrdH4.RnIRB1s*1e6;
+value,acbrdH4.RnIRB2x*1e6,acbrdH4.RnIRB2s*1e6;
+value,acbrdV4.LnIRB1x*1e6,acbrdV4.LnIRB1s*1e6;
+value,acbrdV4.LnIRB2x*1e6,acbrdV4.LnIRB2s*1e6;
+value,acbrdV4.RnIRB1x*1e6,acbrdV4.RnIRB1s*1e6;
+value,acbrdV4.RnIRB2x*1e6,acbrdV4.RnIRB2s*1e6;
+
+
+value,acbyhs4.LnIRB1x*1e6,acbyhs4.LnIRB1s*1e6;
+value,acbyhs4.LnIRB2x*1e6,acbyhs4.LnIRB2s*1e6;
+value,acbyhs4.RnIRB1x*1e6,acbyhs4.RnIRB1s*1e6;
+value,acbyhs4.RnIRB2x*1e6,acbyhs4.RnIRB2s*1e6;
+value,acbyvs4.LnIRB1x*1e6,acbyvs4.LnIRB1s*1e6;
+value,acbyvs4.LnIRB2x*1e6,acbyvs4.LnIRB2s*1e6;
+value,acbyvs4.RnIRB1x*1e6,acbyvs4.RnIRB1s*1e6;
+value,acbyvs4.RnIRB2x*1e6,acbyvs4.RnIRB2s*1e6;
+};
+
+
+
+
+cableXscheme(IRN): macro={
+xsinirIRN:=sin(pi/180*phi_irIRN);
+xcosirIRN:=cos(pi/180*phi_irIRN);
+
+acbxh1.lIRN   :=acbxh1.lIRNx   *on_xIRN*xcosirIRN +
+                acbxh1.lIRNs   *on_sepIRN*xsinirIRN;
+acbxh1.rIRN   :=acbxh1.rIRNx   *on_xIRN*xcosirIRN +
+                acbxh1.rIRNs   *on_sepIRN*xsinirIRN;
+acbxv1.lIRN   :=acbxv1.lIRNx   *on_xIRN*xsinirIRN +
+                acbxv1.lIRNs   *on_sepIRN*xcosirIRN;
+acbxv1.rIRN   :=acbxv1.rIRNx   *on_xIRN*xsinirIRN +
+                acbxv1.rIRNs   *on_sepIRN*xcosirIRN;
+acbxh2.lIRN   :=acbxh2.lIRNx   *on_xIRN*xcosirIRN +
+                acbxh2.lIRNs   *on_sepIRN*xsinirIRN;
+acbxh2.rIRN   :=acbxh2.rIRNx   *on_xIRN*xcosirIRN +
+                acbxh2.rIRNs   *on_sepIRN*xsinirIRN;
+acbxv2.lIRN   :=acbxv2.lIRNx   *on_xIRN*xsinirIRN +
+                acbxv2.lIRNs   *on_sepIRN*xcosirIRN;
+acbxv2.rIRN   :=acbxv2.rIRNx   *on_xIRN*xsinirIRN +
+                acbxv2.rIRNs   *on_sepIRN*xcosirIRN;
+acbxh3.lIRN   :=acbxh3.lIRNx   *on_xIRN*xcosirIRN +
+                acbxh3.lIRNs   *on_sepIRN*xsinirIRN;
+acbxh3.rIRN   :=acbxh3.rIRNx   *on_xIRN*xcosirIRN +
+                acbxh3.rIRNs   *on_sepIRN*xsinirIRN;
+acbxv3.lIRN   :=acbxv3.lIRNx   *on_xIRN*xsinirIRN +
+                acbxv3.lIRNs   *on_sepIRN*xcosirIRN;
+acbxv3.rIRN   :=acbxv3.rIRNx   *on_xIRN*xsinirIRN +
+                acbxv3.rIRNs   *on_sepIRN*xcosirIRN;
+
+acbrdv4.lIRNb1:=acbrdv4.lIRNb1x*on_xIRN*xsinirIRN +
+                 acbrdv4.lIRNb1s*on_sepIRN*xcosirIRN;
+acbrdv4.rIRNb1:=acbrdv4.rIRNb1x*on_xIRN*xsinirIRN +
+                 acbrdv4.rIRNb1s*on_sepIRN*xcosirIRN;
+acbrdh4.lIRNb1:=acbrdh4.lIRNb1x*on_xIRN*xcosirIRN +
+                 acbrdh4.lIRNb1s*on_sepIRN*xsinirIRN;
+acbrdh4.rIRNb1:=acbrdh4.rIRNb1x*on_xIRN*xcosirIRN +
+                 acbrdh4.rIRNb1s*on_sepIRN*xsinirIRN;
+
+acbrdv4.lIRNb2:=acbrdv4.lIRNb2x*on_xIRN*xsinirIRN +
+                 acbrdv4.lIRNb2s*on_sepIRN*xcosirIRN;
+acbrdv4.rIRNb2:=acbrdv4.rIRNb2x*on_xIRN*xsinirIRN +
+                 acbrdv4.rIRNb2s*on_sepIRN*xcosirIRN;
+acbrdh4.lIRNb2:=acbrdh4.lIRNb2x*on_xIRN*xcosirIRN +
+                 acbrdh4.lIRNb2s*on_sepIRN*xsinirIRN;
+acbrdh4.rIRNb2:=acbrdh4.rIRNb2x*on_xIRN*xcosirIRN +
+                 acbrdh4.rIRNb2s*on_sepIRN*xsinirIRN;
+
+
+acbyvs4.lIRNb1:=acbyvs4.lIRNb1x*on_xIRN*xsinirIRN +
+                 acbyvs4.lIRNb1s*on_sepIRN*xcosirIRN;
+acbyvs4.rIRNb1:=acbyvs4.rIRNb1x*on_xIRN*xsinirIRN +
+                 acbyvs4.rIRNb1s*on_sepIRN*xcosirIRN;
+acbyhs4.lIRNb1:=acbyhs4.lIRNb1x*on_xIRN*xcosirIRN +
+                 acbyhs4.lIRNb1s*on_sepIRN*xsinirIRN;
+acbyhs4.rIRNb1:=acbyhs4.rIRNb1x*on_xIRN*xcosirIRN +
+                 acbyhs4.rIRNb1s*on_sepIRN*xsinirIRN;
+
+acbyvs4.lIRNb2:=acbyvs4.lIRNb2x*on_xIRN*xsinirIRN +
+                 acbyvs4.lIRNb2s*on_sepIRN*xcosirIRN;
+acbyvs4.rIRNb2:=acbyvs4.rIRNb2x*on_xIRN*xsinirIRN +
+                 acbyvs4.rIRNb2s*on_sepIRN*xcosirIRN;
+acbyhs4.lIRNb2:=acbyhs4.lIRNb2x*on_xIRN*xcosirIRN +
+                 acbyhs4.lIRNb2s*on_sepIRN*xsinirIRN;
+acbyhs4.rIRNb2:=acbyhs4.rIRNb2x*on_xIRN*xcosirIRN +
+                 acbyhs4.rIRNb2s*on_sepIRN*xsinirIRN;
+
+
+acbyvs5.lIRNb1:=acbyvs5.lIRNb1x*on_xIRN*xsinirIRN +
+                 acbyvs5.lIRNb1s*on_sepIRN*xcosirIRN;
+acbyvs5.rIRNb1:=acbyvs5.rIRNb1x*on_xIRN*xsinirIRN +
+                 acbyvs5.rIRNb1s*on_sepIRN*xcosirIRN;
+acbyhs5.lIRNb1:=acbyhs5.lIRNb1x*on_xIRN*xcosirIRN +
+                 acbyhs5.lIRNb1s*on_sepIRN*xsinirIRN;
+acbyhs5.rIRNb1:=acbyhs5.rIRNb1x*on_xIRN*xcosirIRN +
+                 acbyhs5.rIRNb1s*on_sepIRN*xsinirIRN;
+
+acbyvs5.lIRNb2:=acbyvs5.lIRNb2x*on_xIRN*xsinirIRN +
+                 acbyvs5.lIRNb2s*on_sepIRN*xcosirIRN;
+acbyvs5.rIRNb2:=acbyvs5.rIRNb2x*on_xIRN*xsinirIRN +
+                 acbyvs5.rIRNb2s*on_sepIRN*xcosirIRN;
+acbyhs5.lIRNb2:=acbyhs5.lIRNb2x*on_xIRN*xcosirIRN +
+                 acbyhs5.lIRNb2s*on_sepIRN*xsinirIRN;
+acbyhs5.rIRNb2:=acbyhs5.rIRNb2x*on_xIRN*xcosirIRN +
+                 acbyhs5.rIRNb2s*on_sepIRN*xsinirIRN;
+
+!acbyvs4.lIRNb2:=acbrdv4.lIRNb2;
+!acbyvs4.rIRNb2:=acbrdv4.rIRNb2;
+!acbyhs4.lIRNb2:=acbrdh4.lIRNb2;
+!acbyhs4.rIRNb2:=acbrdh4.rIRNb2;
+!acbyvs4.lIRNb1:=acbrdv4.lIRNb1;
+!acbyvs4.rIRNb1:=acbrdv4.rIRNb1;
+!acbyhs4.lIRNb1:=acbrdh4.lIRNb1;
+!acbyhs4.rIRNb1:=acbrdh4.rIRNb1;
+
+
+
+};
+
+
+
+
+
+matchXscheme(IRN,VAR1,VAR2,VPHI): macro={
+  auxon_xIRN  =on_xIRN  ;
+  auxon_sepIRN=on_sepIRN;
+  auxphi_IRIRN=phi_IRIRN;
+  on_xIRN=1;
+  on_sepIRN=1;
+  phi_IRIRN=VPHI;
+  Use, period= LHCB1,RANGE=S.DS.LIRN.B1/E.DS.RIRN.B1;
+  Use, period= LHCB2,RANGE=S.DS.LIRN.B2/E.DS.RIRN.B2;
+  match, sequence=LHCB1,LHCB2, beta0= bir5b1,bir5b2,
+                               x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=IPIRN, x  =  Psep*xsinirIRN,
+                                          y  =  Psep*xcosirIRN,
+                                          py =  Xang*xsinirIRN,
+                                          px =  Xang*xcosirIRN;
+  constraint, sequence=lhcb2,range=IPIRN, x  = -Psep*xsinirIRN,
+                                          y  = -Psep*xcosirIRN,
+                                          py = -Xang*xsinirIRN,
+                                          px = -Xang*xcosirIRN;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,x = 0.0, px = 0.0;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,y = 0.0, py = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,x = 0.0, px = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,y = 0.0, py = 0.0;
+  cavshift=0.0005*3;
+!  constraint, sequence=lhcb1,range=ACFA.R5B1,x=+cavshift*xcosirIRN;
+!  constraint, sequence=lhcb1,range=ACFA.L5B1,x=-cavshift*xcosirIRN;
+!  constraint, sequence=lhcb2,range=ACFA.R5B2,x=-cavshift*xcosirIRN;
+!  constraint, sequence=lhcb2,range=ACFA.L5B2,x=+cavshift*xcosirIRN;
+!  constraint, sequence=lhcb1,range=ACFD.R5B1,x=-cavshift/2*xcosirIRN;
+!  constraint, sequence=lhcb1,range=ACFD.L5B1,x=+cavshift/2*xcosirIRN;
+!  constraint, sequence=lhcb2,range=ACFD.R5B2,x=+cavshift/2*xcosirIRN;
+!  constraint, sequence=lhcb2,range=ACFD.L5B2,x=-cavshift/2*xcosirIRN;
+  constraint, sequence=lhcb1,range=MBRD.4L5.B1,x=-cavshift*xcosirIRN;
+  constraint, sequence=lhcb1,range=MBRD.4R5.B1,x= cavshift*xcosirIRN;
+  constraint, sequence=lhcb2,range=MBRD.4L5.B2,x= cavshift*xcosirIRN;
+  constraint, sequence=lhcb2,range=MBRD.4R5.B2,x=-cavshift*xcosirIRN;
+
+
+  vary, name=acbxh3.lIRNVAR1;
+!  vary, name=acbxh2.lIRNVAR1;
+  acbxh2.lIRNVAR1:=acbxh1.lIRNVAR1;
+  vary, name=acbxh1.lIRNVAR1;
+  vary, name=acbxh3.rIRNVAR1;
+!  vary, name=acbxh2.rIRNVAR1;
+  acbxh2.rIRNVAR1:=acbxh1.rIRNVAR1;
+  vary, name=acbxh1.rIRNVAR1;
+  vary, name=acbrdh4.lIRNb1VAR1;
+  vary, name=acbrdh4.lIRNb2VAR1;
+  vary, name=acbrdh4.rIRNb1VAR1;
+  vary, name=acbrdh4.rIRNb2VAR1;
+acbyhs4.lIRNb1VAR1:=acbrdh4.lIRNb1VAR1;
+acbyhs4.lIRNb2VAR1:=acbrdh4.lIRNb2VAR1;
+acbyhs4.rIRNb1VAR1:=acbrdh4.rIRNb1VAR1;
+acbyhs4.rIRNb2VAR1:=acbrdh4.rIRNb2VAR1;
+!  vary, name=acbyhs4.lIRNb1VAR1;
+!  vary, name=acbyhs4.lIRNb2VAR1;
+!  vary, name=acbyhs4.rIRNb1VAR1;
+!  vary, name=acbyhs4.rIRNb2VAR1;
+  vary, name=acbyhs5.lIRNb1VAR1;
+  vary, name=acbyhs5.lIRNb2VAR1;
+  vary, name=acbyhs5.rIRNb1VAR1;
+  vary, name=acbyhs5.rIRNb2VAR1;
+
+  vary, name=acbxv3.lIRNVAR2;
+!  vary, name=acbxv2.lIRNVAR2;
+  acbxv2.lIRNVAR2:=acbxv1.lIRNVAR2;
+  vary, name=acbxv1.lIRNVAR2;
+  vary, name=acbxv3.rIRNVAR2;
+!  vary, name=acbxv2.rIRNVAR2;
+  acbxv2.rIRNVAR2:=acbxv1.rIRNVAR2;
+  vary, name=acbxv1.rIRNVAR2;
+  vary, name=acbrdv4.lIRNb1VAR2;
+  vary, name=acbrdv4.lIRNb2VAR2;
+  vary, name=acbrdv4.rIRNb1VAR2;
+  vary, name=acbrdv4.rIRNb2VAR2;
+!  vary, name=acbyvs4.lIRNb1VAR1;
+!  vary, name=acbyvs4.lIRNb2VAR1;
+!  vary, name=acbyvs4.rIRNb1VAR1;
+!  vary, name=acbyvs4.rIRNb2VAR1;
+acbyvs4.lIRNb1VAR1:=acbrdv4.lIRNb1VAR1;
+acbyvs4.lIRNb2VAR1:=acbrdv4.lIRNb2VAR1;
+acbyvs4.rIRNb1VAR1:=acbrdv4.rIRNb1VAR1;
+acbyvs4.rIRNb2VAR1:=acbrdv4.rIRNb2VAR1;
+  if (acbrdv4.rIRNb1VAR2==0){simplex,calls=200;};
+  jacobian, calls = 10, tolerance=1.E-30,bisec=3;
+  endmatch;
+  tarirIRNxingVPHI=tar;
+  on_xIRN  =auxon_xIRN  ;
+  on_sepIRN=auxon_sepIRN;
+  phi_IRIRN=auxphi_IRIRN;
+};
+
+
+
+
+seqedit,sequence=lhcb1;flatten;cycle,start=IP3;endedit;
+seqedit,sequence=lhcb2;flatten;cycle,start=IP3;endedit;
+
+exec,crossing_save;
+exec,crossing_disable;
+!nrjaux= beam%lhcb1->energy;
+
+
+!if (nrjaux<4999.9999){
+!  Xang=170e-6;
+!  Psep=2.00e-3;
+!};
+!
+!if (nrjaux>5000.0000){
+!  Xang=290e-6;
+!  Psep=0.75e-3;
+!};
+!
+
+
+exec,selectIR15(5,45,56,b1); exec,selectIR15(5,45,56,b2);
+
+set,format="22.3f";
+
+exec,resetXscheme(1);
+exec,resetXscheme(5);
+exec,cableXscheme(1);
+exec,cableXscheme(5);
+exec,matchXscheme(1,x,s,0);
+exec,matchXscheme(5,s,x,90);
+exec,matchXscheme(1,s,x,90);
+exec,matchXscheme(5,x,s,0);
+exec,valueXscheme(5);
+set,format="22.18e";
+
+value,tarir1xing90,tarir1xing0,tarir5xing90,tarir5xing0;
+
+exec,crossing_restore;
+
+!xing=170e-6;
+!xsep=2.5e-3;
+
+

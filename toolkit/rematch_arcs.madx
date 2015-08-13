@@ -1,0 +1,52 @@
+if (arc_squeeze==0){
+  Qx0=62.28;Qy0=60.31;
+} else {
+  Qx0=62.31;Qy0=60.32;
+};
+
+mux81b1= 5.2178925;  muy81b1= 5.243787;
+mux45b1= 5.2178925;  muy45b1= 5.243787;
+mux12b1= 5.244165;   muy12b1= 5.218269;
+mux56b1= 5.244165;   muy56b1= 5.218269;
+
+muxip1b1=round(muxip1b1*1e4)/1e4; muxip1b2=round(muxip1b2*1e4)/1e4;muyip1b1=round(muyip1b1*1e4)/1e4; muyip1b2=round(muyip1b2*1e4)/1e4;
+muxip2b1=round(muxip2b1*1e4)/1e4; muxip2b2=round(muxip2b2*1e4)/1e4;muyip2b1=round(muyip2b1*1e4)/1e4; muyip2b2=round(muyip2b2*1e4)/1e4;
+muxip3b1=round(muxip3b1*1e4)/1e4; muxip3b2=round(muxip3b2*1e4)/1e4;muyip3b1=round(muyip3b1*1e4)/1e4; muyip3b2=round(muyip3b2*1e4)/1e4;
+muxip4b1=round(muxip4b1*1e4)/1e4; muxip4b2=round(muxip4b2*1e4)/1e4;muyip4b1=round(muyip4b1*1e4)/1e4; muyip4b2=round(muyip4b2*1e4)/1e4;
+muxip5b1=round(muxip5b1*1e4)/1e4; muxip5b2=round(muxip5b2*1e4)/1e4;muyip5b1=round(muyip5b1*1e4)/1e4; muyip5b2=round(muyip5b2*1e4)/1e4;
+muxip6b1=round(muxip6b1*1e4)/1e4; muxip6b2=round(muxip6b2*1e4)/1e4;muyip6b1=round(muyip6b1*1e4)/1e4; muyip6b2=round(muyip6b2*1e4)/1e4;
+muxip7b1=round(muxip7b1*1e4)/1e4; muxip7b2=round(muxip7b2*1e4)/1e4;muyip7b1=round(muyip7b1*1e4)/1e4; muyip7b2=round(muyip7b2*1e4)/1e4;
+muxip8b1=round(muxip8b1*1e4)/1e4; muxip8b2=round(muxip8b2*1e4)/1e4;muyip8b1=round(muyip8b1*1e4)/1e4; muyip8b2=round(muyip8b2*1e4)/1e4;
+
+
+muxstrongthick=mux81b1+mux12b1+mux45b1+mux56b1;
+muystrongthick=muy81b1+muy12b1+muy45b1+muy56b1;
+value,muxstrongthick,muystrongthick;
+exec,strongphasesector(b1,muxstrongthick,muystrongthick);
+
+muxweakthick=Qx0-muxstrongthick-muxip1b1-muxip2b1-muxip3b1-muxip4b1-muxip5b1-muxip6b1-muxip7b1-muxip8b1;
+muyweakthick=Qy0-muystrongthick-muyip1b1-muyip2b1-muyip3b1-muyip4b1-muyip5b1-muyip6b1-muyip7b1-muyip8b1;
+value,muxweakthick,muyweakthick;
+exec,weakphasesector(b1,muxweakthick,muyweakthick);
+
+
+
+!dqxb1=Qx0-(mux12b1+mux23b1+mux34b1+mux45b1+mux56b1+mux67b1+mux78b1+mux81b1+muxip1b1+muxip2b1+muxip3b1+muxip4b1+muxip5b1+muxip6b1+muxip7b1+muxip8b1);
+!dqxb2=Qx0-(mux12b2+mux23b2+mux34b2+mux45b2+mux56b2+mux67b2+mux78b2+mux81b2+muxip1b2+muxip2b2+muxip3b2+muxip4b2+muxip5b2+muxip6b2+muxip7b2+muxip8b2);
+!dqyb1=Qy0-(muy12b1+muy23b1+muy34b1+muy45b1+muy56b1+muy67b1+muy78b1+muy81b1+muyip1b1+muyip2b1+muyip3b1+muyip4b1+muyip5b1+muyip6b1+muyip7b1+muyip8b1);
+!dqyb2=Qy0-(muy12b2+muy23b2+muy34b2+muy45b2+muy56b2+muy67b2+muy78b2+muy81b2+muyip1b2+muyip2b2+muyip3b2+muyip4b2+muyip5b2+muyip6b2+muyip7b2+muyip8b2);
+
+!value,dqxb1,dqxb2,dqyb1,dqyb2;
+!dqx=(dqxb1+dqxb2)*0.5;dqy=(dqyb1+dqyb2)*0.5;
+!value,dqx,dqy;
+!exec,shiftphasesectorweak(b1,dqx,dqy);
+
+
+!muxweakthick=mux23b1+mux34b1+mux67b1+mux78b1;
+!muyweakthick=muy23b1+muy34b1+muy67b1+muy78b1;
+!value,muxweakthick,muyweakthick;
+!exec,weakphasesector(b1,muxweakthick,muyweakthick);
+
+
+
+

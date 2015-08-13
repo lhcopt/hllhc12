@@ -1,0 +1,41 @@
+on_holdselect=0;
+grad=132.6;
+scl=0.47; sch=0.95;sc79=0.99+0.000;bmaxds=500;imb=1.30;
+match_on_triplet=0; match_on_tripletconst=0;ir5q4sym=0;ir5q5sym=0;
+apq789=0; apq5=0; apq6=0; apq4=0; apq1011=0;
+apq5=205;apq6=apq5;
+match_inj_tunes=1;
+exec,crossing_disable;
+match_on_aperture=0; jac_calls=10; bisec=3; tol=1e-16;
+call,file="toolkit/rematch_ir15_b12.madx";
+if (is_thin==0){
+match_on_aperture=1; epsap=-1;
+call,file="toolkit/rematch_ir15_b12.madx";
+match_on_aperture=1; epsap=-0;
+call,file="toolkit/rematch_ir15_b12.madx";
+} else {
+match_on_aperture=0; jac_calls=30; bisec=3; tol=1e-16;
+call,file="toolkit/rematch_ir15_b12.madx";
+};
+
+
+value,tarir15b12;
+
+on_holdselect=0; jac_calls=   15;jac_tol=1e-22; jac_bisec=3;
+match_on_aperture=1;
+if (is_thin==1){ match_on_aperture=0; };
+apq5=0;apq6=0;apq8=0;
+
+call,file="toolkit/rematch_ir2b12.madx";
+call,file="toolkit/rematch_ir8b12.madx";
+call,file="toolkit/rematch_ir4b1.madx";
+call,file="toolkit/rematch_ir4b2.madx";
+call,file="toolkit/rematch_ir6b1.madx";
+call,file="toolkit/rematch_ir6b2.madx";
+
+!value,tarir2b12,tarir4b1,tarir4b2, tarir15b12,tarir6b1,tarir6b2,tarir8b12;
+
+tarinj=tarir2b12+tarir4b1+tarir6b1+tarir8b12+tarir4b2+tarir6b2+tarir15b12+tarir8b12;
+
+value,tarinj;
+

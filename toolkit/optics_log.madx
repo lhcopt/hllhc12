@@ -1,0 +1,299 @@
+! create table storing optics files
+
+! usage:
+!   exec,make_opticstbl_ir5hl;
+!   !or if already a ir5_log_str.tfs is present
+!   exec,read_opticstbl(ir5);
+!   exec,store_optics(ir5);
+!   exec,load_optics(ir5,1234);
+!   exec,load_lastoptics(ir5);
+
+make_opticstbl_ir5hl(ir5hl):macro={
+    create,table=ir5hl_log_str,column=
+    kqx1.r5,kqx2a.r5,kqx2b.r5,kqx3.r5,
+    kqx1.l5,kqx2a.l5,kqx2b.l5,kqx3.l5,
+    kq4.l5b1,kq5.l5b1,kq6.l5b1,kq7.l5b1,kq8.l5b1,kq9.l5b1,kq10.l5b1,
+    kqtl11.l5b1,kqt12.l5b1,kqt13.l5b1,
+    kq4.r5b1,kq5.r5b1,kq6.r5b1,kq7.r5b1,kq8.r5b1,kq9.r5b1,kq10.r5b1,
+    kqtl11.r5b1,kqt12.r5b1,kqt13.r5b1,
+    kq4.l5b2,kq5.l5b2,kq6.l5b2,kq7.l5b2,kq8.l5b2,kq9.l5b2,kq10.l5b2,
+    kqtl11.l5b2,kqt12.l5b2,kqt13.l5b2,
+    kq4.r5b2,kq5.r5b2,kq6.r5b2,kq7.r5b2,kq8.r5b2,kq9.r5b2,kq10.r5b2,
+    kqtl11.r5b2,kqt12.r5b2,kqt13.r5b2,
+    betxip5b1,betyip5b1,alfxip5b1,alfyip5b1,dxip5b1,dpxip5b1,
+    betxip5b2,betyip5b2,alfxip5b2,alfyip5b2,dxip5b2,dpxip5b2,
+    muxip5b1,muyip5b1, muxip5b2,muyip5b2,
+    muxip5b1_l,muyip5b1_l,muxip5b1_r,muyip5b1_r,
+    muxip5b2_l,muyip5b2_l,muxip5b2_r,muyip5b2_r,
+    ACBXV1.L5x, ACBXV1.L5s, ACBXV1.R5x, ACBXV1.R5s,
+    ACBXH1.L5x, ACBXH1.L5s, ACBXH1.R5x, ACBXH1.R5s,
+    ACBXV2.L5x, ACBXV2.L5s, ACBXV2.R5x, ACBXV2.R5s,
+    ACBXH2.L5x, ACBXH2.L5s, ACBXH2.R5x, ACBXH2.R5s,
+    ACBXV3.L5x, ACBXV3.L5s, ACBXV3.R5x, ACBXV3.R5s,
+    ACBXH3.L5x, ACBXH3.L5s, ACBXH3.R5x, ACBXH3.R5s,
+    ACBRDV4.L5B1x, ACBRDV4.L5B1s, ACBRDV4.R5B1x, ACBRDV4.R5B1s,
+    ACBRDH4.L5B1x, ACBRDH4.L5B1s, ACBRDH4.R5B1x, ACBRDH4.R5B1s,
+    ACBRDV4.L5B2x, ACBRDV4.L5B2s, ACBRDV4.R5B2x, ACBRDV4.R5B2s,
+    ACBRDH4.L5B2x, ACBRDH4.L5B2s, ACBRDH4.R5B2x, ACBRDH4.R5B2s,
+    tarir5b1,tarir5b2,
+    l.mqxl,l.mqx,dq1q2a,dq2aq2b,dq2bq3,deltaposq4,deltaposq5,deltaposq6,
+    dq1aq1b,grad,
+    scl,sch,bmaxds,sc79,betx_marke,bety_marke,
+    ir5q4sym,ir5q5sym,imb,
+    timestamp;
+    print,text="Creating table ir5hl_log_str";
+};
+
+make_opticstbl_ir5(ir5):macro={
+  if (on_opticstbl_ir5==0){
+    create,table=ir5_log_str,column=
+    kqx.r5,ktqx1.r5,ktqx2.r5,
+    kqx.l5,ktqx1.l5,ktqx2.l5,
+    kq4.l5b1,kq5.l5b1,kq6.l5b1,kq7.l5b1,kq8.l5b1,kq9.l5b1,kq10.l5b1,
+    kqtl11.l5b1,kqt12.l5b1,kqt13.l5b1,
+    kq4.r5b1,kq5.r5b1,kq6.r5b1,kq7.r5b1,kq8.r5b1,kq9.r5b1,kq10.r5b1,
+    kqtl11.r5b1,kqt12.r5b1,kqt13.r5b1,
+    kq4.l5b2,kq5.l5b2,kq6.l5b2,kq7.l5b2,kq8.l5b2,kq9.l5b2,kq10.l5b2,
+    kqtl11.l5b2,kqt12.l5b2,kqt13.l5b2,
+    kq4.r5b2,kq5.r5b2,kq6.r5b2,kq7.r5b2,kq8.r5b2,kq9.r5b2,kq10.r5b2,
+    kqtl11.r5b2,kqt12.r5b2,kqt13.r5b2,
+    betxip5b1,betyip5b1,alfxip5b1,alfyip5b1,dxip5b1,dpxip5b1,
+    betxip5b2,betyip5b2,alfxip5b2,alfyip5b2,dxip5b2,dpxip5b2,
+    muxip5b1,muyip5b1, muxip5b2,muyip5b2,
+    muxip5b1_l,muyip5b1_l,muxip5b1_r,muyip5b1_r,
+    muxip5b2_l,muyip5b2_l,muxip5b2_r,muyip5b2_r,
+    acbxv1.l5,acbxv1.r5,acbxv2.l5,acbxv2.r5,acbxv3.l5,acbxv3.r5,
+    acbxh1.l5,acbxh1.r5,acbxh2.l5,acbxh2.r5,acbxh3.l5,acbxh3.r5,
+    acbyvs4.r5b1,acbyvs4.l5b1,acbcv5.l5b1,acbcv6.r5b1,
+    acbyhs4.r5b1,acbyhs4.l5b1,acbch5.r5b1,acbch6.l5b1,
+    acbyvs4.r5b2,acbyvs4.l5b2,acbcv5.r5b2,acbcv6.l5b2,
+    acbyhs4.r5b2,acbyhs4.l5b2,acbch5.l5b2,acbch6.r5b2,
+    acbyh4.l5b1,acbyh4.r5b2,acbyv4.r5b1,acbyv4.l5b2,acbch7.r5b1,acbch7.l5b2,
+    tarir5b1,tarir5b2,
+    timestamp;
+    on_opticstbl_ir5=1;value,on_opticstbl_ir5;
+  };
+};
+
+make_opticstbl_ir1(ir1):macro={
+  if (on_opticstbl_ir1==0){
+    create,table=ir1_log_str,column=
+    kqx.r1,ktqx1.r1,ktqx2.r1,
+    kqx.l1,ktqx1.l1,ktqx2.l1,
+    kq4.l1b1,kq5.l1b1,kq6.l1b1,kq7.l1b1,kq8.l1b1,kq9.l1b1,kq10.l1b1,
+    kqtl11.l1b1,kqt12.l1b1,kqt13.l1b1,
+    kq4.r1b1,kq5.r1b1,kq6.r1b1,kq7.r1b1,kq8.r1b1,kq9.r1b1,kq10.r1b1,
+    kqtl11.r1b1,kqt12.r1b1,kqt13.r1b1,
+    kq4.l1b2,kq5.l1b2,kq6.l1b2,kq7.l1b2,kq8.l1b2,kq9.l1b2,kq10.l1b2,
+    kqtl11.l1b2,kqt12.l1b2,kqt13.l1b2,
+    kq4.r1b2,kq5.r1b2,kq6.r1b2,kq7.r1b2,kq8.r1b2,kq9.r1b2,kq10.r1b2,
+    kqtl11.r1b2,kqt12.r1b2,kqt13.r1b2,
+    betxip5b1,betyip5b1,alfxip5b1,alfyip5b1,dxip5b1,dpxip5b1,
+    betxip5b2,betyip5b2,alfxip5b2,alfyip5b2,dxip5b2,dpxip5b2,
+    muxip5b1,muyip5b1, muxip5b2,muyip5b2,
+    muxip5b1_l,muyip5b1_l,muxip5b1_r,muyip5b1_r,
+    muxip5b2_l,muyip5b2_l,muxip5b2_r,muyip5b2_r,
+    acbxv1.l1,acbxv1.r1,acbxv2.l1,acbxv2.r1,acbxv3.l1,acbxv3.r1,
+    acbxh1.l1,acbxh1.r1,acbxh2.l1,acbxh2.r1,acbxh3.l1,acbxh3.r1,
+    acbyvs4.r1b1,acbyvs4.l1b1,acbcv5.l1b1,acbcv6.r1b1,
+    acbyhs4.r1b1,acbyhs4.l1b1,acbch5.r1b1,acbch6.l1b1,
+    acbyvs4.r1b2,acbyvs4.l1b2,acbcv5.r1b2,acbcv6.l1b2,
+    acbyhs4.r1b2,acbyhs4.l1b2,acbch5.l1b2,acbch6.r1b2,
+    acbyh4.l1b1,acbyh4.r1b2,acbyv4.r1b1,acbyv4.l1b2,acbch7.r1b1,acbch7.l1b2,
+    tarir1b1,tarir1b2,
+    timestamp;
+    on_opticstbl_ir1=1;value,on_opticstbl_ir1;
+  };
+};
+
+make_opticstbl_ir8(ir8):macro={
+  if (on_opticstbl_ir8==0){
+    create,table=ir8_log_str,column=
+    kqx.r8,ktqx1.r8,ktqx2.r8,
+    kqx.l8,ktqx1.l8,ktqx2.l8,
+    kq4.l8b1,kq5.l8b1,kq6.l8b1,kq7.l8b1,kq8.l8b1,kq9.l8b1,kq10.l8b1,
+    kqtl11.l8b1,kqt12.l8b1,kqt13.l8b1,
+    kq4.r8b1,kq5.r8b1,kq6.r8b1,kq7.r8b1,kq8.r8b1,kq9.r8b1,kq10.r8b1,
+    kqtl11.r8b1,kqt12.r8b1,kqt13.r8b1,
+    kq4.l8b2,kq5.l8b2,kq6.l8b2,kq7.l8b2,kq8.l8b2,kq9.l8b2,kq10.l8b2,
+    kqtl11.l8b2,kqt12.l8b2,kqt13.l8b2,
+    kq4.r8b2,kq5.r8b2,kq6.r8b2,kq7.r8b2,kq8.r8b2,kq9.r8b2,kq10.r8b2,
+    kqtl11.r8b2,kqt12.r8b2,kqt13.r8b2,
+    betxip8b1,betyip8b1,alfxip8b1,alfyip8b1,dxip8b1,dpxip8b1,
+    betxip8b2,betyip8b2,alfxip8b2,alfyip8b2,dxip8b2,dpxip8b2,
+    muxip8b1,muyip8b1, muxip8b2,muyip8b2,
+    acbxh1.l8,acbxh1.r8,acbxh2.l8,acbxh2.r8,acbxh3.l8,acbxh3.r8,
+    acbxv1.l8,acbxv1.r8,acbxv2.l8,acbxv2.r8,acbxv3.l8,acbxv3.r8,
+    acbyhs4.l8b1,acbyhs4.r8b1,acbch5.l8b1,acbyhs5.r8b1,
+    acbyvs4.l8b1,acbyvs4.r8b1,acbcvs5.l8b1,acbyvs5.r8b1,
+    acbyhs4.l8b2,acbyhs4.r8b2,acbchs5.l8b2,acbyhs5.r8b2,
+    acbyvs4.l8b2,acbyvs4.r8b2,acbcvs5.l8b2,acbyvs5.r8b2,
+    acbyh4.l8b2,acbyv4.l8b1,acbwh5.l8b1,acbcv5.l8b2,acbyh4.r8b1,
+    acbyh5.r8b2,acbyv5.r8b1,acbyv4.r8b2,acbcv6.l8b1,acbcv6.r8b2,acbch6.r8b1,
+    scxir1, scyir1,
+    tarir8b1,tarir8b2,
+    timestamp;
+    on_opticstbl_ir8=1;value,on_opticstbl_ir8;
+  };
+};
+
+make_opticstbl_ir2(ir2):macro={
+  if (on_opticstbl_ir2==0){
+    create,table=ir2_log_str,column=
+    kqx.r2,ktqx1.r2,ktqx2.r2,
+    kqx.l2,ktqx1.l2,ktqx2.l2,
+    kq4.l2b1,kq5.l2b1,kq6.l2b1,kq7.l2b1,kq8.l2b1,kq9.l2b1,kq10.l2b1,
+    kqtl11.l2b1,kqt12.l2b1,kqt13.l2b1,
+    kq4.r2b1,kq5.r2b1,kq6.r2b1,kq7.r2b1,kq8.r2b1,kq9.r2b1,kq10.r2b1,
+    kqtl11.r2b1,kqt12.r2b1,kqt13.r2b1,
+    kq4.l2b2,kq5.l2b2,kq6.l2b2,kq7.l2b2,kq8.l2b2,kq9.l2b2,kq10.l2b2,
+    kqtl11.l2b2,kqt12.l2b2,kqt13.l2b2,
+    kq4.r2b2,kq5.r2b2,kq6.r2b2,kq7.r2b2,kq8.r2b2,kq9.r2b2,kq10.r2b2,
+    kqtl11.r2b2,kqt12.r2b2,kqt13.r2b2,
+    betxip2b1,betyip2b1,alfxip2b1,alfyip2b1,dxip2b1,dpxip2b1,
+    betxip2b2,betyip2b2,alfxip2b2,alfyip2b2,dxip2b2,dpxip2b2,
+    muxip2b1,muyip2b1, muxip2b2,muyip2b2,
+    acbxh1.l2,acbxh1.r2,acbxh2.l2,acbxh2.r2,acbxh3.l2,acbxh3.r2
+    acbxv1.l2,acbxv1.r2,acbxv2.l2,acbxv2.r2,acbxv3.l2,acbxv3.r2,
+    acbyvs4.l2b1,acbyvs4.r2b1,acbyvs5.l2b1,acbcvs5.r2b1,
+    acbyvs4.l2b2,acbyvs4.r2b2,acbyvs5.l2b2,acbcvs5.r2b2,
+    acbyhs4.l2b1,acbyhs4.r2b1,acbyhs5.l2b1,acbchs5.r2b1,
+    acbyhs4.l2b2,acbyhs4.r2b2,acbyhs5.l2b2,acbchs5.r2b2,
+    acbcv6.l2b1,acbyh5.l2b1,acbyv4.l2b1,acbyh4.r2b1,acbcv5.r2b1,
+    acbch6.r2b1,acbch6.l2b2,acbyv5.l2b2,acbyh4.l2b2,acbyv4.r2b2,
+    acbch5.r2b2,acbcv6.r2b2,
+    scxir1, scyir1,
+    tarir2b1,tarir2b2,
+    timestamp;
+    on_opticstbl_ir2=1;value,on_opticstbl_ir2;
+  };
+};
+
+
+make_opticstbl_ir4(ir4):macro={
+  if (on_opticstbl_ir4==0){
+    create,table=ir4_log_str,column=
+    kq5.l4b1,kq6.l4b1,kq7.l4b1,kq8.l4b1,kq9.l4b1,kq10.l4b1,
+    kqtl11.l4b1,kqt12.l4b1,kqt13.l4b1,
+    kq5.r4b1,kq6.r4b1,kq7.r4b1,kq8.r4b1,kq9.r4b1,kq10.r4b1,
+    kqtl11.r4b1,kqt12.r4b1,kqt13.r4b1,
+    kq5.l4b2,kq6.l4b2,kq7.l4b2,kq8.l4b2,kq9.l4b2,kq10.l4b2,
+    kqtl11.l4b2,kqt12.l4b2,kqt13.l4b2,
+    kq5.r4b2,kq6.r4b2,kq7.r4b2,kq8.r4b2,kq9.r4b2,kq10.r4b2,
+    kqtl11.r4b2,kqt12.r4b2,kqt13.r4b2,
+    betxip4b1,betyip4b1,alfxip4b1,alfyip4b1,dxip4b1,dpxip4b1,
+    betxip4b2,betyip4b2,alfxip4b2,alfyip4b2,dxip4b2,dpxip4b2,
+    muxip4b1,muyip4b1, muxip4b2,muyip4b2,
+    scxir5, scyir5,
+    tarir4b1,tarir4b2,
+    timestamp;
+    on_opticstbl_ir4=1;value,on_opticstbl_ir4;
+  };
+};
+
+make_opticstbl_ir6(ir6):macro={
+  if (on_opticstbl_ir6==0){
+    create,table=ir6_log_str,column=
+    kq5.l6b1,kq6.l6b1,kq7.l6b1,kq8.l6b1,kq9.l6b1,kq10.l6b1,
+    kqtl11.l6b1,kqt12.l6b1,kqt13.l6b1,
+    kq5.r6b1,kq6.r6b1,kq7.r6b1,kq8.r6b1,kq9.r6b1,kq10.r6b1,
+    kqtl11.r6b1,kqt12.r6b1,kqt13.r6b1,
+    kq5.l6b2,kq6.l6b2,kq7.l6b2,kq8.l6b2,kq9.l6b2,kq10.l6b2,
+    kqtl11.l6b2,kqt12.l6b2,kqt13.l6b2,
+    kq5.r6b2,kq6.r6b2,kq7.r6b2,kq8.r6b2,kq9.r6b2,kq10.r6b2,
+    kqtl11.r6b2,kqt12.r6b2,kqt13.r6b2,
+    betxip6b1,betyip6b1,alfxip6b1,alfyip6b1,dxip6b1,dpxip6b1,
+    betxip6b2,betyip6b2,alfxip6b2,alfyip6b2,dxip6b2,dpxip6b2,
+    muxip6b1,muyip6b1, muxip6b2,muyip6b2,
+    scxir5, scyir5,
+    tarir6b1,tarir6b2,
+    timestamp;
+    on_opticstbl_ir6=1;value,on_opticstbl_ir6;
+  };
+};
+
+make_opticstbl_ir3(ir3):macro={
+  if (on_opticstbl_ir3==0){
+    create,table=ir3_log_str,column=
+    kq4.lr3,kqt4.l3,kqt4.r3,kq5.lr3,kqt5.l3,kqt5.r3,
+    kq6.l3b1,kq6.r3b1,kqtl7.l3b1,kqtl7.r3b1,kqtl8.l3b1,kqtl8.r3b1,
+    kqtl9.l3b1,kqtl9.r3b1,kqtl10.l3b1,kqtl10.r3b1,kqtl11.l3b1,kqtl11.r3b1
+    kq6.l3b2,kq6.r3b2,kqtl7.l3b2,kqtl7.r3b2,kqtl8.l3b2,kqtl8.r3b2,
+    kqtl9.l3b2,kqtl9.r3b2,kqtl10.l3b2,kqtl10.r3b2,kqtl11.l3b2,kqtl11.r3b2,
+    betxip3b1,betyip3b1,alfxip3b1,alfyip3b1,dxip3b1,dpxip3b1,
+    betxip3b2,betyip3b2,alfxip3b2,alfyip3b2,dxip3b2,dpxip3b2,
+    muxip3b1,muyip3b1, muxip3b2,muyip3b2,
+    tarir3b1,tarir3b2,
+    timestamp;
+    on_opticstbl_ir3=1;value,on_opticstbl_ir3;
+  };
+};
+
+make_opticstbl_ir7(ir3):macro={
+  if (on_opticstbl_ir7==0){
+    create,table=ir7_log_str,column=
+    kq4.lr7,kqt4.l7,kqt4.r7,kq5.lr7,kqt5.l7,kqt5.r7,
+    kq6.l7b1,kq6.r7b1,kqtl7.l7b1,kqtl7.r7b1,kqtl8.l7b1,kqtl8.r7b1,
+    kqtl9.l7b1,kqtl9.r7b1,kqtl10.l7b1,kqtl10.r7b1,kqtl11.l7b1,kqtl11.r7b1
+    kq6.l7b2,kq6.r7b2,kqtl7.l7b2,kqtl7.r7b2,kqtl8.l7b2,kqtl8.r7b2,
+    kqtl9.l7b2,kqtl9.r7b2,kqtl10.l7b2,kqtl10.r7b2,kqtl11.l7b2,kqtl11.r7b2,
+    betxip7b1,betyip7b1,alfxip7b1,alfyip7b1,dxip7b1,dpxip7b1,
+    betxip7b2,betyip7b2,alfxip7b2,alfyip7b2,dxip7b2,dpxip7b2,
+    muxip7b1,muyip7b1, muxip7b2,muyip7b2,
+    tarir7b1,tarir7b2,
+    timestamp;
+    on_opticstbl_ir7=1;value,on_opticstbl_ir7;
+  };
+};
+
+read_opticstbl(ir5): macro={
+  if (on_opticstbl_ir5==0){
+    readmytable,table=ir5_log_strold,file=ir5_log_str.tfs;
+    exec,make_opticstbl_ir5(ir5);
+    ! copy in the new one
+    iii=1; iiistop=table(ir5_log_strold,tablelength);
+    while(iii<=iiistop){
+      setvars,table=ir5_log_strold,row=iii;
+      fill,table=ir5_log_str;
+      iii=iii+1;
+    };
+    on_opticstbl_ir5=1;
+  };
+  stored_optics_ir5=table(ir5_log_str,tablelength);
+  value,on_opticstbl_ir5,stored_optics_ir5;
+};
+
+store_optics(ir5): macro={
+  if (on_opticstbl_ir5==1){
+    exec,get_timestamp;
+    fill,table=ir5_log_str;
+    write,table=ir5_log_str,file=ir5_log_str.tfs;
+    stored_optics_ir5=table(ir5_log_str,tablelength);
+    value,stored_optics_ir5;
+  };
+};
+
+load_optics(ir5,nnn): macro={
+  if (on_opticstbl_ir5==1){
+    setvars,table=ir5_log_str,row=nnn;
+    stored_optics_ir5=nnn;
+    print, text="loaded optics: nnn";
+    value,stored_optics_ir5;
+  };
+};
+
+load_lastoptics(ir5): macro={
+  if (on_opticstbl_ir5==1){
+    setvars,table=ir5_log_str;
+    stored_optics_ir5=table(ir5_log_str,tablelength);
+    value,stored_optics_ir5;
+  };
+};
+
+get_timestamp: macro={
+system, "date '+timestamp=%s;' >tmp_ttstamp";
+call,file=tmp_ttstamp;
+system, "rm tmp_ttstamp";
+};
+
+value, kqx1.l5;

@@ -1,0 +1,156 @@
+!introduce markers between the cavity pairs and at the entrance and exit of D2 in order to check the orbit in D2 -> aperture
+!S. = arc side, E. = ip side
+use, sequence=lhcb1;
+seqedit, sequence=lhcb1;
+install, element=M.ACFC.ABL5.B1,class=MARKER,at=-(posCRABA2+posCRABB2)/2,from=IP5;!D C  B A   IP   A B  C D
+install, element=M.ACFC.ABR5.B1,class=MARKER,at= (posCRABA1+posCRABB1)/2,from=IP5;
+install, element=M.ACFC.CDL5.B1,class=MARKER,at=-(posCRABC2+posCRABD2)/2,from=IP5;
+install, element=M.ACFC.CDR5.B1,class=MARKER,at= (posCRABC1+posCRABD1)/2,from=IP5;
+endedit;
+
+use, sequence=lhcb2;
+seqedit, sequence=lhcb2;
+install, element=M.ACFC.ABL5.B2,class=MARKER,at=-(posCRABA1+posCRABB1)/2,from=IP5;!D C  B A   IP   A B  C D
+install, element=M.ACFC.ABR5.B2,class=MARKER,at= (posCRABA2+posCRABB2)/2,from=IP5;
+install, element=M.ACFC.CDL5.B2,class=MARKER,at=-(posCRABC1+posCRABD1)/2,from=IP5;
+install, element=M.ACFC.CDR5.B2,class=MARKER,at= (posCRABC2+posCRABD2)/2,from=IP5;
+endedit;
+
+matchOrbcrabShift(IRN,VAR1): macro={
+  Use, period= LHCB1,RANGE=S.DS.LIRN.B1/E.DS.RIRN.B1;
+  Use, period= LHCB2,RANGE=S.DS.LIRN.B2/E.DS.RIRN.B2;
+  match, sequence=LHCB1,LHCB2, beta0= bir5b1,bir5b2, x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=ACFCA.DLIRN.B1, x  =  Occxb1, px=0.0, y  =  Occyb1, py=0.0;
+  constraint, sequence=lhcb2,range=ACFCA.DLIRN.B2, x  =  Occxb2, px=0.0, y  =  Occyb2, py=0.0;
+  constraint, sequence=lhcb1,range=IPIRN, x  =  0, px =  0, y  =  0, py =  0;
+  constraint, sequence=lhcb2,range=IPIRN, x  =  0, px =  0, y  =  0, py =  0;
+  constraint, sequence=lhcb1,range=ACFCA.DRIRN.B1, x  =  Occxb1, px=0.0, y  =  Occyb1, py=0.0;
+  constraint, sequence=lhcb2,range=ACFCA.DRIRN.B2, x  =  Occxb2, px=0.0, y  =  Occyb2, py=0.0;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,x = 0.0, px = 0.0,y = 0.0, py = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.B2,x = 0.0, px = 0.0,y = 0.0, py = 0.0;
+  acbxh2.lIRNVAR1:=acbxh1.lIRNVAR1;
+  vary, name=acbxh3.lIRNVAR1    ,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxh2.lIRNVAR1   ,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxh1.lIRNVAR1    ,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  acbxh2.rIRNVAR1:=acbxh1.rIRNVAR1;
+  vary, name=acbxh3.rIRNVAR1    ,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxh2.rIRNVAR1   ,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxh1.rIRNVAR1    ,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbrdh4.lIRNb1VAR1;
+  vary, name=acbrdh4.lIRNb2VAR1;
+  vary, name=acbrdh4.rIRNb1VAR1;
+  vary, name=acbrdh4.rIRNb2VAR1;
+  vary, name=acbyhs4.rIRNb1VAR1;
+  vary, name=acbyhs4.lIRNb1VAR1;
+  vary, name=acbyhs4.rIRNb2VAR1;
+  vary, name=acbyhs4.lIRNb2VAR1;
+  vary, name=acbyhs5.lIRNb1VAR1;
+  vary, name=acbyhs5.lIRNb2VAR1;
+  vary, name=acbyhs5.rIRNb1VAR1;
+  vary, name=acbyhs5.rIRNb2VAR1;
+!  vary, name=acbch6.lIRNb1VAR1, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+!  vary, name=acbch6.rIRNb2VAR1, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+!  vary, name=acbch7.rIRNb1VAR1, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+!  vary, name=acbch7.lIRNb2VAR1, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+
+  acbxv2.lIRNVAR1:=acbxv1.lIRNVAR1;
+  vary, name=acbxv3.lIRNVAR1    ,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxv2.lIRNVAR1   ,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxv1.lIRNVAR1    ,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  acbxv2.rIRNVAR1:=acbxv1.rIRNVAR1;
+  vary, name=acbxv3.rIRNVAR1    ,step=1.e-12,lower=-climmcbxfa,upper=climmcbxfa;
+!  vary, name=acbxv2.rIRNVAR1   ,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbxv1.rIRNVAR1    ,step=1.e-12,lower=-climmcbxfb,upper=climmcbxfb;
+  vary, name=acbrdv4.lIRNb1VAR1;
+  vary, name=acbrdv4.lIRNb2VAR1;
+  vary, name=acbrdv4.rIRNb1VAR1;
+  vary, name=acbrdv4.rIRNb2VAR1;
+  vary, name=acbyvs4.rIRNb1VAR1;
+  vary, name=acbyvs4.lIRNb1VAR1;
+  vary, name=acbyvs4.rIRNb2VAR1;
+  vary, name=acbyvs4.lIRNb2VAR1;
+  vary, name=acbyvs5.lIRNb1VAR1;
+  vary, name=acbyvs5.lIRNb2VAR1;
+  vary, name=acbyvs5.rIRNb1VAR1;
+  vary, name=acbyvs5.rIRNb2VAR1;
+!  vary, name=acbcv6.rIRNb1VAR1, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+!  vary, name=acbcv6.lIRNb2VAR1, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+!  vary, name=acbcv7.lIRNb1VAR1, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+!  vary, name=acbcv7.rIRNb2VAR1, step=1.0E-15,lower=-climmcbc,upper=climmcbc;
+  jacobian, calls = 10, tolerance=1.E-30,bisec=3;
+  endmatch;
+};
+
+
+matchOrbcrabDabcd(IRN): macro={
+  Use, period= LHCB1,RANGE=S.DS.LIRN.B1/E.DS.RIRN.B1;
+  Use, period= LHCB2,RANGE=S.DS.LIRN.B2/E.DS.RIRN.B2;
+  match, sequence=LHCB1,LHCB2, beta0= bir5b1,bir5b2,
+                               x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=M.ACFC.CDLIRN.B1, x  =  dABCD, y  =  dABCD;
+  constraint, sequence=lhcb2,range=M.ACFC.CDLIRN.b2, x  =  dABCD, y  =  dABCD;
+  constraint, sequence=lhcb1,range=IPIRN, x  =  0, px =  0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb2,range=IPIRN, x  =  0, px =  0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb1,range=M.ACFC.CDRIRN.B1, x  =  dABCD, y  =  dABCD;
+  constraint, sequence=lhcb2,range=M.ACFC.CDRIRN.b2, x  =  dABCD, y  =  dABCD;
+  constraint, sequence=lhcb1,range=E.DS.RIRN.B1,x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  constraint, sequence=lhcb2,range=E.DS.RIRN.b2,x = 0.0, px = 0.0, y = 0.0, py = 0.0;
+  vary, name=acbyhs4.rIRNb1ccs;
+  vary, name=acbyhs4.lIRNb1ccs;
+  vary, name=acbyhs4.rIRNb2ccs;
+  vary, name=acbyhs4.lIRNb2ccs;
+  vary, name=acbyhs5.lIRNb1ccs;
+  vary, name=acbyhs5.lIRNb2ccs;
+  vary, name=acbyhs5.rIRNb1ccs;
+  vary, name=acbyhs5.rIRNb2ccs;
+
+  vary, name=acbyvs4.rIRNb1ccs;
+  vary, name=acbyvs4.lIRNb1ccs;
+  vary, name=acbyvs4.rIRNb2ccs;
+  vary, name=acbyvs4.lIRNb2ccs;
+  vary, name=acbyvs5.lIRNb1ccs;
+  vary, name=acbyvs5.lIRNb2ccs;
+  vary, name=acbyvs5.rIRNb1ccs;
+  vary, name=acbyvs5.rIRNb2ccs;
+jacobian, calls = 10, tolerance=1.E-30,bisec=3;
+endmatch;
+
+};
+
+exec,resetXscheme(1);
+exec,resetXscheme(5);
+exec,cableXscheme(1);
+exec,cableXscheme(5);
+return;
+
+!shift knobs
+!ccp knob
+Occxb1:=Occ;Occyb1:=Occ;
+Occxb2:=Occ;Occyb2:=Occ;
+exec,matchOrbcrabShift(5,ccp);
+!ccm knob
+Occxb1:= Occ;Occyb1:= Occ;
+Occxb2:=-Occ;Occyb2:=-Occ;
+exec,matchOrbcrabShift(5,ccm);
+!slope knob (ccs):
+!create a knob to control the offset between the crab cavities for one beam
+!general layout: 2 crab cavities per cryomodule and 4 crab cavities per side per beam
+!move cryo module DC in respect to BA, while BA stays fixed + close orbit bump with MCBRD -> condition x(IP5=0)
+exec,matchOrbcrabDabcd(5);
+
+use, sequence=lhcb1;
+seqedit, sequence=lhcb1;
+remove, element=M.ACFC.ABL5.B1;!D C  B A   IP   A B  C D
+remove, element=M.ACFC.ABR5.B1;
+remove, element=M.ACFC.CDL5.B1;
+remove, element=M.ACFC.CDR5.B1;
+endedit;
+
+use, sequence=lhcb2;
+seqedit, sequence=lhcb2;
+remove, element=M.ACFC.ABL5.B2;!D C  B A   IP   A B  C D
+remove, element=M.ACFC.ABR5.B2;
+remove, element=M.ACFC.CDL5.B2;
+remove, element=M.ACFC.CDR5.B2;
+endedit;
+

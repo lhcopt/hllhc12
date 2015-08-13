@@ -1,0 +1,295 @@
+!!Toolkit to match the spurious dispersion induced by the X-angle in collision
+!!S. Fartoukh for the ATS_V6.503: March 2011
+!!Extracted on 2011/11/10
+
+
+TRACK_DISP(NIP1,NIP2,BIM,dpxaux,dpyaux) : macro ={
+!Track the disperion from NIP1 to NIP2 with initial conditions on dpx and dpy
+use,sequence=lhcBIM,range=IPNIP1/IPNIP2;
+twiss,x=xIPNIP1BIM,px=pxIPNIP1BIM,y=yIPNIP1BIM,py=pyIPNIP1BIM,dx=0,dpx=dpxaux,dy=0,dpy=dpyaux,betx=1,bety=1;
+xres=table(twiss,IPNIP2,x);yres=table(twiss,IPNIP2,y);
+pxres=table(twiss,IPNIP2,px);pyres=table(twiss,IPNIP2,py);
+dxres=table(twiss,IPNIP2,dx);dyres=table(twiss,IPNIP2,dy);
+dpxres=table(twiss,IPNIP2,dpx);dpyres=table(twiss,IPNIP2,dpy);};
+
+
+REF_OPT : macro = {
+
+!Record the nominal Dx/Dpx w/o X-scheme
+ 
+ on_x1aux=on_x1;on_sep1aux=on_sep1;
+ on_x2aux=on_x2;on_sep2aux=on_sep2;on_aliceaux=on_alice;
+ on_x5aux=on_x1;on_sep5aux=on_sep5;
+ on_x8aux=on_x2;on_sep8aux=on_sep8;on_lhcbaux=on_lhcb;
+ on_dispaux=on_disp;
+ 
+ on_x1:=0;on_x5:=0;on_sep1:=0;on_sep5:=0;
+ on_x2:=0;on_x8:=0;on_sep2:=0;on_sep8:=0;on_lhcb:=0;on_alice:=0;
+ on_disp=0;
+
+use,sequence=lhcb1;twiss;
+DxIP2b1=table(twiss,IP2,dx);DpxIP2b1=table(twiss,IP2,dpx);
+DxIP4b1=table(twiss,IP4,dx);DpxIP4b1=table(twiss,IP4,dpx);
+DxIP6b1=table(twiss,IP6,dx);DpxIP6b1=table(twiss,IP6,dpx);
+DxIP8b1=table(twiss,IP8,dx);DpxIP8b1=table(twiss,IP8,dpx);
+!PLOT,STYLE=100,TITLE="CO-Beam1",HAXIS=S,VAXIS1=X,Y;
+!PLOT,STYLE=100,TITLE="Disp-Beam1",HAXIS=S,VAXIS1=DX,DY;
+use,sequence=lhcb2;twiss;
+DxIP2b2=table(twiss,IP2,dx);DpxIP2b2=table(twiss,IP2,dpx);
+DxIP4b2=table(twiss,IP4,dx);DpxIP4b2=table(twiss,IP4,dpx);
+DxIP6b2=table(twiss,IP6,dx);DpxIP6b2=table(twiss,IP6,dpx);
+DxIP8b2=table(twiss,IP8,dx);DpxIP8b2=table(twiss,IP8,dpx);
+!PLOT,STYLE=100,TITLE="CO-Beam2",HAXIS=S,VAXIS1=X,Y;
+!PLOT,STYLE=100,TITLE="Disp-Beam2",HAXIS=S,VAXIS1=DX,DY;
+value,DxIP2b1,DpxIP2b1,DxIP8b1,DpxIP8b1,DxIP2b2,DpxIP2b2,DxIP8b2,DpxIP8b2;
+value,DxIP4b1,DpxIP4b1,DxIP6b1,DpxIP6b1,DxIP4b2,DpxIP4b2,DxIP6b2,DpxIP6b2;
+
+!Record the nominal orbit with X-scheme
+ 
+ on_x1:=1;on_x5:=1;     !Only correct the effect of the X-angle in IR1 and IR5 
+ on_sep1:=1;on_sep5:=1;
+
+use,sequence=lhcb1;twiss;
+xIP1b1=table(twiss,IP1,x);pxIP1b1=table(twiss,IP1,px);
+yIP1b1=table(twiss,IP1,y);pyIP1b1=table(twiss,IP1,py);
+xIP2b1=table(twiss,IP2,x);pxIP2b1=table(twiss,IP2,px);
+yIP2b1=table(twiss,IP2,y);pyIP2b1=table(twiss,IP2,py);
+xIP5b1=table(twiss,IP5,x);pxIP5b1=table(twiss,IP5,px);
+yIP5b1=table(twiss,IP5,y);pyIP5b1=table(twiss,IP5,py);
+xIP8b1=table(twiss,IP8,x);pxIP8b1=table(twiss,IP8,px);
+yIP8b1=table(twiss,IP8,y);pyIP8b1=table(twiss,IP8,py);
+!PLOT,STYLE=100,TITLE="CO-Beam1",HAXIS=S,VAXIS1=X,Y;
+!PLOT,STYLE=100,TITLE="Disp-Beam1",HAXIS=S,VAXIS1=DX,DY;
+use,sequence=lhcb2;twiss;
+xIP1b2=table(twiss,IP1,x);pxIP1b2=table(twiss,IP1,px);
+yIP1b2=table(twiss,IP1,y);pyIP1b2=table(twiss,IP1,py);
+xIP2b2=table(twiss,IP2,x);pxIP2b2=table(twiss,IP2,px);
+yIP2b2=table(twiss,IP2,y);pyIP2b2=table(twiss,IP2,py);
+xIP5b2=table(twiss,IP5,x);pxIP5b2=table(twiss,IP5,px);
+yIP5b2=table(twiss,IP5,y);pyIP5b2=table(twiss,IP5,py);
+xIP8b2=table(twiss,IP8,x);pxIP8b2=table(twiss,IP8,px);
+yIP8b2=table(twiss,IP8,y);pyIP8b2=table(twiss,IP8,py);
+!PLOT,STYLE=100,TITLE="CO-Beam2",HAXIS=S,VAXIS1=X,Y;
+!PLOT,STYLE=100,TITLE="Disp-Beam2",HAXIS=S,VAXIS1=DX,DY;
+value,xIP1b1,pxIP1b1,yIP1b1,pyIP1b1;
+value,xIP1b2,pxIP1b2,yIP1b2,pyIP1b2;
+value,xIP2b1,pxIP2b1,yIP2b1,pyIP2b1;
+value,xIP2b2,pxIP2b2,yIP2b2,pyIP2b2;
+value,xIP5b1,pxIP5b1,yIP5b1,pyIP5b1;
+value,xIP5b2,pxIP5b2,yIP5b2,pyIP5b2;
+value,xIP8b1,pxIP8b1,yIP8b1,pyIP8b1;
+value,xIP8b2,pxIP8b2,yIP8b2,pyIP8b2;
+
+ on_x1=on_x1aux;on_sep1=on_sep1aux;
+ on_x2=on_x2aux;on_sep2=on_sep2aux;on_alice=on_aliceaux;
+ on_x5=on_x1aux;on_sep5=on_sep5aux;
+ on_x8=on_x2aux;on_sep8=on_sep8aux;on_lhcb=on_lhcbaux;
+ on_disp=on_dispaux;
+ 
+};
+
+GENER_BUMP(ex1,ex2) : macro = {
+
+!Generate the bumps to correct Dx/Dy 
+kmcb_max=80.e-6;
+
+ on_x1aux=on_x1;on_sep1aux=on_sep1;
+ on_x2aux=on_x2;on_sep2aux=on_sep2;on_aliceaux=on_alice;
+ on_x5aux=on_x1;on_sep5aux=on_sep5;
+ on_x8aux=on_x2;on_sep8aux=on_sep8;on_lhcbaux=on_lhcb;
+ 
+ on_x1:=1;on_x5:=1;on_sep1:=1;on_sep5:=1;!Only correct the effect of the X-angle in IR1 and IR5
+ on_x2:=0;on_x8:=0;on_sep2:=0;on_sep8:=0;on_lhcb:=0;on_alice:=0;
+
+!Left-IR1-b1
+use,period=lhcb1,range=IP8/IP1;
+MATCH, sequence=lhcb1,betx=1,bety=1,dx=dxIP8b1,dpx=dpxIP8b1,dy=0,dpy=0,x=0,px=0,y=0,py=0;
+constraint,sequence=lhcb1,range=e.ds.l1.b1,x=0,px=0,y=0,py=0; 
+constraint,sequence=lhcb1,range=IP1,Dx=0,Dy=0;
+!vary,name=acbh14.r8b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh16.r8b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh14.l1b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh12.l1b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbv13.r8b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv15.r8b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv15.l1b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv13.l1b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+jacobian,calls=10,tolerance=1.e-31;
+endmatch;
+tardispip1b1l=tar;
+
+!Right-IR1-b1
+dpxaux=0;dpyaux=0;
+match,use_macro;
+vary,name=acbh13.r1b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh15.r1b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh15.l2b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbh13.l2b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=dpxaux;
+vary,name=acbv12.r1b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv14.r1b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv16.l2b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbv14.l2b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=dpyaux;
+use_macro,name=track_disp(1,2,b1,dpxaux,dpyaux);
+constraint,expr=xres=0;
+constraint,expr=pxres=0;
+constraint,expr=dxres=dxIP2b1;
+constraint,expr=dpxres=dpxIP2b1;
+constraint,expr=yres=0;
+constraint,expr=pyres=0;
+constraint,expr=dyres=0;
+constraint,expr=dpyres=0;
+jacobian,calls=10,tolerance=1.e-28;
+endmatch;
+tardispip1b1r=tar;
+
+!Left-IR1-b2
+use,period=lhcb2,range=IP8/IP1;
+MATCH, sequence=lhcb2,betx=1,bety=1,dx=dxIP8b2,dpx=dpxIP8b2,dy=0,dpy=0,x=0,px=0,y=0,py=0;
+constraint,sequence=lhcb2,range=e.ds.l1.b2,x=0,px=0,y=0,py=0; 
+constraint,sequence=lhcb2,range=IP1,Dx=0,Dy=0;
+!vary,name=acbh13.r8b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh15.r8b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh15.l1b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh13.l1b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbv14.r8b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv16.r8b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv14.l1b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv12.l1b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+jacobian,calls=10,tolerance=1.e-31;
+endmatch;
+tardispip1b2l=tar;
+
+!H-plane:Right-IR1-b2
+dpxaux=0;dpyaux=0;
+match,use_macro;
+vary,name=acbh12.r1b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh14.r1b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh16.l2b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbh14.l2b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=dpxaux;
+vary,name=acbv13.r1b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv15.r1b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv15.l2b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbv13.l2b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=dpyaux;
+use_macro,name=track_disp(1,2,b2,dpxaux,dpyaux);
+constraint,expr=xres=0;
+constraint,expr=pxres=0;
+constraint,expr=dxres=dxIP2b2;
+constraint,expr=dpxres=dpxIP2b2;
+constraint,expr=yres=0;
+constraint,expr=pyres=0;
+constraint,expr=dyres=0;
+constraint,expr=dpyres=0;
+jacobian,calls=10,tolerance=1.e-28;
+endmatch;
+tardispip1b2r=tar;
+
+!Left-IR5-b1
+use,period=lhcb1,range=IP4/IP5;
+MATCH, sequence=lhcb1,betx=1,bety=1,dx=dxIP4b1,dpx=dpxIP4b1,dy=0,dpy=0,x=0,px=0,y=0,py=0;
+constraint,sequence=lhcb1,range=e.ds.l5.b1,x=0,px=0,y=0,py=0; 
+constraint,sequence=lhcb1,range=IP5,Dx=0,Dy=0;
+!vary,name=acbh14.r4b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh16.r4b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh14.l5b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh12.l5b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbv13.r4b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv15.r4b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv15.l5b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv13.l5b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+jacobian,calls=10,tolerance=1.e-31;
+endmatch;
+tardispip5b1l=tar;
+
+!Right-IR5-b1
+dpxaux=0;dpyaux=0;
+match,use_macro;
+vary,name=acbh13.r5b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh15.r5b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh15.l6b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbh13.l6b1ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=dpxaux;
+vary,name=acbv12.r5b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv14.r5b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv16.l6b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbv14.l6b1ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=dpyaux;
+use_macro,name=track_disp(5,6,b1,dpxaux,dpyaux);
+constraint,expr=xres=0;
+constraint,expr=pxres=0;
+constraint,expr=dxres=dxIP6b1;
+constraint,expr=dpxres=dpxIP6b1;
+constraint,expr=yres=0;
+constraint,expr=pyres=0;
+constraint,expr=dyres=0;
+constraint,expr=dpyres=0;
+jacobian,calls=10,tolerance=1.e-28;
+endmatch;
+tardispip5b1r=tar;
+
+!Left-IR5-b2
+use,period=lhcb2,range=IP4/IP5;
+MATCH, sequence=lhcb2,betx=1,bety=1,dx=dxIP4b2,dpx=dpxIP4b2,dy=0,dpy=0,x=0,px=0,y=0,py=0;
+constraint,sequence=lhcb2,range=e.ds.l5.b2,x=0,px=0,y=0,py=0; 
+constraint,sequence=lhcb2,range=IP5,Dx=0,Dy=0;
+!vary,name=acbh13.r4b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh15.r4b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh15.l5b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh13.l5b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbv14.r4b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv16.r4b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv14.l5b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv12.l5b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+jacobian,calls=10,tolerance=1.e-31;
+endmatch;
+tardispip5b2l=tar;
+
+!Right-IR5-b2
+dpxaux=0;dpyaux=0;
+match,use_macro;
+vary,name=acbh12.r5b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh14.r5b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbh16.l6b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbh14.l6b2ex1,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=dpxaux;
+vary,name=acbv13.r5b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv15.r5b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=acbv15.l6b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+!vary,name=acbv13.l6b2ex2,LOWER=-kmcb_max,UPPER=kmcb_max;
+vary,name=dpyaux;
+use_macro,name=track_disp(5,6,b2,dpxaux,dpyaux);
+constraint,expr=xres=0;
+constraint,expr=pxres=0;
+constraint,expr=dxres=dxIP6b2;
+constraint,expr=dpxres=dpxIP6b2;
+constraint,expr=yres=0;
+constraint,expr=pyres=0;
+constraint,expr=dyres=0;
+constraint,expr=dpyres=0;
+jacobian,calls=10,tolerance=1.e-28;
+endmatch;
+tardispip5b2r=tar;
+  
+ on_x1=on_x1aux;on_sep1=on_sep1aux;
+ on_x2=on_x2aux;on_sep2=on_sep2aux;on_alice=on_aliceaux;
+ on_x5=on_x1aux;on_sep5=on_sep5aux;
+ on_x8=on_x2aux;on_sep8=on_sep8aux;on_lhcb=on_lhcbaux;
+  
+};
+
+exec CABLE_CROSS;       ! cabling the crossing scheme
+exec OFF_DISPCOR;       ! switching off the arc MCB
+exec CABLE_DISPCOR;     ! cabling the arc MCB
+
+on_dispaux=on_disp;phi_ir1aux=phi_ir1;phi_ir5aux=phi_ir5;
+on_disp=1;phi_ir1= 0.0;phi_ir5= 0.0; exec REF_OPT; exec GENER_BUMP(x,s);
+on_disp=1;phi_ir1=90.0;phi_ir5=90.0; exec REF_OPT; exec GENER_BUMP(s,x);
+on_disp=on_dispaux;phi_ir1=phi_ir1aux;phi_ir5=phi_ir5aux;
+
+!exec PLOT_DISPCO(b1,1);
+!exec PLOT_DISPCO(b2,1);
+
+ return;
