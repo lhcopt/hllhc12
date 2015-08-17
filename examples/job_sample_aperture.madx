@@ -34,8 +34,8 @@ call,file="slhc/aperture/aperture_upgrade_MS.madx";
 call,file="slhc/aperture/aperture_upgrade_IT.madx";
 
 exec,mk_beam(7000);
-call,file="slhc/opt_presqueeze.madx";
-!call,file="slhc/opt_round.madx";
+!call,file="slhc/opt_presqueeze.madx";
+call,file="slhc/opt_round.madx";
 !call,file="slhc/opt_flat.madx";
 
 !exec,mk_beam(450);
