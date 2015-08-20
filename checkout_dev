@@ -1,0 +1,14 @@
+git checkout dev aperture/*.py
+git checkout dev aperture/*.madx
+git checkout dev aperture/offset*
+git checkout dev examples/*.madx 
+git checkout dev 
+git checkout dev 
+git checkout dev 
+git checkout dev 
+git checkout dev 
+git checkout dev 
+git checkout dev 
+git checkout dev 
+git checkout dev 
+git checkout dev 
