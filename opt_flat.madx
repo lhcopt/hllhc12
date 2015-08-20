@@ -643,49 +643,49 @@ acbch6.r1b2 :=+on_x1  *cphi_ir1*(    0.0000000000e+00)
            +on_ccsh1  *(    0.0000000000e+00);
 acbcv7.l1b1x =     0.0000000000e+00 ;
 acbcv7.l1b1s =     0.0000000000e+00 ;
-acbcv7.l1b1o =    -1.1252017440e-05 ;
+acbcv7.l1b1o =     0.0000000000e+00 ;
 acbcv7.l1b1ccp =     0.0000000000e+00 ;
 acbcv7.l1b1ccm =     0.0000000000e+00 ;
 acbcv7.l1b1ccs =     0.0000000000e+00 ;
 acbcv7.l1b1 :=+on_x1  *sphi_ir1*(    0.0000000000e+00)
            +on_sep1*cphi_ir1*(    0.0000000000e+00)
-           +on_o1  *sphio_ir1*(   -1.1252017440e-05)
+           +on_o1  *sphio_ir1*(    0.0000000000e+00)
            +on_ccpv1  *(    0.0000000000e+00)
            +on_ccmv1  *(    0.0000000000e+00)
            +on_ccsv1  *(    0.0000000000e+00);
 acbch7.l1b2x =     0.0000000000e+00 ;
 acbch7.l1b2s =     0.0000000000e+00 ;
-acbch7.l1b2o =    -7.4552081439e-05 ;
+acbch7.l1b2o =     0.0000000000e+00 ;
 acbch7.l1b2ccp =     0.0000000000e+00 ;
 acbch7.l1b2ccm =     0.0000000000e+00 ;
 acbch7.l1b2ccs =     0.0000000000e+00 ;
 acbch7.l1b2 :=+on_x1  *cphi_ir1*(    0.0000000000e+00)
            +on_sep1*sphi_ir1*(    0.0000000000e+00)
-           +on_o1  *cphio_ir1*(   -7.4552081439e-05)
+           +on_o1  *cphio_ir1*(    0.0000000000e+00)
            +on_ccph1  *(    0.0000000000e+00)
            +on_ccmh1  *(    0.0000000000e+00)
            +on_ccsh1  *(    0.0000000000e+00);
 acbch7.r1b1x =     0.0000000000e+00 ;
 acbch7.r1b1s =     0.0000000000e+00 ;
-acbch7.r1b1o =    -9.6621775300e-05 ;
+acbch7.r1b1o =     0.0000000000e+00 ;
 acbch7.r1b1ccp =     0.0000000000e+00 ;
 acbch7.r1b1ccm =     0.0000000000e+00 ;
 acbch7.r1b1ccs =     0.0000000000e+00 ;
 acbch7.r1b1 :=+on_x1  *cphi_ir1*(    0.0000000000e+00)
            +on_sep1*sphi_ir1*(    0.0000000000e+00)
-           +on_o1  *cphio_ir1*(   -9.6621775300e-05)
+           +on_o1  *cphio_ir1*(    0.0000000000e+00)
            +on_ccph1  *(    0.0000000000e+00)
            +on_ccmh1  *(    0.0000000000e+00)
            +on_ccsh1  *(    0.0000000000e+00);
 acbcv7.r1b2x =     0.0000000000e+00 ;
 acbcv7.r1b2s =     0.0000000000e+00 ;
-acbcv7.r1b2o =    -9.4444803403e-06 ;
+acbcv7.r1b2o =     0.0000000000e+00 ;
 acbcv7.r1b2ccp =     0.0000000000e+00 ;
 acbcv7.r1b2ccm =     0.0000000000e+00 ;
 acbcv7.r1b2ccs =     0.0000000000e+00 ;
 acbcv7.r1b2 :=+on_x1  *sphi_ir1*(    0.0000000000e+00)
            +on_sep1*cphi_ir1*(    0.0000000000e+00)
-           +on_o1  *sphio_ir1*(   -9.4444803403e-06)
+           +on_o1  *sphio_ir1*(    0.0000000000e+00)
            +on_ccpv1  *(    0.0000000000e+00)
            +on_ccmv1  *(    0.0000000000e+00)
            +on_ccsv1  *(    0.0000000000e+00);
@@ -1233,49 +1233,49 @@ acbch6.r5b2 :=+on_x5  *cphi_ir5*(    0.0000000000e+00)
            +on_ccsh5  *(    0.0000000000e+00);
 acbcv7.l5b1x =     0.0000000000e+00 ;
 acbcv7.l5b1s =     0.0000000000e+00 ;
-acbcv7.l5b1o =    -3.0222802487e-05 ;
+acbcv7.l5b1o =     0.0000000000e+00 ;
 acbcv7.l5b1ccp =     0.0000000000e+00 ;
 acbcv7.l5b1ccm =     0.0000000000e+00 ;
 acbcv7.l5b1ccs =     0.0000000000e+00 ;
 acbcv7.l5b1 :=+on_x5  *sphi_ir5*(    0.0000000000e+00)
            +on_sep5*cphi_ir5*(    0.0000000000e+00)
-           +on_o5  *sphio_ir5*(   -3.0222802487e-05)
+           +on_o5  *sphio_ir5*(    0.0000000000e+00)
            +on_ccpv5  *(    0.0000000000e+00)
            +on_ccmv5  *(    0.0000000000e+00)
            +on_ccsv5  *(    0.0000000000e+00);
 acbch7.l5b2x =     0.0000000000e+00 ;
 acbch7.l5b2s =     0.0000000000e+00 ;
-acbch7.l5b2o =    -7.1873043659e-05 ;
+acbch7.l5b2o =     0.0000000000e+00 ;
 acbch7.l5b2ccp =     0.0000000000e+00 ;
 acbch7.l5b2ccm =     0.0000000000e+00 ;
 acbch7.l5b2ccs =     0.0000000000e+00 ;
 acbch7.l5b2 :=+on_x5  *cphi_ir5*(    0.0000000000e+00)
            +on_sep5*sphi_ir5*(    0.0000000000e+00)
-           +on_o5  *cphio_ir5*(   -7.1873043659e-05)
+           +on_o5  *cphio_ir5*(    0.0000000000e+00)
            +on_ccph5  *(    0.0000000000e+00)
            +on_ccmh5  *(    0.0000000000e+00)
            +on_ccsh5  *(    0.0000000000e+00);
 acbch7.r5b1x =     0.0000000000e+00 ;
 acbch7.r5b1s =     0.0000000000e+00 ;
-acbch7.r5b1o =    -8.6347301178e-05 ;
+acbch7.r5b1o =     0.0000000000e+00 ;
 acbch7.r5b1ccp =     0.0000000000e+00 ;
 acbch7.r5b1ccm =     0.0000000000e+00 ;
 acbch7.r5b1ccs =     0.0000000000e+00 ;
 acbch7.r5b1 :=+on_x5  *cphi_ir5*(    0.0000000000e+00)
            +on_sep5*sphi_ir5*(    0.0000000000e+00)
-           +on_o5  *cphio_ir5*(   -8.6347301178e-05)
+           +on_o5  *cphio_ir5*(    0.0000000000e+00)
            +on_ccph5  *(    0.0000000000e+00)
            +on_ccmh5  *(    0.0000000000e+00)
            +on_ccsh5  *(    0.0000000000e+00);
 acbcv7.r5b2x =     0.0000000000e+00 ;
 acbcv7.r5b2s =     0.0000000000e+00 ;
-acbcv7.r5b2o =    -4.9179005952e-05 ;
+acbcv7.r5b2o =     0.0000000000e+00 ;
 acbcv7.r5b2ccp =     0.0000000000e+00 ;
 acbcv7.r5b2ccm =     0.0000000000e+00 ;
 acbcv7.r5b2ccs =     0.0000000000e+00 ;
 acbcv7.r5b2 :=+on_x5  *sphi_ir5*(    0.0000000000e+00)
            +on_sep5*cphi_ir5*(    0.0000000000e+00)
-           +on_o5  *sphio_ir5*(   -4.9179005952e-05)
+           +on_o5  *sphio_ir5*(    0.0000000000e+00)
            +on_ccpv5  *(    0.0000000000e+00)
            +on_ccmv5  *(    0.0000000000e+00)
            +on_ccsv5  *(    0.0000000000e+00);
