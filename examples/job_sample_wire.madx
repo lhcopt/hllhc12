@@ -1,0 +1,46 @@
+option, warn,info;
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
+Option, -echo,-warn,-info;
+REAL CONST l.TAN   = 3.7  ;REAL CONST l.TANAL = l.TAN;
+REAL CONST l.TANAR = l.TAN;REAL CONST l.TANC  = l.TAN;
+REAL CONST l.TCT   = 1.0;REAL CONST l.TCTH  = l.TCT;REAL CONST l.TCTVA = l.TCT;
+call,file="db5/V6.5.seq";
+Option, -echo,warn,-info;
+
+on_layout_custom=0;
+call,file="slhc/hllhc_sequence.madx";
+!install markers at 3 and 5 m from end of Q4
+posw3m=posQ4+l.MQYY/2+3.0;
+posw5m=posQ4+l.MQYY/2+5.0;
+value, posw3m,posw5m;
+exec,newel_ir15_b12(WIRE3M,MARKER);
+exec,newel_ir15_b12(WIRE5M,MARKER);
+exec,install_ir15_b12(WIRE3M,posw3m);
+exec,install_ir15_b12(WIRE5M,posw5m);
+
+call,file="slhc/toolkit/macro.madx";
+
+!mylhcbeam=1; ! For Beam 1
+mylhcbeam=2; ! For Beam 2
+!mylhcbeam=4; ! For Beam 4
+
+is_thin=0; ! For thick optics
+!is_thin=1; ! For thin optics
+
+Option, -echo,-warn,-info;
+if (is_thin==1){exec, myslice;};
+Option, -echo,-warn,-info;
+
+if (is_thin==0){ call,file="slhc/opt_round_wire.madx"; };
+if (is_thin==1){ call,file="slhc/opt_round_wire_thin.madx"; };
+
+exec,mk_beam(7000);
+if (mylhcbeam==1){ exec,check_ip(b1);value, table(twiss,wire3mr5.b1,betx)/table(twiss,wire3mr5.b1,bety);};
+if (mylhcbeam==2){ exec,check_ip(b2);value, table(twiss,wire3mr5.b2,betx)/table(twiss,wire3mr5.b2,bety);};
+if (mylhcbeam==4){ exec,check_ip(b2);value, table(twiss,wire3mr5.b2,betx)/table(twiss,wire3mr5.b2,bety);};
+
+!check wire ratio
+if (mylhcbeam==1){ value, table(twiss,wire3mr5.b1,betx)/table(twiss,wire3mr5.b1,bety);value, table(twiss,wire5mr5.b1,betx)/table(twiss,wire3mr5.b1,bety);};
+if (mylhcbeam==2){ value, table(twiss,wire3mr5.b2,betx)/table(twiss,wire3mr5.b2,bety);value, table(twiss,wire5mr5.b2,betx)/table(twiss,wire3mr5.b2,bety);};
+if (mylhcbeam==4){ value, table(twiss,wire3mr5.b2,betx)/table(twiss,wire3mr5.b2,bety);value, table(twiss,wire5mr5.b2,betx)/table(twiss,wire3mr5.b2,bety);};
