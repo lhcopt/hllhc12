@@ -1,0 +1,35 @@
+h_tol_TAS_mod =0   /1000*(on_crab_knob) + 2   /1000*(on_off_knob);
+h_tol_Q1_mod  =0   /1000*(on_crab_knob) + 2.45/1000*(on_off_knob);
+h_tol_Q2_mod  =0.18/1000*(on_crab_knob) + 3.43/1000*(on_off_knob);
+h_tol_Q3_mod  =0.41/1000*(on_crab_knob) + 2.57/1000*(on_off_knob);
+h_tol_D1_mod  =0.46/1000*(on_crab_knob) + 1.74/1000*(on_off_knob);
+h_tol_TAN_mod =0.99/1000*(on_crab_knob) + 3.11/1000*(on_off_knob);
+h_tol_D2_mod  =0.99/1000*(on_crab_knob) + 3.41/1000*(on_off_knob);
+h_tol_Q4_mod  =1.5 /1000*(on_crab_knob) + 4.18/1000*(on_off_knob);
+h_tol_M5_mod  =0.06/1000*(on_crab_knob) + 3.61/1000*(on_off_knob);
+h_tol_Q5_mod  =0.25/1000*(on_crab_knob) + 3.46/1000*(on_off_knob);
+h_tol_M6_mod  =0   /1000*(on_crab_knob) + 2.13/1000*(on_off_knob);
+h_tol_Q6_mod  =0   /1000*(on_crab_knob) + 2.06/1000*(on_off_knob);
+
+v_tol_TAS_mod =h_tol_TAS_mod;
+v_tol_Q1_mod  =h_tol_Q1_mod ;
+v_tol_Q2_mod  =h_tol_Q2_mod ;
+v_tol_Q3_mod  =h_tol_Q3_mod ;
+v_tol_D1_mod  =h_tol_D1_mod ;
+v_tol_TAN_mod =h_tol_TAN_mod;
+v_tol_D2_mod  =h_tol_D2_mod ;
+v_tol_Q4_mod  =h_tol_Q4_mod ;
+v_tol_M5_mod  =h_tol_M5_mod ;
+v_tol_Q5_mod  =h_tol_Q5_mod ;
+v_tol_Q6_mod  =h_tol_Q6_mod ;
+v_tol_M6_mod  =h_tol_M6_mod ;
+
+
+MQML.6R1.B1,APER_TOL:={ 0.000840,0.000750+h_tol_Q6_mod,0.000480+v_tol_Q6_mod};
+MQML.6L5.B1,APER_TOL:={ 0.000840,0.001100+h_tol_Q6_mod,0.000380+v_tol_Q6_mod};
+MQML.6R5.B1,APER_TOL:={ 0.000840,0.000690+h_tol_Q6_mod,0.000740+v_tol_Q6_mod};
+MQML.6L1.B1,APER_TOL:={ 0.000840,0.000820+h_tol_Q6_mod,0.000640+v_tol_Q6_mod};
+MQML.6R1.B2,APER_TOL:={ 0.000840,0.000660+h_tol_Q6_mod,0.000310+v_tol_Q6_mod};
+MQML.6L5.B2,APER_TOL:={ 0.000840,0.000840+h_tol_Q6_mod,0.000550+v_tol_Q6_mod};
+MQML.6R5.B2,APER_TOL:={ 0.000840,0.000770+h_tol_Q6_mod,0.000650+v_tol_Q6_mod};
+MQML.6L1.B2,APER_TOL:={ 0.000840,0.000800+h_tol_Q6_mod,0.000530+v_tol_Q6_mod};

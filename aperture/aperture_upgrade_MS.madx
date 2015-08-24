@@ -68,8 +68,8 @@ g_D2=r_D2 - t_CT_D2;
 !r2_D2 = H,V halfgap
 !r1_D2=38.0;
 !r2_D2=42.5;
-r1_D2=38.0+1-1.5/2; !C. Garion 9/4
-r2_D2=42.5+1-1.5/2; !C. Garion 9/4
+r1_D2:=39-1.5*(1-no_bs_tol); !C. Garion 9/4 3mm CB, 1.5mm mech tol
+r2_D2:=43.5-1.5*(1-no_bs_tol); !C. Garion 9/4 3mm CB, 1.5mm mech tol
 
 r_D2=sqrt((sqrt(2)*r1_D2-r2_D2)^2+r2_D2^2);
 g_D2=r1_D2;
@@ -175,8 +175,8 @@ r_tol_Q4 =0.00084; h_tol_Q4 :=0.00126+h_tol_Q4_mod; v_tol_Q4 :=0.0006+v_tol_Q4_m
 !MQYY.4R5.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
 !                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
 !
-r1_q4=31.9-1.5/2; !C. Garion 9/4  and adding tolerances
-r2_q4=36.9-1.5/2; !C. Garion 9/4  and adding tolerances
+r1_q4=31.9-1.5*(1-no_bs_tol); !C. Garion 9/4  and adding tolerances
+r2_q4=36.9-1.5*(1-no_bs_tol); !C. Garion 9/4  and adding tolerances
 
 r_q4=sqrt((sqrt(2)*r1_q4-r2_q4)^2+r2_q4^2);
 g_q4=r1_q4;
@@ -292,7 +292,7 @@ r_tol_BPM_Q6 =r_tol_Q5; h_tol_BPM_Q6 =h_tol_Q5; v_tol_BPM_Q6 =v_tol_Q5;
 !a_TAN=0.0370; b_TAN=0.0320; !95mm
 !was a 26 mm radius circle nominally,see also offset files
 !where the aperture sep. of the TAN has been reduced from 160 mm to 155 mm
-a_TAN=0.0400; b_TAN=0.0400; !95mm
+a_TAN=0.0425; b_TAN=0.0425; !95mm
 r_tol_TAN=0.00084;
 h_tol_TAN:=0.00136+h_tol_TAN_mod;v_tol_TAN:=0.001+v_tol_TAN_mod;
 
