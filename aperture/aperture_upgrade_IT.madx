@@ -71,7 +71,8 @@ if (bs_type == OCTA2015) {
 
 };
 
-r_TAS   := 0.0270;     ! was 24 mm in slhcv1 and 25 mm in slhcv2 and 30 mm in slhc3, hllhc1.1
+!r_TAS   := 0.0270;     ! was 24 mm in slhcv1 and 25 mm in slhcv2 and 30 mm in slhc3, hllhc1.1
+r_TAS   := 0.0300;     ! was 24 mm in slhcv1 and 25 mm in slhcv2 and 30 mm in slhc3, hllhc1.1
 r_BPMSQW:= 0.075;      ! was 60 mm in slhcv1 and slhcv2
 r_BPMSQ := 0.075;      ! was 60 mm in slhcv1 and slhcv2
 
