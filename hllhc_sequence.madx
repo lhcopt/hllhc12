@@ -276,6 +276,23 @@ install_ir15_b1_b2(ENAME,SPOS1,SPOS2): macro={
         install, element=ENAMER5.B2,at= SPOS2*bv_aux,from=IP5;
         endedit;
 };
+install_ir15_b1_b2_inv(ENAME,SPOS1,SPOS2): macro={
+        value,SPOS1,SPOS2;
+        if(bv_aux == 1){
+                seqedit,sequence=lhcb1;
+                install, element=ENAMEL1.B1,at=-SPOS2,from=IP1.L1;
+                install, element=ENAMER1.B1,at= SPOS1,from=IP1;
+                install, element=ENAMEL5.B1,at=-SPOS1,from=IP5;
+                install, element=ENAMER5.B1,at= SPOS2,from=IP5;
+                endedit;
+        };
+        seqedit,sequence=lhcb2;
+        install, element=ENAMEL1.B2,at=-SPOS2*bv_aux,from=IP1.L1;
+        install, element=ENAMER1.B2,at= SPOS1*bv_aux,from=IP1;
+        install, element=ENAMEL5.B2,at=-SPOS1*bv_aux,from=IP5;
+        install, element=ENAMER5.B2,at= SPOS2*bv_aux,from=IP5;
+        endedit;
+};
 
 install_ir15_b1_b2_alt(ENAME,SPOS1,SPOS2): macro={
 ! orientation:b1 spos1 - IP - spos2
@@ -313,7 +330,7 @@ newel_ir15_b12(ENAME,PARE): macro={
 !===============================================
 ! TAS
 !===============================================
-posTAS  =19.687;
+posTAS  =19.950;
 l.TAXS  =1.8;
 
 TAXS: RCOLLIMATOR,  L := l.TAXS; ! new TAS
@@ -629,16 +646,16 @@ MBXF : RBEND,   L := l.MBXF ;  ! D1
 !BPMWC: MONITOR, L := l.BPMWC;  ! bpm in D1
 
 ! service module for current distribution in the non-IP side of D1
-l.DFBXI = 3;    ! not finalized
-DFBXI : PLACEHOLDER, L:= l.DFBXI;
+l.DFXJ = 3.028;    ! not finalized
+DFXJ : PLACEHOLDER, L:= l.DFXJ;
 
 ! Layout
-! MCSSXF | .5} .1 {.5 D1 .5} 1 DFBXI
+! MCSSXF | .5} .1 {.5 D1 .5} 1 DFXJ
 
 !posD1 := posMCSSXF+(l.MBXF+l.MCSSXF)/2.+2;
 posD1 = posQ3b+(l.Q13+l.MBXF)/2+9.91304;
 
-!posDFBXI := posD1 + (l.MBXF+l.DFBXI)/2.+1.5;
+posDFXJ := 82.61904+l.DFXJ/2;
 !posBPMWC := posD1 + l.MBXF/2 + 0.90; ! to be checked with long range
 
 ! Separation recombination dipoles
@@ -657,16 +674,16 @@ MBXF.4R5: MBXF,angle:=-ad1.lr5, K0 :=-kd1.lr5, polarity=-1 *bv_aux;;
 !BPMWC.4L5.B2: BPMWC;
 !BPMWC.4R5.B2: BPMWC;
 
-!DFBXI.4L1: DFBXI;
-!DFBXI.4R1: DFBXI;
-!DFBXI.4L5: DFBXI;
-!DFBXI.4R5: DFBXI;
+DFXJ.4L1: DFXJ;
+DFXJ.4R1: DFXJ;
+DFXJ.4L5: DFXJ;
+DFXJ.4R5: DFXJ;
 
 
 ! D1
 !exec,install_ir15_b12(BPMWC.4, posBPMWC  );
 exec,install_ir15_cmn(MBXF.4,  posD1);
-!exec,install_ir15_cmn(DFBXI.4,   posDFBXI);
+exec,install_ir15_cmn(DFXJ.4,   posDFXJ);
 
 !===============================================
 !BPM triplet D1
@@ -1277,7 +1294,6 @@ acfca.NNNr5.b2: tkicker, l=0, HKICK:=on_crab5*ahcrab_r5b2/FFF*sin_crab*cosi5,VKI
 
 crab_install(NNN,PFFF,PBBB): macro ={
 value,PFFF,PBBB;
-option,warn,info;
 if(bv_aux == 1){
 seqedit, sequence=lhcb1;
 install,element=acfca.NNNl5.b1,at=-PBBB,from=IP5;
@@ -1292,11 +1308,9 @@ install,element=acfca.NNNr5.b2,at= PBBB*bv_aux,from=IP5;
 install,element=acfca.NNNl1.b2,at=-PFFF*bv_aux,from=IP1.L1;
 install,element=acfca.NNNr1.b2,at= PBBB*bv_aux,from=IP1;
 endedit;
-option,-warn,-info;
 };
 
 crab_remove(NNN): macro ={
-option,warn,info;
 if(bv_aux == 1){
 seqedit, sequence=lhcb1;
 remove,element=acfca.NNNl5.b1;
@@ -1311,7 +1325,6 @@ remove,element=acfca.NNNr5.b2;
 remove,element=acfca.NNNl1.b2;
 remove,element=acfca.NNNr1.b2;
 endedit;
-option,-warn,-info;
 };
 
 
@@ -1330,11 +1343,18 @@ exec,crab_remove(D);
 !  B2<- { 1.0 C 1.3 C 5.3 C 1.3 C 4.4 }
 
 !position crab cavities as close as possible after D2
-posCRAB   = posMCBRDB + l.MCBRD/2 + 3.222;
-posCRABA1 = posCRAB+0    ;posCRABA2=posCRAB+ 3.400;
-posCRABB1 = posCRAB+1.050;posCRABB2=posCRAB+ 4.450;
-posCRABC1 = posCRAB+6.600;posCRABC2=posCRAB+10.00;
-posCRABD1 = posCRAB+7.650;posCRABD2=posCRAB+11.05;
+!posCRAB   = posMCBRDB + l.MCBRD/2 + 3.222;
+!posCRABA1 = posCRAB+0    ;posCRABA2=posCRAB+ 3.400;
+!posCRABB1 = posCRAB+1.050;posCRABB2=posCRAB+ 4.450;
+!posCRABC1 = posCRAB+6.600;posCRABC2=posCRAB+10.00;
+!posCRABD1 = posCRAB+7.650;posCRABD2=posCRAB+11.05;
+
+posCRAB   = 153.94280; ! mechanical start
+posCRABA1 = posCRAB+0.8751;posCRABA2=posCRAB + 4.6951;
+posCRABB1 = posCRAB+1.9251 ;posCRABB2=posCRAB+ 5.7451;
+posCRABC1 = posCRAB+8.3151 ;posCRABC2=posCRAB+12.1351;
+posCRABD1 = posCRAB+9.3651 ;posCRABD2=posCRAB+13.1851;
+
 
 value, posCRABA1,posCRABB1,posCRABC1,posCRABD1;
 value, posCRABA2,posCRABB2,posCRABC2,posCRABD2;
@@ -1366,72 +1386,103 @@ exec,crab_install(D,posCRABD1,posCRABD2);
 l.TCLMB=1.0;
 l.TCLMC=1.0;
 
-posTCLMB.5  := posQ5 - dposMCBY.A5 - l.MCBY/2 - l.TCLMB/2 - 1.835;!930+655+500/2
-posTCLMC.6C := posQ6 - dposMCBCH - l.TCLMC/2 - 1.831;!926+655+500/2
-posTCLMC.6Q := posQ6 - dposMCBCH - l.TCLMC/2 - 1.831;
+!posTCLMB.5  := posQ5 - dposMCBY.A5 - l.MCBY/2 - l.TCLMB/2 - 1.835;!930+655+500/2
+!posTCLMC.6C := posQ6 - dposMCBCH - l.TCLMC/2 - 1.831;!926+655+500/2
+!posTCLMC.6Q := posQ6 - dposMCBCH - l.TCLMC/2 - 1.831;
+!value,posTCLMB.5,posTCLMC.6C,posTCLMC.6Q;
 
-value,posTCLMB.5,posTCLMC.6C,posTCLMC.6Q;
+posTCLMB.5C := posQ5 - 7.899;
+posTCLMB.5Q := posQ5 - 4.540;
+posTCLMC.6C := posQ6 - 5.823;
+posTCLMC.6Q := posQ6 - 5.216;
 
 TCLMB : RCOLLIMATOR, L := l.TCLMB;
 TCLMC : RCOLLIMATOR, L := l.TCLMC;
 
-exec,newel_ir15_b12(TCLMB.5,TCLMB);
-exec,newel_ir15_b12(TCLMC.6,TCLMC);
+TCLMB.5R1.B1: TCLMB; TCLMB.5R1.B1: TCLMB;
+TCLMB.5R5.B1: TCLMB; TCLMB.5R5.B1: TCLMB;
+TCLMB.5L1.B1: TCLMB; TCLMB.5L1.B1: TCLMB;
+TCLMB.5L5.B1: TCLMB; TCLMB.5L5.B1: TCLMB;
+TCLMB.5L1.B2: TCLMB; TCLMB.5L1.B2: TCLMB;
+TCLMB.5L5.B2: TCLMB; TCLMB.5L5.B2: TCLMB;
+TCLMB.5R1.B2: TCLMB; TCLMB.5R1.B2: TCLMB;
+TCLMB.5R5.B2: TCLMB; TCLMB.5R5.B2: TCLMB;
+
+
+TCLMC.6R1.B1: TCLMB; TCLMC.6R1.B1: TCLMB;
+TCLMC.6R5.B1: TCLMB; TCLMC.6R5.B1: TCLMB;
+TCLMC.6L1.B1: TCLMB; TCLMC.6L1.B1: TCLMB;
+TCLMC.6L5.B1: TCLMB; TCLMC.6L5.B1: TCLMB;
+TCLMC.6L1.B2: TCLMB; TCLMC.6L1.B2: TCLMB;
+TCLMC.6L5.B2: TCLMB; TCLMC.6L5.B2: TCLMB;
+TCLMC.6R1.B2: TCLMB; TCLMC.6R1.B2: TCLMB;
+TCLMC.6R5.B2: TCLMB; TCLMC.6R5.B2: TCLMB;
 
 !mask Q5
-exec,install_ir15_b12(TCLMB.5, posTCLMB.5 );
+exec,install_ir15_b1_b2_inv(TCLMB.5, posTCLMB.5C, posTCLMB.5Q );
+exec,install_ir15_b1_b2_inv(TCLMC.6, posTCLMC.6Q, posTCLMC.6C );
 
-!mask Q6
-if(bv_aux == 1){
-seqedit,sequence=lhcb1;
-! ... TCLMC
-install,element=TCLMC.6L1.B1,at=-posTCLMC.6C, from= IP1.L1;
-install,element=TCLMC.6R1.B1,at= posTCLMC.6Q, from= IP1;
-install,element=TCLMC.6L5.B1,at=-posTCLMC.6Q, from= IP5;
-install,element=TCLMC.6R5.B1,at= posTCLMC.6C, from= IP5;
-endedit;
-};
-
-seqedit,sequence=lhcb2;
-! ... TCLMC
-install,element=TCLMC.6L1.B2, at=(-posTCLMC.6C)*bv_aux, from= IP1.L1;
-install,element=TCLMC.6R1.B2, at=( posTCLMC.6Q)*bv_aux, from= IP1;
-install,element=TCLMC.6L5.B2, at=(-posTCLMC.6Q)*bv_aux, from= IP5;
-install,element=TCLMC.6R5.B2, at=( posTCLMC.6C)*bv_aux, from= IP5;
-endedit;
+!!mask Q6
+!if(bv_aux == 1){
+!seqedit,sequence=lhcb1;
+!! ... TCLMC
+!install,element=TCLMC.6L1.B1,at=-posTCLMC.6C, from= IP1.L1;
+!install,element=TCLMC.6R1.B1,at= posTCLMC.6Q, from= IP1;
+!install,element=TCLMC.6L5.B1,at=-posTCLMC.6Q, from= IP5;
+!install,element=TCLMC.6R5.B1,at= posTCLMC.6C, from= IP5;
+!endedit;
+!};
+!
+!seqedit,sequence=lhcb2;
+!! ... TCLMC
+!install,element=TCLMC.6L1.B2, at=(-posTCLMC.6C)*bv_aux, from= IP1.L1;
+!install,element=TCLMC.6R1.B2, at=( posTCLMC.6Q)*bv_aux, from= IP1;
+!install,element=TCLMC.6L5.B2, at=(-posTCLMC.6Q)*bv_aux, from= IP5;
+!install,element=TCLMC.6R5.B2, at=( posTCLMC.6C)*bv_aux, from= IP5;
+!endedit;
 
 !===============================================
 ! TAN, TCTs, TCLs
 !===============================================
 
 
-if (L.TAXN==0) {L.TAXN=3.5;};
+if (L.TAXN==0) {L.TAXN=3.332;};
 
 ! shielding collimation
 ! v6.503  10.425 ,   7.335 ,   5.655 ,   3.445 ,   2.0805
 ! slhc 1.275 closer to D2
 !D2 region, posBPMWQ = BPM right in front of D2
-posTCL.4  := posBPMWQ  - l.BPMWQ/2 - l.TCL/2 - 0.460;
-posTCTH   := posTCL.4  - l.TCL/2   - l.TCT/2 - 0.940;
+posTCLX.4  := posBPMWQ  - l.BPMWQ/2 - l.TCL/2 - 0.460;
+posTCTH   := posTCLX.4  - l.TCL/2   - l.TCT/2 - 0.940;
 posTCTV   := posTCTH   - l.TCT - 1.000;
 posTAN    := posTCTV   - l.TCT/2   - l.TAXN/2 - 0.580;
+
+
+posTAN    := 128.80080;
+posTCTV   := 131.80080;
+posTCTH   := 133.80080;
+posTCLX.4 := 135.74080;
+
 !Q5/Q6 region
 !IP side
-posTCL.5  := posTCLMB.5  - l.TCLMB/2 - l.TCL/2 - 0.760;!500/2+270+480/2
-posTCL.6C := posTCLMC.6C - l.TCLMC/2 - l.TCL/2 - 0.760;!500/2+270+480/2
-posTCL.6Q := posTCLMC.6Q - l.TCLMC/2 - l.TCL/2 - 0.760;!500/2+270+480/2
-!non IP side
-!posTCTV.5 := posQ5 + l.MQY/2 + l.TCT/2 + 2.600;!1435+655+270+480/2
-!posTCTH.5 := posTCTV.5       + l.TCT   + 1.000;!520+480
-!install TCTs after correctors on both sides:
-!MCBY - 0.930+0.925+0.480/2 - TCT
-posTCTV.5 := posQ5 + dposMCBY.A5 + l.MCBYV + l.TCT/2 + 2.095;!0.930+0.925+0.480/2
-posTCTH.5 := posTCTV.5       + l.TCT   + 1.000;!0.520+0.480
+posTCL.5C := posQ5 -  9.659 ;
+posTCL.5Q := posQ5 -  6.300 ;
+posTCL.6C := posQ6 -  7.583 ;
+posTCL.6Q := posQ6 -  6.976 ;
 
-value,posTCLMB.5,posTCLMC.6C,posTCLMC.6Q,posTAN,posTCTH,posTCTV,posTCL.4,posTCL.5,posTCTV.5,posTCTH.5,posTCL.6C,posTCL.6Q;
+posTCTV.6Q := posQ5 +  8.765 - 4.235; !left
+posTCTH.6Q := posQ5 + 10.765 - 4.235; !left
+posTCTV.6C := posQ5 +  8.158 ; !right
+posTCTH.6C := posQ5 + 10.158 ; !right
 
-TCL.4R1.B1: TCL; TCL.4R5.B1: TCL;
-TCL.4L1.B2: TCL; TCL.4L5.B2: TCL;
+
+value,posTCLMB.5,posTCLMC.6C,posTCLMC.6Q,posTAN,posTCTH,posTCTV,posTCLX.4,posTCL.5,posTCTV.6,posTCTH.6,posTCL.6C,posTCL.6Q;
+
+
+
+
+TCLX.4R1.B1: TCL; TCLX.4R5.B1: TCL;
+TCLX.4L1.B2: TCL; TCLX.4L5.B2: TCL;
 TCL.5R1.B1: TCL; TCL.5R5.B1: TCL;
 TCL.5L1.B2: TCL; TCL.5L5.B2: TCL;
 TCL.6R1.B1: TCL; TCL.6R5.B1: TCL;
@@ -1446,18 +1497,18 @@ TAXN.4L5: TAXN;
 
 TCTV: RCOLLIMATOR, l:=l.TCT;
 TCTH: RCOLLIMATOR, l:=l.TCT;
-TCTH.4L1.B1: TCTH; TCTH.4L5.B1: TCTH;
-TCTV.4L1.B1: TCTV; TCTV.4L5.B1: TCTV;
-TCTH.4R1.B2: TCTH; TCTH.4R5.B2: TCTH;
-TCTV.4R1.B2: TCTV; TCTV.4R5.B2: TCTV;
+TCTPH.4L1.B1: TCTH; TCTPH.4L5.B1: TCTH;
+TCTPV.4L1.B1: TCTV; TCTPV.4L5.B1: TCTV;
+TCTPH.4R1.B2: TCTH; TCTPH.4R5.B2: TCTH;
+TCTPV.4R1.B2: TCTV; TCTPV.4R5.B2: TCTV;
 
-TCTH.5L1.B1: TCTH; TCTH.5L5.B1: TCTH;
-TCTV.5L1.B1: TCTV; TCTV.5L5.B1: TCTV;
-TCTH.5R1.B2: TCTH; TCTH.5R5.B2: TCTH;
-TCTV.5R1.B2: TCTV; TCTV.5R5.B2: TCTV;
+TCTH.6L1.B1: TCTH; TCTH.6L5.B1: TCTH;
+TCTV.6L1.B1: TCTV; TCTV.6L5.B1: TCTV;
+TCTH.6R1.B2: TCTH; TCTH.6R5.B2: TCTH;
+TCTV.6R1.B2: TCTV; TCTV.6R5.B2: TCTV;
 
 l.BPTXaux=0.285;
-posBPTX=posQ4 + l.MQYY/2 + l.BPTXaux/2 + 3.313;!1463+655+1195=3313
+posBPTX=195.1445;!1463+655+1195=3313
 
 
 APWL.5R5.B1: APWL; APWL.5R5.B2: APWL;
@@ -1475,20 +1526,20 @@ exec, install_ir15_cmn(TAXN.4,posTAN);
 if(bv_aux == 1){
 seqedit,sequence=lhcb1;
 !! ... TCTH
-install,element=TCTH.4L1.B1, at= -posTCTH,   from= IP1.L1;
-install,element=TCTH.4L5.B1, at= -posTCTH,   from= IP5;
-install,element=TCTH.5L1.B1, at= -posTCTH.5,   from= IP1.L1;
-install,element=TCTH.5L5.B1, at= -posTCTH.5,   from= IP5;
+install,element=TCTPH.4L1.B1, at= -posTCTH,   from= IP1.L1;
+install,element=TCTPH.4L5.B1, at= -posTCTH,   from= IP5;
+install,element=TCTH.6L1.B1, at= -posTCTH.6C,   from= IP1.L1;
+install,element=TCTH.6L5.B1, at= -posTCTH.6Q,   from= IP5;
 !! ... TCTV
-install,element=TCTV.4L1.B1, at= -posTCTV, from=IP1.L1;
-install,element=TCTV.4L5.B1, at= -posTCTV, from=IP5;
-install,element=TCTV.5L1.B1, at= -posTCTV.5,   from= IP1.L1;
-install,element=TCTV.5L5.B1, at= -posTCTV.5,   from= IP5;
+install,element=TCTPV.4L1.B1, at= -posTCTV, from=IP1.L1;
+install,element=TCTPV.4L5.B1, at= -posTCTV, from=IP5;
+install,element=TCTV.6L1.B1, at= -posTCTV.6C,   from= IP1.L1;
+install,element=TCTV.6L5.B1, at= -posTCTV.6Q,   from= IP5;
 ! ... TCL
-install,element=TCL.4R1.B1,  at= posTCL.4, from=IP1;
-install,element=TCL.4R5.B1,  at= posTCL.4, from=IP5;
-install,element=TCL.5R1.B1,  at= posTCL.5, from=IP1;
-install,element=TCL.5R5.B1,  at= posTCL.5, from=IP5;
+install,element=TCLX.4R1.B1,  at= posTCLX.4, from=IP1;
+install,element=TCLX.4R5.B1,  at= posTCLX.4, from=IP5;
+install,element=TCL.5R1.B1,  at= posTCL.5C, from=IP1;
+install,element=TCL.5R5.B1,  at= posTCL.5Q, from=IP5;
 install,element=TCL.6R1.B1,  at= posTCL.6Q, from=IP1;
 install,element=TCL.6R5.B1,  at= posTCL.6C, from=IP5;
 ! ... BPTX
@@ -1499,20 +1550,20 @@ endedit;
 
 seqedit,sequence=lhcb2;
 ! ... TCTH
-install,element=TCTH.4R1.B2, at=  posTCTH*bv_aux,   from= IP1;
-install,element=TCTH.4R5.B2, at=  posTCTH*bv_aux,   from= IP5;
-install,element=TCTH.5R1.B2, at=  posTCTH.5*bv_aux,   from= IP1;
-install,element=TCTH.5R5.B2, at=  posTCTH.5*bv_aux,   from= IP5;
+install,element=TCTPH.4R1.B2, at=  posTCTH*bv_aux,   from= IP1;
+install,element=TCTPH.4R5.B2, at=  posTCTH*bv_aux,   from= IP5;
+install,element=TCTH.6R1.B2, at=  posTCTH.6Q*bv_aux,   from= IP1;
+install,element=TCTH.6R5.B2, at=  posTCTH.6C*bv_aux,   from= IP5;
 ! ... TCTV
-install,element=TCTV.4R1.B2, at= posTCTV*bv_aux, from=IP1;
-install,element=TCTV.4R5.B2, at= posTCTV*bv_aux, from=IP5;
-install,element=TCTV.5R1.B2, at= posTCTV.5*bv_aux, from=IP1;
-install,element=TCTV.5R5.B2, at= posTCTV.5*bv_aux, from=IP5;
+install,element=TCTPV.4R1.B2, at= posTCTV*bv_aux, from=IP1;
+install,element=TCTPV.4R5.B2, at= posTCTV*bv_aux, from=IP5;
+install,element=TCTV.6R1.B2, at= posTCTV.6Q*bv_aux, from=IP1;
+install,element=TCTV.6R5.B2, at= posTCTV.6C*bv_aux, from=IP5;
 ! ... TCL
-install,element=TCL.4L1.B2,  at= -posTCL.4*bv_aux, from=IP1.L1;
-install,element=TCL.4L5.B2,  at= -posTCL.4*bv_aux, from=IP5;
-install,element=TCL.5L1.B2,  at= -posTCL.5*bv_aux, from=IP1.L1;
-install,element=TCL.5L5.B2,  at= -posTCL.5*bv_aux, from=IP5;
+install,element=TCLX.4L1.B2,  at= -posTCLX.4*bv_aux, from=IP1.L1;
+install,element=TCLX.4L5.B2,  at= -posTCLX.4*bv_aux, from=IP5;
+install,element=TCL.5L1.B2,  at= -posTCL.5C*bv_aux, from=IP1.L1;
+install,element=TCL.5L5.B2,  at= -posTCL.5Q*bv_aux, from=IP5;
 install,element=TCL.6L1.B2,  at= -posTCL.6Q*bv_aux, from=IP1.L1;
 install,element=TCL.6L5.B2,  at= -posTCL.6C*bv_aux, from=IP5;
 ! ... BPTX
