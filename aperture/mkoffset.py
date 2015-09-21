@@ -41,9 +41,9 @@ septan=0.145
 
 #septan1=0.0740*2
 #septan2=0.0793*2
-septan1=0.159
-septan2=0.149
-ltan=3.5
+septan1=0.158
+septan2=0.148
+ltan=3.332
 
 #(0.142, 0.164)
 
