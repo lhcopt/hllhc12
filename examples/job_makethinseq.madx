@@ -1,6 +1,6 @@
 option, warn,info;
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2 slhc";
-system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/runII/2015 db5";
 option,-echo,-info,-warn;
 
 call,file="slhc/toolkit/macro.madx";
@@ -11,11 +11,18 @@ Option, -echo,-warn,-info;
 REAL CONST l.TAN   = 3.7  ;REAL CONST l.TANAL = l.TAN;
 REAL CONST l.TANAR = l.TAN;REAL CONST l.TANC  = l.TAN;
 REAL CONST l.TCT   = 1.0;REAL CONST l.TCTH  = l.TCT;REAL CONST l.TCTVA = l.TCT;
-call,file="db5/V6.5.seq";
+call,file="db5/lhc_as-built.seq";
 
-
-Option, -echo,warn,-info;
+Option, -echo,warn,info;
 call,file="slhc/hllhc_sequence.madx";
+
+call,   file="db5/aperture/aperture.b1.madx";
+call,   file="db5/aperture/aperture.b2.madx";
+call,   file="db5/aperture/aper_tol.b1.madx";
+call,   file="db5/aperture/aper_tol.b2.madx";
+call,   file="slhc/aperture/aperture_upgrade_IT.madx";
+call,   file="slhc/aperture/aperture_upgrade_MS.madx";
+
 
 call,file="slhc/opt_round.madx";
 

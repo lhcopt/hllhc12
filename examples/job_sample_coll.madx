@@ -2,26 +2,31 @@ option, warn,info;
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
 
+Option, -echo,-warn,-info;
+REAL CONST l.TAN   = 3.7  ;REAL CONST l.TANAL = l.TAN;
+REAL CONST l.TANAR = l.TAN;REAL CONST l.TANC  = l.TAN;
+REAL CONST l.TCT   = 1.0;REAL CONST l.TCTH  = l.TCT;REAL CONST l.TCTVA = l.TCT;
+Option, -echo,warn,-info;
+call,file="slhc/toolkit/macro.madx";
 
 mylhcbeam=1; ! For Beam 1
 !mylhcbeam=2; ! For Beam 2
 !mylhcbeam=4; ! For Beam 4
 
-is_thin=0; ! For thick optics
-!is_thin=1; ! For thin optics
+call,file="slhc/opt_round.madx"; ! For thick optics
+! call,file="slhc/opt_round_thin.madx"; ! For thin optics
 
-Option, -echo,-warn,-info;
-call,file="slhc/toolkit/macro.madx";
+! pre-computed sequences
 if (mylhcbeam<3 && is_thin==0){ call,file="slhc/hllhc.seq";};
 if (mylhcbeam<3 && is_thin==1){ call,file="slhc/hllhc_thin.seq";};
 if (mylhcbeam>3 && is_thin==0){ call,file="slhc/hllhc_b4.seq";};
 if (mylhcbeam>3 && is_thin==1){ call,file="slhc/hllhc_thinb4.seq";};
-Option, -echo,-warn,-info;
-
-if (is_thin==0){ call,file="slhc/opt_round.madx"; };
-if (is_thin==1){ call,file="slhc/opt_round_thin.madx"; };
 
 exec,mk_beam(7000);
+exec,crossing_enable;
+on_sep1=0; on_sep2=0;  on_sep5=0; on_sep8=0; ! for collisions
+
 if (mylhcbeam==1){ exec,check_ip(b1); survey,file="survey_lhcb1.tfs";};
 if (mylhcbeam==2){ exec,check_ip(b2); survey,file="survey_lhcb2.tfs";};
+
 if (mylhcbeam==4){ exec,check_ip(b2); survey,file="survey_lhcb4.tfs";};
