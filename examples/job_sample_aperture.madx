@@ -1,28 +1,30 @@
 option, warn,info;
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
-system,"ln -fns /afs/cern.ch/eng/lhc/optics/runII 2015";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/runII/2015 db5";
+
+
+
+mylhcbeam=1;
+
 
 option,-echo,-info,-warn;
 Option, -echo,-warn,-info;
 REAL CONST l.TAN   = 3.7  ;REAL CONST l.TANAL = l.TAN;
 REAL CONST l.TANAR = l.TAN;REAL CONST l.TANC  = l.TAN;
 REAL CONST l.TCT   = 1.0;REAL CONST l.TCTH  = l.TCT;REAL CONST l.TCTVA = l.TCT;
-REAL CONST l.MBAS2             =0 ;
-REAL CONST l.MBAW              =0 ;
-REAL CONST l.MBCS2             =0 ;
-REAL CONST l.MBLS2             =0 ;
-REAL CONST l.MBLW              =0 ;
-REAL CONST l.MBWMD             =0 ;
-REAL CONST l.MBXWH             =0 ;
-REAL CONST l.MBXWS             =0 ;
+REAL CONST l.MBAS2             =0 ; REAL CONST l.MBAW              =0 ;
+REAL CONST l.MBCS2             =0 ; REAL CONST l.MBLS2             =0 ;
+REAL CONST l.MBLW              =0 ; REAL CONST l.MBWMD             =0 ;
+REAL CONST l.MBXWH             =0 ; REAL CONST l.MBXWS             =0 ;
 REAL CONST l.MBXWT             =0 ;
 
-!call,file="db5/V6.5.seq";
-call,file="db5/lhc_as-built.seq";
+if (mylhcbeam<3){ call,file="db5/lhc_as-built.seq"; };
+if (mylhcbeam>3){ call,file="db5/lhcb4_as-built.seq"; };
+
 Option, -echo,warn,-info;
 
 call,file="slhc/toolkit/macro.madx";
-on_layout_custom=0;
+
 call,file="slhc/hllhc_sequence.madx";
 call,   file="db5/aperture/aperture.b1.madx";
 call,   file="db5/aperture/aperture.b2.madx";
@@ -36,7 +38,10 @@ call,file="slhc/aperture/aperture_upgrade_IT.madx";
 exec,mk_beam(7000);
 !call,file="slhc/opt_presqueeze.madx";
 call,file="slhc/opt_round.madx";
+!call,file="slhc/opt_round_thin.madx";
 !call,file="slhc/opt_flat.madx";
+
+if (is_thin==1) { exec,myslice; };
 
 !exec,mk_beam(450);
 !call,file="slhc/opt_inj.madx";
