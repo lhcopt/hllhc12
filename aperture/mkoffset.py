@@ -67,8 +67,8 @@ for irn in [1,5]:
     for k,v in repl.items():
       st=st.replace(k,'%8.6f'%(sign*v))
     for lr in 'L','R':
+      st=st.replace('4%s1.B1'%(lr,),'4%s%d.B%d'%(lr,irn,beam))
       st=st.replace('4%s1'%lr,'4%s%d'%(lr,irn))
-      st=st.replace('4%s1.B%d'%(lr,beam),'4%s%d.B%d'%(lr,irn,beam))
     st=open(basedir+fname).read()+st
     print fname
     open(fname,'w').write(st)
