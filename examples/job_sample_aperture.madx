@@ -26,10 +26,10 @@ Option, -echo,warn,-info;
 call,file="slhc/toolkit/macro.madx";
 
 call,file="slhc/hllhc_sequence.madx";
-call,   file="db5/aperture/aperture.b1.madx";
-call,   file="db5/aperture/aperture.b2.madx";
-call,   file="db5/aperture/aper_tol.b1.madx";
-call,   file="db5/aperture/aper_tol.b2.madx";
+call,   file="db5/aperture/aperture_as-built.b1.madx";
+call,   file="db5/aperture/aperture_as-built.b2.madx";
+call,   file="db5/aperture/aper_tol_as-built.b1.madx";
+call,   file="db5/aperture/aper_tol_as-built.b2.madx";
 call,file="slhc/aperture/exp_pipe_model_after_LS3.madx";
 call,file="slhc/aperture/exp_pipe_install_after_LS3.madx";
 call,file="slhc/aperture/aperture_upgrade_MS.madx";
