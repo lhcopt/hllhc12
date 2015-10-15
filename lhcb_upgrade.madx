@@ -1,0 +1,44 @@
+sIP8b1=23315.3789836211;
+sIP8b2=23315.2266163776;
+
+ip8shift=3.74;
+
+
+l.MBNW=1;
+
+MBNW.1R8:  HKICKER, Lrad := l.MBNW, KICK := abnw.r8, TILT = +0.013405855024372;
+
+IP8N: MARKER;
+
+seqedit, sequence=lhcb1;
+remove,element=IP8N;
+install,element=IP8N,at=-ip8shift,from=IP8;
+endedit;
+
+seqedit, sequence=lhcb2;
+remove,element=IP8N;
+install,element=IP8N,at=-ip8shift,from=IP8;
+endedit;
+
+seqedit, sequence=lhcb1;
+remove,element=MBNW.1R8;
+move,element=MBXWH.1L8,to=-5.25,from=IP8N;
+install,element=MBNW.1R8,at=2, from =IP8N;
+endedit;
+
+seqedit, sequence=lhcb2;
+remove,element=MBNW.1R8;
+move,element=MBXWH.1L8,to=-5.25,from=IP8N;
+install,element=MBNW.1R8,at=2, from =IP8N;
+endedit;
+
+
+
+
+abxws.l8      := -0.000   ;
+abxwh.l8      := +0.000   ;
+ablw.r8       := -0.000   ;
+abxws.r8      := +0.000   ;
+abnw.r8       :=  0.000   ;
+
+
