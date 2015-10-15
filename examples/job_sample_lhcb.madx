@@ -1,0 +1,60 @@
+option, warn,info;
+!system,"rm -rf temp"; system,"mkdir temp";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/runII/2015/ db5";
+option,-echo,-info,-warn;
+Option, -echo,-warn,-info;
+REAL CONST l.TAN   = 3.7  ;REAL CONST l.TANAL = l.TAN;
+REAL CONST l.TANAR = l.TAN;REAL CONST l.TANC  = l.TAN;
+REAL CONST l.TCT   = 1.0;REAL CONST l.TCTH  = l.TCT;REAL CONST l.TCTVA = l.TCT;
+REAL CONST l.MBAS2             =0 ;
+REAL CONST l.MBAW              =0 ;
+REAL CONST l.MBCS2             =0 ;
+REAL CONST l.MBLS2             =0 ;
+REAL CONST l.MBLW              =0 ;
+REAL CONST l.MBWMD             =0 ;
+REAL CONST l.MBXWH             =0 ;
+REAL CONST l.MBXWS             =0 ;
+REAL CONST l.MBXWT             =0 ;
+
+REAL CONST l.MBXWH = 0;
+REAL CONST l.MBXWS = 0;
+REAL CONST l.MBLW  = 0;
+
+!call,file="slhc/hllhc.seq";
+
+call,file="db5/lhc_as-built.seq";
+call,file="slhc/hllhc_sequence.madx";
+call,   file="db5/aperture/aperture.b1.madx";
+call,   file="db5/aperture/aperture.b2.madx";
+call,   file="db5/aperture/aper_tol.b1.madx";
+call,   file="db5/aperture/aper_tol.b2.madx";
+call,file="slhc/aperture/exp_pipe_model_after_LS3.madx";
+call,file="slhc/aperture/exp_pipe_install_after_LS3.madx";
+call,file="slhc/aperture/aperture_upgrade_MS.madx";
+call,file="slhc/aperture/aperture_upgrade_IT.madx";
+
+seqedit,sequence=lhcb1;flatten;cycle,start=IP3;endedit;
+seqedit,sequence=lhcb2;flatten;cycle,start=IP3;endedit;
+
+!call,file="slhc/hllhc.seq";
+
+Option, -echo,warn,-info;
+
+call,file="slhc/toolkit/macro.madx";
+exec,mk_beam(7000);
+
+call,file="slhc/lhcb_upgrade.madx";
+call,file="slhc/opt_round_3m_shift.madx";
+!call,file="slhc/opt_round_2m_shift.madx";
+exec,crossing_disable;
+exec,check_ip(b1); exec,check_ip(b2);
+
+on_x8=1;
+on_sep8=1;
+on_lhcb=-1;
+
+exec,mk_irtwiss(8,b1); exec,mk_irtwiss(8,b2);
+
+
+return;

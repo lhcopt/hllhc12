@@ -1,0 +1,86 @@
+brho=7000/0.2998;
+
+limitMBXWS=Kmax_MBXWS*l.MBXWS/brho;
+limitMBXWH=Kmax_MBXWH*l.MBXWH/brho;
+limitMBLW =Kmax_MBLW *l.MBLW /brho;
+limitMBNW =1.1 / brho;
+
+value,limitMBXWS,limitMBXWH,limitMBLW,limitMBNW;
+
+limitmbxws = 3.67469142857143e-05 ;
+limitmbxwh = 0.000180565257142857 ;
+limitmblw = 0.000171297154285714 ;
+limitmbnw = 4.71114285714286e-05 ;
+
+limitMBXWS=90e-6;
+limitMBXWH=200e-6;
+limitMBLW=200e-6;
+limitMBNW=200e-6;
+
+
+pxip8b1=134.988e-06;
+pyip8b1=1.810e-06;
+pxip8b2=-pxip8b1;
+pyip8b2=-pyip8b1;
+
+abxws.l8      := -0.000045681598453109894   ;
+abxwh.l8      := +0.000180681598453109894   ;
+ablw.r8       := -0.000180681598453109894   ;
+abxws.r8      := +0.000045681598453109894   ;
+
+!tbxws.r8=0.013405855024372; MBXWS.1R8,  tilt:=tbxws.r8;
+!tbxws.l8=0.013405855024372; MBXWS.1L8,  tilt:=tbxws.l8;
+!MBNW.1R8,tilt:=+0.013405855024372;
+
+abnw.r8       := 1.1 / brho;
+
+value,abxws.l8/limitMBXWS;
+value,abxwh.l8/limitMBXWH;
+
+
+Use, period= LHCB1,RANGE=S.DS.L8.B1/E.DS.R8.B1;
+match, sequence=lhcb1,lhcb2, beta0= bir8b1,bir8b2;
+WEIGHT,     x = 1, px =  10, y = 1, py = 10;
+constraint, sequence=lhcb1,range=IP8N,  x = 0;
+!constraint, sequence=lhcb1,range=IP8N,  y = 0;
+!constraint, sequence=lhcb1,range=IP8N,  px= pxip8b1;
+!constraint, sequence=lhcb1,range=IP8N,  py= pyip8b1;
+!constraint, sequence=lhcb2,range=IP8N,  x = 0;
+!constraint, sequence=lhcb2,range=IP8N,  y = 0;
+!constraint, sequence=lhcb2,range=IP8N,  px= pxip8b2;
+!constraint, sequence=lhcb2,range=IP8N,  py= pyip8b2;
+constraint, sequence=lhcb1,range=E.DS.R8.B1,x = 0.0, px = 0.0;
+!constraint, sequence=lhcb1,range=E.DS.R8.B1,y = 0.0, py = 0.0;
+!constraint, sequence=lhcb2,range=E.DS.R8.B2,x = 0.0, px = 0.0;
+!constraint, sequence=lhcb2,range=E.DS.R8.B2,y = 0.0, py = 0.0;
+vary,   name=abxws.l8 step=1.0E-15  ,lower=-limitMBXWS,upper=limitMBXWS;
+vary,   name=abxwh.l8, step=1.0E-15 ,lower=-limitMBXWH,upper=limitMBXWH;
+!vary,   name=ablw.r8, step=1.0E-15  ,lower=-limitMBLW,upper=limitMBLW;
+!vary,   name=abnw.r8 , step=1.0E-15 ,lower=-limitMBNW,upper=limitMBNW;
+vary,   name=abxws.r8, step=1.0E-15 ,lower=-limitMBXWS,upper=limitMBXWS;
+!vary,   name=tbxws.r8;
+!vary,   name=tbxws.l8;
+!vary,   name=tbnw.r8;
+jacobian, calls = 15, tolerance=1.E-30;
+Endmatch;
+
+
+value,abxws.l8,abxwh.l8,ablw.r8,abxws.r8,abnw.r8;
+
+
+
+abxws.l8_on_lhcb = abxws.l8;
+abxwh.l8_on_lhcb = abxwh.l8;
+ablw.r8_on_lhcb =  ablw.r8 ;
+abxws.r8_on_lhcb = abxws.r8;
+abnw.r8_on_lhcb =  abnw.r8 ;
+
+abxws.l8:=abxws.l8_on_lhcb*on_lhcb;
+abxwh.l8:=abxwh.l8_on_lhcb*on_lhcb;
+ablw.r8 :=ablw.r8_on_lhcb *on_lhcb;
+abxws.r8:=abxws.r8_on_lhcb*on_lhcb;
+abnw.r8 :=abnw.r8_on_lhcb *on_lhcb;
+
+on_lhcb=0;
+
+
