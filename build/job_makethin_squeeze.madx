@@ -1,0 +1,156 @@
+option, warn,info;
+system,"rm -rf temp"; system,"mkdir temp";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.0 slhc";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
+option,-echo,-info,-warn;
+
+call,file="slhc/toolkit/macro.madx";
+
+Option, -echo,-warn,-info;
+REAL CONST l.TAN   = 3.7  ;REAL CONST l.TANAL = l.TAN;
+REAL CONST l.TANAR = l.TAN;REAL CONST l.TANC  = l.TAN;
+REAL CONST l.TCT   = 1.0;REAL CONST l.TCTH  = l.TCT;REAL CONST l.TCTVA = l.TCT;
+call,file="db5/V6.5.seq";
+
+Option, -echo,warn,-info;
+call,file="slhc/hllhc_thin.seq";
+
+seqedit,sequence=lhcb1;cycle,start=s.ds.l1.b1;flatten;endedit;
+seqedit,sequence=lhcb2;cycle,start=s.ds.l1.b2;flatten;endedit;
+
+
+call,file="slhc/opt_round_thin.madx";
+exec,crossing_disable;
+exec,mk_beam(7000);
+exec,check_ip(b1); exec,check_ip(b2);
+
+readmytable,table=ir2_sround    ,file="slhc/squeeze/ir2_sround.tfs";
+readmytable,table=ir4_sround    ,file="slhc/squeeze/ir4_sround.tfs";
+readmytable,table=ir6_sround    ,file="slhc/squeeze/ir6_sround.tfs";
+readmytable,table=ir8_sround    ,file="slhc/squeeze/ir8_sround.tfs";
+readmytable,table=ir2_flathv    ,file="slhc/squeeze/ir2_flathv.tfs";
+readmytable,table=ir2_flat      ,file="slhc/squeeze/ir2_flat.tfs";
+readmytable,table=ir2_sflathv   ,file="slhc/squeeze/ir2_sflathv.tfs";
+readmytable,table=ir2_sflat     ,file="slhc/squeeze/ir2_sflat.tfs";
+readmytable,table=ir4_flathv    ,file="slhc/squeeze/ir4_flathv.tfs";
+readmytable,table=ir4_flat      ,file="slhc/squeeze/ir4_flat.tfs";
+readmytable,table=ir4_sflathv   ,file="slhc/squeeze/ir4_sflathv.tfs";
+readmytable,table=ir4_sflat     ,file="slhc/squeeze/ir4_sflat.tfs";
+readmytable,table=ir4_sround    ,file="slhc/squeeze/ir4_sround.tfs";
+readmytable,table=ir6_flathv    ,file="slhc/squeeze/ir6_flathv.tfs";
+readmytable,table=ir6_flat      ,file="slhc/squeeze/ir6_flat.tfs";
+readmytable,table=ir6_sflathv   ,file="slhc/squeeze/ir6_sflathv.tfs";
+readmytable,table=ir6_sflat     ,file="slhc/squeeze/ir6_sflat.tfs";
+readmytable,table=ir6_sround    ,file="slhc/squeeze/ir6_sround.tfs";
+readmytable,table=ir8_flathv    ,file="slhc/squeeze/ir8_flathv.tfs";
+readmytable,table=ir8_flat      ,file="slhc/squeeze/ir8_flat.tfs";
+readmytable,table=ir8_ion       ,file="slhc/squeeze/ir8_ion.tfs";
+readmytable,table=ir8_sflathv   ,file="slhc/squeeze/ir8_sflathv.tfs";
+readmytable,table=ir8_sflat     ,file="slhc/squeeze/ir8_sflat.tfs";
+readmytable,table=ir8_sround    ,file="slhc/squeeze/ir8_sround.tfs";
+
+saveopt(nnn,aaa,bbb,ccc,ddd): macro={
+is_thin=1;call,file="slhc/toolkit/squeeze_thin.madx";
+arc_squeeze=1;on_check=1;call,file="slhc/toolkit/save_optics.madx";
+system,"cp temp/optics.madx opt_nnn_aaa_bbb_ccc_ddd_thin.madx";
+};
+
+call,file="slhc/opt_round_thin.madx";
+iii=1; iiistop=table(ir2_sround,tablelength);
+value,iii,iiistop;
+while(iii<=iiistop){
+setvars,table=ir2_sround,row=iii;
+setvars,table=ir4_sround,row=iii;
+setvars,table=ir6_sround,row=iii;
+setvars,table=ir8_sround,row=iii;
+value,sc1,sc5;
+aaa=round(sc1*1e3); bbb=round(sc1*1e3);
+ccc=round(sc5*1e3); ddd=round(sc5*1e3);
+betxip1b1=round(sc1*1e3)/1e3;betyip1b1=round(sc1*1e3)/1e3;
+betxip5b1=round(sc5*1e3)/1e3;betyip5b1=round(sc5*1e3)/1e3;
+value,nnn,betxip1b1,betyip1b1,betxip5b1,betyip5b1;
+exec,saveopt(round,$aaa,$bbb,$ccc,$ddd);
+iii=iii+1;
+};
+
+! flat
+call,file="slhc/opt_flat_thin.madx";
+iii=1; iiistop=table(ir2_flat,tablelength);
+value,iii,iiistop;
+while(iii<=iiistop){
+setvars,table=ir2_flat,row=iii;
+setvars,table=ir4_flat,row=iii;
+setvars,table=ir6_flat,row=iii;
+setvars,table=ir8_flat,row=iii;
+value,sc1,sc5;
+aaa=round(sc1*1e3); bbb=300;
+ccc=300           ; ddd=round(sc5*1e3);
+betxip1b1=round(aaa)/1e3;betyip1b1=round(bbb)/1e3;
+betxip5b1=round(ccc)/1e3;betyip5b1=round(ddd)/1e3;
+value,nnn,betxip1b1,betyip1b1,betxip5b1,betyip5b1;
+exec,saveopt(flat,$aaa,$bbb,$ccc,$ddd);
+iii=iii+1;
+if (aaa==bbb){iii=1000000;};
+};
+
+! flathv
+call,file="slhc/opt_flathv_thin.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+iii=1; iiistop=table(ir2_flathv,tablelength);
+value,iii,iiistop;
+while(iii<=iiistop){
+setvars,table=ir2_flathv,row=iii;
+setvars,table=ir4_flathv,row=iii;
+setvars,table=ir6_flathv,row=iii;
+setvars,table=ir8_flathv,row=iii;
+value,sc1,sc5;
+bbb=round(sc1*1e3); aaa=300;
+ddd=300           ; ccc=round(sc5*1e3);
+betxip1b1=round(aaa)/1e3;betyip1b1=round(bbb)/1e3;
+betxip5b1=round(ccc)/1e3;betyip5b1=round(ddd)/1e3;
+value,nnn,betxip1b1,betyip1b1,betxip5b1,betyip5b1;
+exec,saveopt(flathv,$aaa,$bbb,$ccc,$ddd);
+iii=iii+1;
+if (aaa==bbb){iii=1000000;};
+};
+
+! sflat
+call,file="slhc/opt_sflat_thin.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+iii=1; iiistop=table(ir2_sflat,tablelength);
+value,iii,iiistop;
+while(iii<=iiistop){
+setvars,table=ir2_sflat,row=iii;
+setvars,table=ir4_sflat,row=iii;
+setvars,table=ir6_sflat,row=iii;
+setvars,table=ir8_sflat,row=iii;
+value,sc1,sc5;
+aaa=round(sc1*1e3); bbb=200;
+ccc=200           ; ddd=round(sc5*1e3);
+betxip1b1=round(aaa)/1e3;betyip1b1=round(bbb)/1e3;
+betxip5b1=round(ccc)/1e3;betyip5b1=round(ddd)/1e3;
+value,nnn,betxip1b1,betyip1b1,betxip5b1,betyip5b1;
+exec,saveopt(sflat,$aaa,$bbb,$ccc,$ddd);
+iii=iii+1;
+if (aaa==bbb){iii=1000000;};
+};
+
+! sflathv
+call,file="slhc/opt_sflathv_thin.madx";
+iii=1; iiistop=table(ir2_sflathv,tablelength);
+value,iii,iiistop;
+while(iii<=iiistop){
+setvars,table=ir2_sflathv,row=iii;
+setvars,table=ir4_sflathv,row=iii;
+setvars,table=ir6_sflathv,row=iii;
+setvars,table=ir8_sflathv,row=iii;
+value,sc1,sc5;
+bbb=round(sc1*1e3); aaa=200;
+ddd=200           ; ccc=round(sc5*1e3);
+betxip1b1=round(aaa)/1e3;betyip1b1=round(bbb)/1e3;
+betxip5b1=round(ccc)/1e3;betyip5b1=round(ddd)/1e3;
+value,nnn,betxip1b1,betyip1b1,betxip5b1,betyip5b1;
+exec,saveopt(sflathv,$aaa,$bbb,$ccc,$ddd);
+iii=iii+1;
+if (aaa==bbb){iii=1000000;};
+};

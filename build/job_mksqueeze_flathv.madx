@@ -1,0 +1,136 @@
+option, warn,info;
+!system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
+system,"ln -fns .. slhc";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
+system,"mkdir temp";
+
+option,-echo,-info,-warn;
+option, -echo,-warn,-info,no_fatal_stop;
+REAL CONST l.TAN   = 3.7  ;REAL CONST l.TANAL = l.TAN;
+REAL CONST l.TANAR = l.TAN;REAL CONST l.TANC  = l.TAN;
+REAL CONST l.TCT   = 1.0;REAL CONST l.TCTH  = l.TCT;REAL CONST l.TCTVA = l.TCT;
+REAL CONST l.MBAS2             =0 ;
+REAL CONST l.MBAW              =0 ;
+REAL CONST l.MBCS2             =0 ;
+REAL CONST l.MBLS2             =0 ;
+REAL CONST l.MBLW              =0 ;
+REAL CONST l.MBWMD             =0 ;
+REAL CONST l.MBXWH             =0 ;
+REAL CONST l.MBXWS             =0 ;
+REAL CONST l.MBXWT             =0 ;
+
+call,file="db5/V6.5.as-built.seq";
+Option, -echo,warn,-info;
+
+call,file="slhc/toolkit/macro.madx";
+call,file="slhc/hllhc_sequence.madx";
+
+exec,mk_beam(7000);
+call,file="opt_presqueeze_new.madx";
+exec, crossing_disable;
+exec,check_ip(b1); exec,check_ip(b2);
+
+call,file="toolkit/optics_log.madx";
+
+readmytable,table=ir2_flathv,file="ir2_flathv.tfs";
+readmytable,table=ir4_flathv,file="ir4_flathv.tfs";
+readmytable,table=ir6_flathv,file="ir6_flathv.tfs";
+readmytable,table=ir8_flathv,file="ir8_flathv.tfs";
+!V1.2 squeeze tables round, use them from index 51 to the end
+readmytable,table=ir2_round,file="ir2_round.tfs";
+readmytable,table=ir4_round,file="ir4_round.tfs";
+readmytable,table=ir6_round,file="ir6_round.tfs";
+readmytable,table=ir8_round,file="ir8_round.tfs";
+!create squeeze tables
+exec,make_opticstbl_ir2(ir2);
+exec,make_opticstbl_ir4(ir4);
+exec,make_opticstbl_ir6(ir6);
+exec,make_opticstbl_ir8(ir8);
+on_opticstbl_ir2 = 1 ;
+on_opticstbl_ir4 = 1 ;
+on_opticstbl_ir6 = 1 ;
+on_opticstbl_ir8 = 1 ;
+
+set_beta_const: macro ={
+  betx0_ip1=0.48;bety0_ip1=0.48;betx0_ip5=0.48;bety0_ip5=0.48;
+  betx_ip2=10.0;bety_ip2=10.0;alfx_ip2=0;alfy_ip2=0;
+  betx_ip8=3.0;bety_ip8=3.0;alfx_ip8=0;alfy_ip8=0;
+  alfx_ip1=0;alfy_ip1=0; 
+  alfx_ip5=0;alfy_ip5=0;
+  muxip6b1 = 2.0000 ;muyip6b1 = 2.0300 ;muxip6b2 = 2.0000 ;muyip6b2 = 2.0300 ;
+  muxIP2b1 = 2.950000; muyIP2b1 = 2.700000;muxIP2b2 = 2.950000; muyIP2b2 = 2.700000;
+  muxIP8b1 = 3.020000; muyIP8b1 = 2.800000;muxIP8b2 = 3.020000; muyIP8b2 = 2.800000;
+  muxIP4b1 = 2.160000; muyIP4b1 = 1.720000;muxIP4b2 = 2.160000; muyIP4b2 = 1.720000;
+};
+
+!return;
+sss=0.005;!0.5 cm squeeze steps
+eee=97;
+rrr=1;
+k:=rrr-1;
+value,sss,rrr,eee;
+while(rrr<=eee){
+  if(rrr<=6){
+    bet12_2=0.075+sss*(rrr-1);!beta* v12 tables
+    bet12_1=0.30+sss*(rrr-1);!beta* v12 tables
+  };
+  if(6<rrr && rrr<=20){
+    bet12_2=0.1;!beta* v12 tables
+    bet12_1=0.30+sss*(rrr-1);!beta* v12 tables
+  };
+  if(rrr>20 && rrr<82){
+    bet12_2=0.1+sss*(rrr-21);!beta* v12 tables
+    bet12_1=0.4;!beta* v12 tables
+  };
+  if(rrr>=82){
+    bet12_2=0.1+sss*(rrr-21);!beta* v12 tables
+    bet12_1=0.1+sss*(rrr-21);!beta* v12 tables
+  };
+  value, bet12_1,bet12_2,bet12_1/0.48,sc1/0.44;
+  value, bet12_1,bet12_2,bet12_1/0.48,sc5/0.44;
+  if(bet12_2<0.4){
+    ccc=rrr;
+    setvars,table=ir2_flathv,row=ccc;
+    setvars,table=ir4_flathv,row=ccc;
+    setvars,table=ir6_flathv,row=ccc;
+    setvars,table=ir8_flathv,row=ccc;
+    value, betx_ip1,bety_ip1,betx_ip5,bety_ip5;
+    betx_ip1=bet12_1;bety_ip1=bet12_2;
+    betx_ip5=bet12_2;bety_ip5=bet12_1;
+    value, betx_ip1,bety_ip1,betx_ip5,bety_ip5;
+    jac_calls=   20;
+    call,file="fit_ir2_flathv.madx";
+    call,file="fit_ir4_flathv.madx";
+    call,file="fit_ir6_flathv.madx";
+    call,file="fit_ir8_flathv.madx";
+    kqx.l2   =     8.7798571414e-03;
+  };
+  else{!set round optics value for beta*>0.4 m, rrr=82
+    tl=table(ir2_round,tablelength);
+    ccc=tl-(eee-rrr);
+    setvars,table=ir2_round,row=ccc;
+    setvars,table=ir4_round,row=ccc;
+    setvars,table=ir6_round,row=ccc;
+    setvars,table=ir8_round,row=ccc;
+    value, betx_ip1,bety_ip1,betx_ip5,bety_ip5;
+    betx_ip1=bet12_2;bety_ip1=bet12_2;
+    betx_ip5=bet12_2;bety_ip5=bet12_2;
+    value, betx_ip1,bety_ip1,betx_ip5,bety_ip5;
+    jac_calls=   0;
+  };
+  exec, set_beta_const;
+  value, betx_ip1,bety_ip1,betx_ip5,bety_ip5;
+  call,file="toolkit/rematch_squeeze.madx";
+  exec,check_ip(b1); exec,check_ip(b2);
+!  if(tarsqueeze>1.e-15){return;};
+  exec,store_optics(ir2);
+  exec,store_optics(ir4);
+  exec,store_optics(ir6);
+  exec,store_optics(ir8);
+  rrr=rrr+1;
+};
+value,betx_ip1,betx_ip5;
+value, rrr;
+
+return;
+

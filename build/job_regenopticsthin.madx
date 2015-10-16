@@ -1,0 +1,215 @@
+option, warn,info;
+!system,"rm -rf temp"; system,"mkdir temp";
+!system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
+system,"ln -fns .. slhc";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
+option,-echo,-info,-warn;
+Option, -echo,-warn,-info;
+REAL CONST l.TAN   = 3.7  ;REAL CONST l.TANAL = l.TAN;
+REAL CONST l.TANAR = l.TAN;REAL CONST l.TANC  = l.TAN;
+REAL CONST l.TCT   = 1.0;REAL CONST l.TCTH  = l.TCT;REAL CONST l.TCTVA = l.TCT;
+call,file="db5/V6.5.seq";
+Option, -echo,warn,-info;
+
+call,file="slhc/toolkit/macro.madx";
+
+call,file="hllhc_sequence.madx";
+
+!save,sequence=lhcb1,lhcb2,file=hllhc.seq;
+
+exec,myslice;
+
+exec,mk_beam(7000);
+
+! Presqueeze
+
+regen_optics(filename): macro={
+!call,file="slhc/opt_filename.madx"; is_thin=1;
+call,file="slhc/opt_filename_thin.madx"; is_thin=1;
+!call,file="slhc/opt_filename_wire.madx"; is_thin=1;
+exec,check_ip(b1); exec,check_ip(b2);
+call,file="toolkit/clean_specs.madx";
+!call,file="toolkit/rematch_arcs.madx";
+!call,file="toolkit/rematch_presqueeze.madx";
+!if (tarir15b12>1e-20) { stop;};
+!call,file="toolkit/rematch_squeeze.madx";
+!if (tarsqueeze>1e-15) { stop;};
+!call,file="toolkit/rematch_ir37b12.madx";
+!if (tarir37b12>1e-15) { stop;};
+!call,file="toolkit/rematch_globalw.madx";
+Poff=2.0e-03;
+Occ:=5.0e-4;dABCD:=2.5e-04;
+!presqueeze+round+inj
+!Psep=2.0e-3;Xang=0.000255;
+call,file="toolkit/rematch_crossing.madx";
+if (tarcrossing>1e-15) { stop;};
+if (tarcrossing+tarir37b12+tarsqueeze+tarir15b12<1e-15){
+  call,file="toolkit/rematch_crabs.madx";
+  call,file="toolkit/mk_ir28_knobs.madx";
+  on_check=1; call,file="toolkit/save_optics2.madx";
+  system,"cp temp/optics.madx opt_filename_thin.madx";
+!  system,"cp temp/optics.madx opt_filename_wire_thin.madx";
+!  save,file="filename.seq";
+};
+exec,check_ip(b1); exec,check_ip(b2);
+};
+
+!create Presqueeze
+exec,regen_optics(presqueeze);
+return;
+!exec,regen_optics(ions);
+!load presqueezed optics
+call,file="slhc/hllhc_thin.seq";
+call,file="slhc/opt_presqueeze_wire_thin.madx";
+
+!save ir optics for creating squeezed optics
+call,file="toolkit/save_optics_ir1537arc.madx";
+system,"cp temp/optics_ir1537arc.madx optics_ir1537arc_thin.madx";
+!copy ir4637 for injection optics as it stays the same
+!call,file="toolkit/save_optics_ir4637arc.madx";
+!system,"cp temp/optics_ir4637arc.madx optics_ir4637arc_thin.madx";
+
+!save sequence in file;
+!save,sequence=lhcb1,lhcb2,file=hllhc_thin.seq;
+
+! Squeeze
+
+regen_squeeze(filename): macro={
+!call,file="slhc/opt_filename.madx"; is_thin=1;
+call,file="slhc/opt_filename_wire.madx"; is_thin=1;
+call,file="optics_ir1537arc_thin.madx";
+call,file="toolkit/clean_specs.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+call,file="toolkit/rematch_squeeze.madx";
+if (tarsqueeze>1e-15) { return;};
+call,file="toolkit/rematch_globalw.madx";
+Poff=2.0e-03;
+Occ:=5.0e-4;dABCD:=2.5e-04;
+!presqueeze+round+inj
+!Psep=2.0e-3;Xang=0.000255;
+!!flat
+!Psep=0.75e-3;Xang=0.000210;
+call,file="toolkit/rematch_crossing.madx";
+call,file="slhc/toolkit/rematch_crabs.madx";
+if (tarcrossing>1e-15) { return;};
+if (tarsqueeze+tarir37b12+tarcrossing<1e-15){
+ call,file="toolkit/mk_ir28_knobs.madx";
+ on_check=1; call,file="toolkit/save_optics2.madx";
+! system,"cp temp/optics.madx opt_filename_thin.madx";
+ system,"cp temp/optics.madx opt_filename_wire_thin.madx";
+! save,file="filename.seq";
+};
+exec,check_ip(b1); exec,check_ip(b2);
+};
+
+!exec,mk_beam(7000);
+exec,regen_squeeze(round);
+!exec,regen_squeeze(sround);
+exec,regen_squeeze(flat);
+!exec,regen_squeeze(flathv);
+!exec,regen_squeeze(sflat);
+!exec,regen_squeeze(sflathv);
+!return;
+
+regen_inj(filename): macro={
+call,file="slhc/opt_filename.madx"; is_thin=1;
+call,file="optics_ir4637arc_thin.madx";
+call,file="toolkit/clean_specs.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+call,file="toolkit/rematch_inj.madx";
+if (tarinj>1e-15) { return;};
+call,file="toolkit/rematch_ir37b12.madx";
+if (tarir37b12>1e-15) { stop;};
+! !!! don't use hllhc_thin.seq as otherwise there is a
+! conflict with the cc markers for the ccs knob
+! use myslice instead !!!
+Poff=2.0e-03;
+Occ:=5.0e-4;dABCD:=2.5e-04;
+!!presqueeze+round+inj
+!Psep=2.0e-3;Xang=0.000255;
+call,file="toolkit/rematch_crossing.madx";
+call,file="toolkit/rematch_crabs.madx";
+exec,CORCHROMA_WEAK(2,b1);
+exec,CORCHROMA_WEAK(2,b2);
+if (tarcrossing>1e-15) { return;};
+if (tarinj+tarir37b12+tarcrossing<1e-15){
+ call,file="toolkit/mk_ir28_knobs.madx";
+ on_check=1; call,file="toolkit/save_optics2.madx";
+ system,"cp temp/optics.madx opt_filename_thin.madx";
+! save,file="filename.seq";
+};
+exec,check_ip(b1); exec,check_ip(b2);
+};
+
+exec,mk_beam(450);
+return;
+exec,regen_inj(inj);
+!exec,regen_inj(inj15);
+
+return;
+
+regen_endoframp(filename): macro={
+call,file="opt_filename.madx"; is_thin=1;
+!call,file="optics_ir4637arc_thin.madx";
+call,file="toolkit/clean_specs.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+call,file="toolkit/rematch_endoframp.madx";
+if (tarir37b12>1e-15) { stop;};
+call,file="toolkit/rematch_crossing.madx";
+call,file="slhc/toolkit/rematch_crabs.madx";
+exec,CORCHROMA_WEAK(2,b1);
+exec,CORCHROMA_WEAK(2,b2);
+if (tarcrossing>1e-15) { return;};
+if (tarendoframp+tarir37b12+tarcrossing<1e-15){
+ call,file="toolkit/mk_ir28_knobs.madx";
+ on_check=1; call,file="toolkit/save_optics2.madx";
+ system,"cp temp/optics.madx opt_filename_thin.madx";
+! save,file="filename.seq";
+};
+exec,check_ip(b1); exec,check_ip(b2);
+};
+exec,regen_endoframp(endoframp);
+
+
+
+
+
+
+return;
+
+call,file=opt_round.madx;
+call,file=opt_presqueeze_thin.madx; is_thin=1;
+call,file=toolkit/rematch_presqueeze.madx;
+call,file=slhc/opt_flat.madx;
+
+
+! Rematch Injection
+exec,mk_beam(450);
+call,file="opt_inj15.madx"; is_thin=1;
+call,file="optics_ir4637arc_thin.madx";
+call,file="toolkit/clean_specs.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+on_holdselect=0;
+grad=140;
+scl=0.47; sch=0.95;sc79=0.999+0.000;bmaxds=500;imb=1.30;
+match_on_triplet=0; match_on_tripletconst=0;ir5q4sym=0;ir5q5sym=0;
+apq789=0; apq5=0; apq6=0; apq4=0; apq1011=0;
+apq5=205;apq6=apq5;
+match_inj_tunes=1;
+exec,crossing_disable;
+match_on_aperture=0; jac_calls=10; bisec=3; tol=1e-16;
+call,file="toolkit/rematch_ir15_b12.madx";
+if (is_thin==0){
+match_on_aperture=1; epsap=-1;
+call,file="toolkit/rematch_ir15_b12.madx";
+match_on_aperture=1; epsap=-0;
+call,file="toolkit/rematch_ir15_b12.madx";
+};
+
+
+
+
+
+
+
+
