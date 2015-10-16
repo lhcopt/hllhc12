@@ -108,7 +108,7 @@ constraint,sequence=lhcb2,range=mq.11r2.b2,betx<178+epsap,dx<2.31+epsap/100;
 if (match_inj_tunes==0){
  vary,name=kq5.l2b1,    step=1.0E-6, lower= qtlimit2*scmin, upper= qtlimit2;
  vary,name=kq4.l2b1,    step=1.0E-6, lower=-qtlimit2, upper=-qtlimit2*scmin;
-! vary,name=kqx.l2,      step=1.0E-6, lower= qtlimitx28*scmin, upper=qtlimitx28;
+! vary,name=kqx.l2,      step=1.0E-6, lower= qtlimitx28*scmin, upper=qtlimitx28;!fixed
  vary,name=kq4.r2b1,    step=1.0E-6, lower= qtlimit2*scmin, upper= qtlimit2;
  vary,name=kq5.r2b1,    step=1.0E-6, lower=-qtlimit2, upper=-qtlimit2*scmin;
 };

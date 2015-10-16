@@ -3,9 +3,9 @@ if(Poff==0){Poff=2.0e-03;};!account for 2 mm offset
 !Occ: ccp and ccm knob, dABCD: ccs knob
 if(Occ==0){Occ:=5.0e-4;};
 if(dABCD==0){dABCD:=2.5e-04;};
-Xang=pxip5b1+pyip5b1;Psep=xip5b1+yip5b1;
-!if(Psep==0){Psep=2.0e-3;};
-!if(Xang==0){Xang=0.000295;Xang=round(Xang*1e6)/1e6;}; !Psep=round(Psep*1e6)/1e6;
+!Xang=pxip5b1+pyip5b1;Psep=xip5b1+yip5b1;
+if(Psep==0){Psep=2.0e-3;};
+if(Xang==0){Xang=0.000295;Xang=round(Xang*1e6)/1e6;}; !Psep=round(Psep*1e6)/1e6;
 Xang=round(Xang*1e6)/1e6;
 Psep=round(Psep*1e6)/1e6;                                                
 
@@ -32,7 +32,7 @@ if (arc_squeeze>0){
 };
 
 
-!ddvalue,tarir2b1,tarir4b1,tarir6b1,tarir8b1;
+!value,tarir2b1,tarir4b1,tarir6b1,tarir8b1;
 !value,tarir2b2,tarir4b2,tarir6b2,tarir8b2;
 !value,tarir1xing90,tarir1xing0,tarir5xing90,tarir5xing0;
 !value,tarir2b1xing,tarir2b2xing,tarir8b1xing,tarir8b2xing;

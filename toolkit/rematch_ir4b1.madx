@@ -29,6 +29,11 @@ constraint,sequence=lhcb1,range=e.ds.r4.b1,dx=eir4b1->dx,dpx=eir4b1->dpx;
 constraint,sequence=lhcb1,range=e.ds.r4.b1,muy=muyip4b1+eir4b1->muy;
 constraint,sequence=lhcb1,range=e.ds.r4.b1,mux=muxip4b1+eir4b1->mux;
 if(match_on_aperture==1){
+if(nrj>3000){
+betarc=1135;!1130;
+constraint,range=s.ds.l4.b1/e.ds.r4.b1, betx<betarc,bety<betarc;
+};
+else{
 constraint,sequence=lhcb1, range=mq.12l4.b1,bety<182.5-2.0+2.0;
 constraint,sequence=lhcb1, range=mqml.10l4.b1,bety<178.5;
 constraint,sequence=lhcb1, range=mqml.8l4.b1,bety<178.5-0.5;
@@ -40,6 +45,7 @@ constraint,sequence=lhcb1, range=mqm.7r4.b1,bety<178.5;
 constraint,sequence=lhcb1, range=mqm.9r4.b1,bety<171.5;
 constraint,sequence=lhcb1, range=mq.11r4.b1,bety<181.8+0.1;
 constraint,sequence=lhcb1, range=mq.12r4.b1,betx<176.5-2.0;
+};
 };
  vary,name=kqt13.l4b1,  step=1.0E-6, lower=-qtlimit5, upper= qtlimit5;
  vary,name=kqt12.l4b1,  step=1.0E-6, lower=-qtlimit5, upper= qtlimit5;

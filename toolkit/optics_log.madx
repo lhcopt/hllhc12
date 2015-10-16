@@ -130,7 +130,7 @@ make_opticstbl_ir8(ir8):macro={
     acbyvs4.l8b2,acbyvs4.r8b2,acbcvs5.l8b2,acbyvs5.r8b2,
     acbyh4.l8b2,acbyv4.l8b1,acbwh5.l8b1,acbcv5.l8b2,acbyh4.r8b1,
     acbyh5.r8b2,acbyv5.r8b1,acbyv4.r8b2,acbcv6.l8b1,acbcv6.r8b2,acbch6.r8b1,
-    scxir1, scyir1,
+    scxir1, scyir1,betx_ip1,bety_ip1,
     tarir8b1,tarir8b2,
     timestamp;
     on_opticstbl_ir8=1;value,on_opticstbl_ir8;
@@ -162,7 +162,7 @@ make_opticstbl_ir2(ir2):macro={
     acbcv6.l2b1,acbyh5.l2b1,acbyv4.l2b1,acbyh4.r2b1,acbcv5.r2b1,
     acbch6.r2b1,acbch6.l2b2,acbyv5.l2b2,acbyh4.l2b2,acbyv4.r2b2,
     acbch5.r2b2,acbcv6.r2b2,
-    scxir1, scyir1,
+    scxir1, scyir1,betx_ip1,bety_ip1,
     tarir2b1,tarir2b2,
     timestamp;
     on_opticstbl_ir2=1;value,on_opticstbl_ir2;
@@ -184,7 +184,7 @@ make_opticstbl_ir4(ir4):macro={
     betxip4b1,betyip4b1,alfxip4b1,alfyip4b1,dxip4b1,dpxip4b1,
     betxip4b2,betyip4b2,alfxip4b2,alfyip4b2,dxip4b2,dpxip4b2,
     muxip4b1,muyip4b1, muxip4b2,muyip4b2,
-    scxir5, scyir5,
+    scxir5, scyir5,betx_ip5,bety_ip5,
     tarir4b1,tarir4b2,
     timestamp;
     on_opticstbl_ir4=1;value,on_opticstbl_ir4;
@@ -194,18 +194,23 @@ make_opticstbl_ir4(ir4):macro={
 make_opticstbl_ir6(ir6):macro={
   if (on_opticstbl_ir6==0){
     create,table=ir6_log_str,column=
-    kq5.l6b1,kq6.l6b1,kq7.l6b1,kq8.l6b1,kq9.l6b1,kq10.l6b1,
+    kq5.l6b1,kq8.l6b1,kq9.l6b1,kq10.l6b1,
     kqtl11.l6b1,kqt12.l6b1,kqt13.l6b1,
-    kq5.r6b1,kq6.r6b1,kq7.r6b1,kq8.r6b1,kq9.r6b1,kq10.r6b1,
+    kq5.r6b1,kq8.r6b1,kq9.r6b1,kq10.r6b1,
     kqtl11.r6b1,kqt12.r6b1,kqt13.r6b1,
-    kq5.l6b2,kq6.l6b2,kq7.l6b2,kq8.l6b2,kq9.l6b2,kq10.l6b2,
+    kq5.l6b2,kq8.l6b2,kq9.l6b2,kq10.l6b2,
     kqtl11.l6b2,kqt12.l6b2,kqt13.l6b2,
-    kq5.r6b2,kq6.r6b2,kq7.r6b2,kq8.r6b2,kq9.r6b2,kq10.r6b2,
+    kq5.r6b2,kq8.r6b2,kq9.r6b2,kq10.r6b2,
     kqtl11.r6b2,kqt12.r6b2,kqt13.r6b2,
+    kq4.l6b1,kq4.l6b2,kq4.r6b1,kq4.r6b2,
     betxip6b1,betyip6b1,alfxip6b1,alfyip6b1,dxip6b1,dpxip6b1,
     betxip6b2,betyip6b2,alfxip6b2,alfyip6b2,dxip6b2,dpxip6b2,
-    muxip6b1,muyip6b1, muxip6b2,muyip6b2,
-    scxir5, scyir5,
+    muxip6b1,muyip6b1,muxip6b2,muyip6b2,
+    bxdumpb1,bydumpb1,bxdumpb2,bydumpb2,
+    dmuxkickb1,dmuxkickb2,dmuxkickb1_tcsg,dmuxkickb2_tcsg,
+    betxtcdqb1,betxtcdqb2,betytcdqb1,betytcdqb2,
+    betxmkdb1,betxmkdb2,betymkdb1,betymkdb2,
+    scxir5, scyir5,betx_ip5,bety_ip5,
     tarir6b1,tarir6b2,
     timestamp;
     on_opticstbl_ir6=1;value,on_opticstbl_ir6;
@@ -295,5 +300,3 @@ system, "date '+timestamp=%s;' >tmp_ttstamp";
 call,file=tmp_ttstamp;
 system, "rm tmp_ttstamp";
 };
-
-value, kqx1.l5;

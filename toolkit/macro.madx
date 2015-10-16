@@ -30,10 +30,14 @@
 !     checkw(BIM)
 !     cable_sext_twofam
 !     twiss_opt
-!     save_optics_ir2846(filename)
 !     save_optics_ir15(filename)
+!     save_optics_ir2846(filename)
+!     save_optics_ir37arc(filename)
+!     save_optics_ir1537arc(filename)
+!     save_optics_ir4637arc(filename)
+!     save_optics_ir234678arc(filename)
 !     myslice
-!     mk_beam(NRJJ)
+!     mk_beam(NRJ)
 !     make_squeeze
 !     make_presqueeze
 !     make_presqueeze_thin
@@ -292,6 +296,9 @@ select,flag=aperture,clear;
 select,flag=aperture,column=name,s,betx,bety,dx,dy,x,y,n1,apertype,Rtol,xtol,ytol;
 aperture,range=e.ds.rNARC1.BIM/s.ds.lNARC2.BIM,
          cor=COmax, dp=dPmax, spec=SPECIF,interval=1.0,
+         exn=emittance_norm,eyn=emittance_norm,
+         halo={6,halor,halox,haloy},bbeat=apbbeat,
+         dparx=DParcx,dpary=DParcy,
          file=temp/ap_arcNARC1NARC2BIM.tfs;
 
 !system,"slhc/aperture/check_aperture.py temp/ap_arcNARC1NARC2BIM.tfs";
@@ -2667,6 +2674,7 @@ exec,_save_optics_summ(4);
 };
 
 _save_optics_ir6: macro={
+exec,_save_optics_quad(Q,4,6);
 exec,_save_optics_quad(Q,5,6);
 exec,_save_optics_quad(Q,6,6);
 exec,_save_optics_ds(6);
