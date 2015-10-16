@@ -35,7 +35,7 @@ readmytable,table=ir6_flathv   ,file="ir6_flathv.tfs";
 readmytable,table=ir8_flathv   ,file="ir8_flathv.tfs";
 
 saveopt(nnn,aaa,bbb,ccc,ddd): macro={
-!exec,check_ip(b1); exec,check_ip(b2);
+exec,check_ip(b1); exec,check_ip(b2);
 call,file="slhc/toolkit/clean_specs.madx";
 call,file="slhc/toolkit/rematch_squeeze.madx";
 if (tarsqueeze>1e-15) { return;};
@@ -50,22 +50,22 @@ system,"cp temp/optics.madx opt_nnn_aaa_bbb_ccc_ddd.madx";
 };
 };
 
-return;
-! round
-call,file="opt_presqueeze_new.madx";
-iii=1; iiistop=table(ir2_round,tablelength);
-value,iii,iiistop;
-while(iii<=iiistop){
-setvars,table=ir2_round,row=iii;
-setvars,table=ir4_round,row=iii;
-setvars,table=ir6_round,row=iii;
-setvars,table=ir8_round,row=iii;
-value,betx_ip1,betx_ip5;
-aaa=round(betx_ip1*1e3); bbb=round(betx_ip1*1e3);
-ccc=round(betx_ip5*1e3); ddd=round(betx_ip5*1e3);
-exec,saveopt(round,$aaa,$bbb,$ccc,$ddd);
-iii=iii+1;
-};
+!return;
+!! round
+!call,file="opt_presqueeze_new.madx";
+!iii=1; iiistop=table(ir2_round,tablelength);
+!value,iii,iiistop;
+!while(iii<=iiistop){
+!setvars,table=ir2_round,row=iii;
+!setvars,table=ir4_round,row=iii;
+!setvars,table=ir6_round,row=iii;
+!setvars,table=ir8_round,row=iii;
+!value,betx_ip1,betx_ip5;
+!aaa=round(betx_ip1*1e3); bbb=round(bety_ip1*1e3);
+!ccc=round(betx_ip5*1e3); ddd=round(bety_ip5*1e3);
+!exec,saveopt(round,$aaa,$bbb,$ccc,$ddd);
+!iii=iii+1;
+!};
 
 ! flat
 call,file="opt_presqueeze_new.madx";
@@ -77,8 +77,8 @@ setvars,table=ir4_flat,row=iii;
 setvars,table=ir6_flat,row=iii;
 setvars,table=ir8_flat,row=iii;
 value,betx_ip1,betx_ip5,bety_ip1,bety_ip5;
-aaa=round(betx_ip1*1e3); bbb=round(betx_ip1*1e3);
-ccc=round(betx_ip5*1e3); ddd=round(betx_ip5*1e3);
+aaa=round(betx_ip1*1e3); bbb=round(bety_ip1*1e3);
+ccc=round(betx_ip5*1e3); ddd=round(bety_ip5*1e3);
 exec,saveopt(flat,$aaa,$bbb,$ccc,$ddd);
 iii=iii+1;
 if (aaa==bbb){iii=1000000;};
@@ -95,9 +95,11 @@ setvars,table=ir4_flathv,row=iii;
 setvars,table=ir6_flathv,row=iii;
 setvars,table=ir8_flathv,row=iii;
 value,betx_ip1,betx_ip5,bety_ip1,bety_ip5;
-aaa=round(betx_ip1*1e3); bbb=round(betx_ip1*1e3);
-ccc=round(betx_ip5*1e3); ddd=round(betx_ip5*1e3);
+aaa=round(betx_ip1*1e3); bbb=round(bety_ip1*1e3);
+ccc=round(betx_ip5*1e3); ddd=round(bety_ip5*1e3);
 exec,saveopt(flathv,$aaa,$bbb,$ccc,$ddd);
 iii=iii+1;
 if (aaa==bbb){iii=1000000;};
 };
+
+return;
