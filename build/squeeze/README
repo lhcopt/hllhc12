@@ -1,0 +1,23 @@
+squeeze/old:
+  files copied from study_squeeze/ before rematching with interpolating functions to regenerate squeeze
+  -> files ir*_[round,flat,flathv].tfs are then replaced by new matched files and copied to slhc/squeeze/:
+  ir2_round.tfs: study_squeeze/squeeze_round/ir2_round_idx_3.tfs (squeeze_round/squeeze3/ir2_round.tfs) 
+  ir4_round.tfs: study_squeeze/squeeze_round/ir4_round_idx_3.tfs (squeeze_round/squeeze3/ir4_round.tfs)
+  ir6_round.tfs: study_squeeze/squeeze_round/ir6_round_idx_24.tfs (squeeze_round/squeeze24/ir6_round.tfs)
+  ir8_round.tfs: study_squeeze/squeeze_round/ir8_round_idx_3.tfs (squeeze_round/squeeze3/ir8_round.tfs)
+  
+  ir2_flat.tfs: study_squeeze/squeeze_flat/ir2_flat_idx_24a.tfs (squeeze_flat/squeeze24a/ir2_log_str.tfs) 
+  ir4_flat.tfs: study_squeeze/squeeze_flat/ir4_flat_idx_29a.tfs (squeeze_flat/squeeze29a/ir4_log_str.tfs)
+  ir6_flat.tfs: study_squeeze/squeeze_flat/ir6_flat_idx_46.tfs (squeeze_flat/squeeze46/ir6_log_str.tfs)
+  ir8_flat.tfs: study_squeeze/squeeze_flat/ir8_flat_idx_24a.tfs (squeeze_flat/squeeze24a/ir8_log_str.tfs)
+  
+  ir2_flathv.tfs: study_squeeze/squeeze_flathv/ir2_flathv_idx_25a.tfs (squeeze_flathv/squeeze25a/ir2_log_str.tfs) 
+  ir4_flathv.tfs: study_squeeze/squeeze_flathv/ir4_flathv_idx_23a.tfs (squeeze_flathv/squeeze23a/ir4_log_str.tfs)
+  ir6_flathv.tfs: study_squeeze/squeeze_flathv/ir6_flathv_idx_45.tfs (squeeze_flathv/squeeze45/ir6_log_str.tfs)
+  ir8_flathv.tfs: study_squeeze/squeeze_flathv/ir8_flathv_idx_20a.tfs (squeeze_flathv/squeeze20a/ir8_log_str.tfs)
+
+to generate table and files in squeeze/:
+  job_mksqueeze_*.madx: script to regenerate squeeze
+  mk_fit_*.py:          generate fits
+  fit_ir*_*.madx:       fits for squeeze
+  job_save_squeeze.madx: save optics files

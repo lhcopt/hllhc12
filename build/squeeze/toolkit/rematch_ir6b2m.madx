@@ -1,0 +1,171 @@
+scale = 23348.89927;
+scmin := 0.03*7000./nrj;
+qtlimitx28 := 1.0*225.0/scale;
+qtlimitx15 := 1.0*205.0/scale;
+qtlimit2 := 1.0*160.0/scale;
+qtlimit3 := 1.0*200.0/scale;
+qtlimit4 := 1.0*125.0/scale;
+qtlimit5 := 1.0*120.0/scale;
+qtlimit6 := 1.0*90.0/scale;
+
+
+if(on_holdselect==0){ exec,select(6,56,67,b2); };
+
+if(on_fixedip==1){
+muxip6b2 = 2.0000 ;betxip6b2= 187.749224;alfxip6b2 = 0.551968;
+muyip6b2 = 2.0300 ;betyip6b2= 178.368556;alfyip6b2 =-0.607183;
+dxip6b2 =  0.0;dpxip6b2 = 0 ;!value HLLHCV1.0/HLLHCV1.1: dxip6b2 =  0.186;
+};
+
+value,muxip6b2,betxip6b2,alfxip6b2;
+value,muyip6b2,betyip6b2,alfyip6b2;
+value,dxip6b2,dpxip6b2;
+
+use,sequence=lhcb2,range=s.ds.l6.b2/e.ds.r6.b2;
+match,use_macro;
+ vary,name=kqt13.l6b2,  step=1.0E-6, lower=-qtlimit5, upper= qtlimit5;
+ vary,name=kqt12.l6b2,  step=1.0E-6, lower=-qtlimit5, upper= qtlimit5;
+ vary,name=kqtl11.l6b2, step=1.0E-6, lower=-qtlimit4*400./550., upper=qtlimit4*400./550.;
+ vary,name=kq10.l6b2,   step=1.0E-6, lower= qtlimit3*scmin, upper= qtlimit3;
+ vary,name=kq9.l6b2,    step=1.0E-6, lower=-qtlimit3, upper=-qtlimit3*scmin;
+ vary,name=kq8.l6b2,    step=1.0E-6, lower= qtlimit3*scmin, upper= qtlimit3;
+ vary,name=kq5.l6b2,    step=1.0E-6, lower=-qtlimit2, upper=-qtlimit2*scmin;
+! vary,name=kq4.l6b2,    step=1.0E-6, lower= qtlimit2*scmin, upper= qtlimit2;
+
+!vary,name=kq4.r6b2,    step=1.0E-6, lower=-qtlimit2, upper=-qtlimit2*scmin;!fixed for septum
+ vary,name=kq5.r6b2,    step=1.0E-6, lower= qtlimit2*scmin, upper= qtlimit2;
+ vary,name=kq8.r6b2,    step=1.0E-6, lower=-qtlimit3, upper=-qtlimit3*scmin;
+ vary,name=kq9.r6b2,    step=1.0E-6, lower= qtlimit3*scmin, upper= qtlimit3;
+ vary,name=kq10.r6b2,   step=1.0E-6, lower=-qtlimit3, upper=-qtlimit3*scmin;
+ vary,name=kqtl11.r6b2, step=1.0E-6, lower=-qtlimit4*300./550., upper=qtlimit4*300./550.;
+ vary,name=kqt12.r6b2,  step=1.0E-6, lower=-qtlimit5, upper= qtlimit5;
+ vary,name=kqt13.r6b2,  step=1.0E-6, lower=-qtlimit5, upper= qtlimit5;
+m:macro={twiss,beta0=bir6b2;
+refbetxip6b2=table(twiss,IP6,betx); refalfxip6b2=table(twiss,IP6,alfx);
+refbetyip6b2=table(twiss,IP6,bety); refalfyip6b2=table(twiss,IP6,alfy);
+refdxip6b2=table(twiss,IP6,dx); refdpxip6b2=table(twiss,IP6,dpx);
+refdmuxkickb2_tcsg=table(twiss,MKD.H5R6.B2,mux)-table(twiss,TCSG.4L6.B2,mux);
+refdmuxkickb2=table(twiss,MKD.H5R6.B2,mux)-table(twiss,TCDQA.A4L6.B2,mux);
+refdxq5r6b2=abs(table(twiss,MQY.B5R6.B2,dx));
+refdxq4l6b2=abs(table(twiss,MQY.4L6.B2,dx));
+al_dump=761;
+refbxdumpb2=refbetxip6b2+2*al_dump*refalfxip6b2+
+                        al_dump^2*(1+refalfxip6b2^2)/refbetxip6b2;
+refbydumpb2=refbetyip6b2+2*al_dump*refalfyip6b2+
+                        al_dump^2*(1+refalfyip6b2^2)/refbetyip6b2;
+};
+if(match_on_mkd_tcsg>0 && abs(dmuxkickb2_tcsg)>0){
+constraint,expr=refdmuxkickb2_tcsg=dmuxkickb2_tcsg;
+};
+else{
+constraint,weight=1000,expr= abs(refdmuxkickb2-0.250)<0.0125;
+};
+!if(match_on_dump>0 && bxdumpb2>0 && bydumpb2>0){
+if(match_on_dump>0){
+constraint,expr=refbxdumpb2=bxdumpb2;
+constraint,expr=refbydumpb2=bydumpb2;
+};
+else{
+constraint,expr=refbxdumpb2>5052;
+constraint,expr=refbydumpb2>3698;
+};
+!constraint,sequence=lhcb2,range=MKD.H5R6.B2,  betx>380;!380: nom. LHC optics, minimize kick(mkd)/sigma_x for asynch. dump
+!if(match_on_tcdq>0 && betxtcdqb2>0 && betytcdqb2>0){
+if(match_on_tcdq>0){
+constraint,sequence=lhcb2,range=TCDQA.A4L6.B2,betx>160;!=betxtcdqb2;
+constraint,sequence=lhcb2,range=TCDQA.A4L6.B2,bety=betytcdqb2;
+};
+else{
+constraint,sequence=lhcb2,range=TCDQA.A4L6.B2,betx>160;
+constraint,sequence=lhcb2,range=TCDQA.A4L6.B2,bety>160;
+};
+!dispersion in straight section <0.5
+constraint,expr=refdxq5r6b2<0.5;
+constraint,expr=refdxq4l6b2<0.5;
+!constraint,sequence=lhcb2,range=ip6,betx=betxip6b2;
+!constraint,sequence=lhcb2,range=ip6,bety=betyip6b2;
+!constraint,sequence=lhcb2,range=ip6,alfx=alfxip6b2;
+!constraint,sequence=lhcb2,range=ip6,alfy=alfyip6b2;
+!constraint,sequence=lhcb2,range=ip6,dx=dxip6b2;
+!constraint,sequence=lhcb2,range=ip6,dpx=dpxip6b2;
+!if(is_thin==1){
+!  constraint,sequence=lhcb2,range=ip6,dx=dxip6b2,dpx =dpxip6b2;
+!};
+constraint,sequence=lhcb2,range=e.ds.r6.b2,alfx=eir6b2->alfx,alfy=eir6b2->alfy;
+constraint,sequence=lhcb2,range=e.ds.r6.b2,betx=eir6b2->betx,bety=eir6b2->bety;
+constraint,sequence=lhcb2,range=e.ds.r6.b2,dx=eir6b2->dx,dpx=eir6b2->dpx;
+constraint,sequence=lhcb2,range=e.ds.r6.b2,   mux=muxip6b2+eir6b2->mux;
+constraint,sequence=lhcb2,range=e.ds.r6.b2,   muy=muyip6b2+eir6b2->muy;
+if(match_on_aperture==1){
+if(nrj>3000):{
+betir=1065;
+constraint,sequence=lhcb2,range=MQY.4L6.B2,   betx <betir;
+constraint,sequence=lhcb2,range=MQY.4R6.B2,   bety <betir;
+constraint,sequence=lhcb2,range=MQY.B5L6.B2,  bety <betir;
+constraint,sequence=lhcb2,range=MQY.5R6.B2,   betx <betir;
+constraint,sequence=lhcb2,range=mqml.8l6.b2,betx  < betir;
+constraint,sequence=lhcb2,range=mqml.8r6.b2,bety  < betir;
+constraint,sequence=lhcb2,range=mqm.9l6.b2,bety   < betir;
+constraint,sequence=lhcb2,range=mqm.9r6.b2,betx   < betir;
+constraint,sequence=lhcb2,range=mqml.10l6.b2,betx < betir;
+constraint,sequence=lhcb2,range=mqml.10r6.b2,bety < betir;
+betarc=1150;
+constraint,range=s.ds.l6.b2/e.ds.r6.b2, betx<betarc,bety<betarc;
+};
+else{
+constraint,range=mq.11l6.b2,bety< 173+epsap;
+!!constraint,range= mqml.10l6.b2,betx< 175.2+epsap;
+!!constraint,range=mqm.9l6.b2,bety< 180+epsap;
+constraint,range=MQY.5L6.B2,   bety<590  +7.2+2.5;
+constraint,range=MQY.4L6.B2,   betx<673  +2.0+2.5;
+constraint,range=MQY.4R6.B2,   bety<665  +2.0+2.5;
+constraint,range=MQY.b5R6.B2,  betx<603.1+2.0+2.5;
+constraint,range= mcbv.12r6.b2,bety< 174.2+epsap;
+constraint,range= mqml.10r6.b2,bety< 176.6+epsap;
+!!constraint,range= mqml.10l6.b2,betx< 175.2+epsap;
+};
+};
+jacobian,calls=jac_calls, tolerance=jac_tol, bisec=jac_bisec;
+!simplex,  calls=15, tolerance=jac_tol;-
+!lmdif,calls=200,tolerance=1.e-21;
+endmatch;
+
+exec,mk_irtwiss(6,b2);
+dmuxkickb2_tcsg=table(twiss,MKD.H5R6.B2,mux)-table(twiss,TCSG.4L6.B2,mux);
+dmuxkickb2=table(twiss,MKD.H5R6.B2,mux)-table(twiss,TCDQA.A4L6.B2,mux);
+betxtcdqb2=table(twiss,TCDQA.A4L6.B2,betx);betytcdqb2=table(twiss,TCDQA.A4L6.B2,bety);
+betxtcdsb2=table(twiss,TCDSA.4R6.B2,betx);betytcdsb2=table(twiss,TCDSA.4R6.B2,bety);
+betxtcsgb2=table(twiss,TCSG.4L6.B2,betx);betytcsgb2=table(twiss,TCSG.4L6.B2,bety);
+betxmkdb2 =table(twiss,MKD.H5R6.B2,betx);  betymkdb2=table(twiss,MKD.H5R6.B2,bety);
+dxq5r6b2=abs(table(twiss,MQY.B5R6.B2,dx));
+dxq4l6b2=abs(table(twiss,MQY.4L6.B2,dx));
+bxdumpb2=refbxdumpb2;
+bydumpb2=refbydumpb2;
+value,kq4.r6b2+0.004833837730000;
+value,dmuxkickb2;
+value,bxdumpb2,bydumpb2;
+
+tarir6b2=tar;
+value,kqt13.l6b2,kqt12.l6b2,kqtl11.l6b2,kq10.l6b2,kq9.l6b2,kq8.l6b2,kq5.l6b2,kq4.l6b2,
+kq4.r6b2,kq5.r6b2,kq8.r6b2,kq9.r6b2,kq10.r6b2,kqtl11.r6b2,kqt12.r6b2,kqt13.r6b2;
+value,tarir6b2;
+
+betxip6b2=refbetxip6b2 ;
+betyip6b2=refbetyip6b2 ;
+alfxip6b2=refalfxip6b2 ;
+alfyip6b2=refalfyip6b2 ;
+dxip6b2 =refdxip6b2 ;
+dpxip6b2=refdpxip6b2 ;
+
+
+
+
+
+!muxip6b2 = 2.0000 ;betxip6b2= 1.96000000E+02 ;alfxip6b2 = 5.98285418E-01  ;
+!muyip6b2 = 2.0300 ;betyip6b2= 1.79082800E+02;alfyip6b2 =-5.41937487E-01 ;
+!dxip6b2 =  1.74610979E-01;dpxip6b2 = 1.56146811E-03 ;
+!strategy for 11->22 : use all (kq4.r6b2 fixed),alfas,dx as injection,dpx=0,betas not constrained
+!strategy for 22->28 : use all (kq4.r6b2 fixed),alfas, dx as injection,dpx=0,betas not constrained
+!strategy for 22->82 : use all (kq4.r6b2 fixed),alfas, dx as injection,dpx=0,betas not constrained (around 320/180)
+
+

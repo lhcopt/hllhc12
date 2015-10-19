@@ -1,0 +1,208 @@
+option, warn,info;
+!system,"rm -rf temp"; system,"mkdir temp";
+!system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
+system,"ln -fns .. slhc";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
+option,-echo,-info,-warn;
+Option, -echo,-warn,-info;
+REAL CONST l.TAN   = 3.7  ;REAL CONST l.TANAL = l.TAN;
+REAL CONST l.TANAR = l.TAN;REAL CONST l.TANC  = l.TAN;
+REAL CONST l.TCT   = 1.0;REAL CONST l.TCTH  = l.TCT;REAL CONST l.TCTVA = l.TCT;
+call,file="db5/V6.5.seq";
+Option, -echo,warn,-info,no_fatal_stop;
+
+call,file="toolkit/macro.madx";
+
+
+! Injection
+
+regen_inj(filename): macro={
+call,file="opt_filename.madx"; is_thin=1;
+call,file="hllhc_sequence.madx";
+call,file="optics_ir4637arc_new.madx";
+call,file="toolkit/clean_specs.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+call,file="toolkit/rematch_inj.madx";
+if (tarinj>1e-15) { return;};
+call,file="toolkit/rematch_ir37b12.madx";
+if (tarir37b12>1e-15) { stop;};
+call,file="toolkit/rematch_crossing.madx";
+call,file="slhc/toolkit/rematch_crabs.madx";
+exec,CORCHROMA_WEAK(2,b1);
+exec,CORCHROMA_WEAK(2,b2);
+if (tarcrossing>1e-15) { return;};
+if (tarinj+tarir37b12+tarcrossing<1e-15){
+ call,file="toolkit/mk_ir28_knobs.madx";
+ on_check=1; call,file="toolkit/save_optics2.madx";
+ system,"cp temp/optics.madx opt_filename_new.madx";
+! save,file="filename.seq";
+};
+exec,check_ip(b1); exec,check_ip(b2);
+};
+
+exec,mk_beam(450);
+call,file="slhc/opt_inj.madx";
+call,file="slhc/hllhc_sequence.madx";
+return;
+exec, crossing_disable;
+!on_sep8=1;on_x8=1;phio_ir8=0;phi_ir8=0;on_o8=0;
+!exec,check_ip(b1); exec,check_ip(b2);
+!exec,regen_inj(inj);
+!return;
+!call,file="toolkit/save_optics_ir234678arc.madx";
+!system,"cp temp/optics_ir234678arc.madx optics_ir234678arc_new.madx";
+!exec,regen_inj(inj15);
+
+! Presqueeze
+
+
+regen_optics(filename): macro={
+print, text="opt_filename.madx";
+call,file="opt_filename.madx";
+call,file="hllhc_sequence.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+call,file="toolkit/rematch_arcs.madx";
+!call,file="toolkit/rematch_presqueeze.madx";
+call,file="toolkit/rematch_presqueeze_wire.madx";
+if (tarir15b12>1e-15) { stop;};
+call,file="toolkit/rematch_squeeze.madx";
+if (tarsqueeze>1e-15) { stop;};
+call,file="toolkit/rematch_ir37b12.madx";
+if (tarir37b12>1e-15) { stop;};
+call,file="toolkit/rematch_globalw.madx";
+call,file="toolkit/rematch_crossing.madx";
+if (tarcrossing>1e-15) { stop;};
+if (tarcrossing+tarir37b12+tarsqueeze+tarir15b12<1e-15){
+ call,file="toolkit/rematch_crabs.madx";
+ call,file="toolkit/mk_ir28_knobs.madx";
+ on_check=1; call,file="toolkit/save_optics2.madx";
+print, text="cp temp/optics.madx opt_filename_new.madx";
+ system,"cp temp/optics.madx opt_filename_new.madx";
+ save,file="filename.seq";
+};
+exec,check_ip(b1); exec,check_ip(b2);
+};
+
+exec,mk_beam(7000);
+call,file="slhc/hllhc_sequence.madx";
+call,file="slhc/opt_presqueeze.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+return;
+!opt_presqueeze_wire.madx = optics from study_presqueeze/scan_q4_8m/opt_presqueeze_933_wire.madx - optimized for wire ratio
+!regen_optics does not work due to _wire in filename
+!exec,regen_optics(presqueeze);
+
+call,file="toolkit/save_optics_ir1537arc.madx";
+system,"cp temp/optics_ir1537arc.madx optics_ir1537arc_new.madx";
+call,file="toolkit/save_optics_ir4637arc.madx";
+system,"cp temp/optics_ir4637arc.madx optics_ir4637arc_new.madx";
+!exec,regen_optics(ions);
+
+
+
+
+! Squeeze
+
+regen_squeeze(filename): macro={
+call,file="slhc/opt_filename.madx";
+call,file="optics_ir1537arc_new.madx";
+call,file="hllhc_sequence.madx";
+call,file="toolkit/clean_specs.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+call,file="toolkit/rematch_squeeze.madx";
+if (tarsqueeze>1e-15) { return;};
+call,file="toolkit/rematch_globalw.madx";
+Psep=0.75e-3;Xang=0.000275;
+call,file="toolkit/rematch_crossing.madx";
+call,file="toolkit/rematch_crabs.madx";
+if (tarcrossing>1e-15) { return;};
+if (tarsqueeze+tarir37b12+tarcrossing<1e-15){
+call,file="toolkit/mk_ir28_knobs.madx";
+on_check=1; call,file="toolkit/save_optics2.madx";
+system,"cp temp/optics.madx opt_filename_new.madx";
+save,file="filename.seq";
+};
+exec,check_ip(b1); exec,check_ip(b2);
+};
+
+exec,mk_beam(7000);
+exec,regen_squeeze(round);
+!exec,regen_squeeze(sround);
+!exec,regen_squeeze(flat);
+return;
+!exec,regen_squeeze(flathv);
+!exec,regen_squeeze(sflat);
+!exec,regen_squeeze(sflathv);
+
+return;
+
+regen_endoframp(filename): macro={
+call,file="opt_filename.madx"; is_thin=1;
+call,file="hllhc_sequence.madx";
+call,file="toolkit/clean_specs.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+call,file="toolkit/rematch_endoframp.madx";
+if (tarir37b12>1e-15) { stop;};
+call,file="toolkit/rematch_crossing.madx";
+call,file="slhc/toolkit/rematch_crabs.madx";
+exec,CORCHROMA_WEAK(2,b1);
+exec,CORCHROMA_WEAK(2,b2);
+if (tarcrossing>1e-15) { return;};
+if (tarendoframp+tarir37b12+tarcrossing<1e-15){
+ call,file="toolkit/mk_ir28_knobs.madx";
+ on_check=1; call,file="toolkit/save_optics2.madx";
+ system,"cp temp/optics.madx opt_filename_new.madx";
+! save,file="filename.seq";
+};
+exec,check_ip(b1); exec,check_ip(b2);
+};
+exec,regen_endoframp(endoframp);
+exec,regen_endoframp(vdm30);
+
+
+
+return;
+
+
+
+
+
+regen_inj2(filename): macro={
+call,file="opt_filename.madx"; is_thin=1;
+call,file="hllhc_sequence.madx";
+call,file="optics_ir234678arc_new.madx";
+call,file="toolkit/clean_specs.madx";
+exec,check_ip(b1); exec,check_ip(b2);
+call,file="toolkit/rematch_inj.madx";
+if (tarir37b12>1e-15) { stop;};
+call,file="toolkit/rematch_crossing.madx";
+call,file="slhc/toolkit/rematch_crabs.madx";
+exec,CORCHROMA_WEAK(2,b1);
+exec,CORCHROMA_WEAK(2,b2);
+if (tarcrossing>1e-15) { return;};
+if (tarinj+tarir37b12+tarcrossing<1e-15){
+ call,file="toolkit/mk_ir28_knobs.madx";
+ on_check=1; call,file="toolkit/save_optics2.madx";
+ system,"cp temp/optics.madx opt_filename_new.madx";
+! save,file="filename.seq";
+};
+exec,check_ip(b1); exec,check_ip(b2);
+};
+exec,regen_inj2(inj15);
+
+
+return;
+call,file="hllhc_sequence.madx";
+exec,mk_beam(7000);
+call,file=opt_presqueeze.madx;
+exec,check_ip(b1); exec,check_ip(b2);
+
+exec,mk_beam(450);
+call,file=opt_inj.madx;
+
+
+call,file="optics_ir1537arc_new.madx";
+
+call,file=opt_round.madx;
+call,file=opt_sround.madx;
+call,file=slhc/opt_flat.madx;
