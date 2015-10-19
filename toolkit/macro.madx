@@ -2745,13 +2745,13 @@ if (MBX.4L2->l>0) {
 mk_beam(NRJJ): macro = {
 NRJ=NRJJ;
 gamma_rel      := NRJ/pmass;
-emittance_norm := 3.75e-6;
+emittance_norm := 2.5e-6;
 bunch_len=0.0755;
 epsx:=emittance_norm /gamma_rel;
 epsy:=emittance_norm /gamma_rel;
 if (mylhcbeam>2){ bv_aux=-1; } else { bv_aux=1; };
-Beam,particle=proton,sequence=lhcb1,energy=NRJ,NPART=1.15E11,sige=4.5e-4*sqrt(450./NRJ),ex:=epsx,ey:=epsy,sigt:=bunch_len;
-Beam,particle=proton,sequence=lhcb2,energy=NRJ,bv = -bv_aux,NPART=1.15E11,sige=4.5e-4*sqrt(450./NRJ),ex:=epsx,ey:=epsy,sigt:=bunch_len;
+Beam,particle=proton,sequence=lhcb1,energy=NRJ,NPART=2.2E11,sige=4.5e-4*sqrt(450./NRJ),ex:=epsx,ey:=epsy,sigt:=bunch_len;
+Beam,particle=proton,sequence=lhcb2,energy=NRJ,bv = -bv_aux,NPART=2.2E11,sige=4.5e-4*sqrt(450./NRJ),ex:=epsx,ey:=epsy,sigt:=bunch_len;
 };
 
 
