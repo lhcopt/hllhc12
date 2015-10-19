@@ -1,0 +1,13 @@
+option, warn,info;
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
+
+call,file="slhc/toolkit/macro.madx";
+
+call,file="slhc/hllhc.seq";
+exec,mk_beam(7000);
+
+call,file="slhc/opt_round.madx"; ! For thick optics
+exec,crossing_enable;
+exec,check_ip(b1); exec,check_ip(b2);
+
