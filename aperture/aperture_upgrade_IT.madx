@@ -34,8 +34,8 @@ OCTA2015=6; ! default
 if (bs_type==0){ bs_type= OCTA2015; };
 if (ap_mqx==0){ ap_mqx=150; };
 if (bs_type == OCTA2015) {
-  r1_Q1=51-1.5*(1-no_bs_tol); !C. Garion 9/5/2015
-  r2_Q1=51-1.5*(1-no_bs_tol); !C. Garion 9/5/2015
+  r1_Q1=51-1.5*(1-no_bs_tol);      !C. Garion 9/5/2015
+  r2_Q1=51-1.5*(1-no_bs_tol);      !C. Garion 9/5/2015
   r_Q1=sqrt((sqrt(2)*r1_Q1-r2_Q1)^2+r2_Q1^2)/1e3;
   g_Q1=r1_Q1/1e3;
   angle1_Q1=45-acos(g_Q1/r_Q1)/pi*180; !22.5 regular octagon

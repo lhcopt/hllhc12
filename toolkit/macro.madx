@@ -30,6 +30,7 @@
 !     checkw(BIM)
 !     cable_sext_twofam
 !     twiss_opt
+!     save_optics_ir2846(filename)
 !     save_optics_ir15(filename)
 !     save_optics_ir2846(filename)
 !     save_optics_ir37arc(filename)
@@ -37,7 +38,7 @@
 !     save_optics_ir4637arc(filename)
 !     save_optics_ir234678arc(filename)
 !     myslice
-!     mk_beam(NRJ)
+!     mk_beam(NRJJ)
 !     make_squeeze
 !     make_presqueeze
 !     make_presqueeze_thin
@@ -144,9 +145,14 @@ refmuxipNIRBIM_l =table(twiss,IPNIR,mux);
 refmuyipNIRBIM_l =table(twiss,IPNIR,muy);
 refmuxipNIRBIM_r =refmuxipNIRBIM-refmuxipNIRBIM_l;
 refmuyipNIRBIM_r =refmuyipNIRBIM-refmuyipNIRBIM_l;
+refxipNIRBIM=table(twiss,IPNIR,x);
+refyipNIRBIM=table(twiss,IPNIR,y);
+refpxipNIRBIM=table(twiss,IPNIR,px);
+refpyipNIRBIM=table(twiss,IPNIR,py);
 value,refbetxipNIRBIM,refbetyipNIRBIM,refalfxipNIRBIM,refalfyipNIRBIM;
 value,refdxipNIRBIM,refdpxipNIRBIM,refmuxipNIRBIM,refmuyipNIRBIM;
 value,refmuxipNIRBIM_l,refmuyipNIRBIM_l,refmuxipNIRBIM_r,refmuyipNIRBIM_r;
+value,refxipNIRBIM,refyipNIRBIM,refpxipNIRBIM,refpyipNIRBIM;
 };
 
 
@@ -251,19 +257,16 @@ exec,select(nir,$sec1,$sec2,bim);
 use,sequence=lhcbim,range=s.ds.lnir.bim/e.ds.rnir.bim;
 survey,file=temp/survey_irnirbim.tfs;
 
-if(FULL==0)
-{use,sequence=lhcbim,range=s.ds.lnir.bim/e.ds.rnir.bim;
 select,flag=twiss,clear;
 select,flag=twiss,column=name,s,l,angle,k1l,k2l,hkick,vkick,kick,betx,bety,dx,dy,x,y,px,py,apertype,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,
        range=s.ds.lnir.bim/e.ds.rnir.bim;
+if(FULL==0)
+{use,sequence=lhcbim,range=s.ds.lnir.bim/e.ds.rnir.bim;
 twiss,beta0=birnirbim,file=temp/twiss_irnirbim.tfs;
 };
 
 if(FULL==1)
 {use,sequence=lhcbim;
-select,flag=twiss,clear;
-select,flag=twiss,column=name,s,l,angle,k1l,k2l,hkick,vkick,kick,betx,bety,dx,dy,x,y,px,py,apertype,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,
-       range=s.ds.lnir.bim/e.ds.rnir.bim;
 twiss,file=temp/twiss_irnirbim.tfs;
 };
 
@@ -291,11 +294,14 @@ if (version >=50208) {
          file=temp/ap_irnirbim.tfs;
 };
 !system, "rm offset.ip*b*.tfs";
-if (NRJ < 4000){
-system,"slhc/aperture/check_aperture.py temp/ap_irnirbim.tfs 0 hllhc_inj";
-} else {
-system,"slhc/aperture/check_aperture.py temp/ap_irnirbim.tfs 0 hllhc_col";
+
+if (SPECIF==9){
+  system,"db5/aperture/check_aperture.py temp/ap_irnirbim.tfs 0 9";
 };
+if (SPECIF==12){
+  system,"db5/aperture/check_aperture.py temp/ap_irnirbim.tfs 0 12";
+};
+
 };
 
 mk_aparc(NARC1,NARC2,BIM,NRJ) : macro ={
@@ -2411,8 +2417,11 @@ qtlimit6 := 1.0*90.0/scale;
 };
 
 
+
+
 save_optics_ir15(filename): macro = {
 print,text="printing filename";
+system,"rm filename";
 set,format=28.16g;
 option,-echo, -info ;assign, echo=filename;
 exec,_save_optics_layout;
@@ -2752,6 +2761,7 @@ if (MBX.4L2->l>0) {
   select, flag=makethin, pattern=mbrb\.,   slice=4;
   select, flag=makethin, pattern=mbrc\.,   slice=4;
   select, flag=makethin, pattern=mbrs\.,   slice=4;
+  select, flag=makethin, pattern=mbh\.,    slice=4;
   select, flag=makethin, pattern=mqwa\.,   slice=4;
   select, flag=makethin, pattern=mqwb\.,   slice=4;
   select, flag=makethin, pattern=mqy\.,    slice=4;
