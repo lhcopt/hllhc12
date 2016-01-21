@@ -1,6 +1,6 @@
 option, warn,info;
-!system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
-system,"ln -fns .. slhc";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
+!system,"ln -fns .. slhc";
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
 system,"mkdir temp";
 
