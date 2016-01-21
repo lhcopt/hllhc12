@@ -324,13 +324,12 @@ select,flag=aperture,column=name,s,betx,bety,dx,dy,x,y,n1,apertype,Rtol,xtol,yto
 
 if (version >=50208) {
 aperture,range=e.ds.rNARC1.BIM/s.ds.lNARC2.BIM,
-         cor=COmax, dp=dPmax, spec=SPECIF,interval=1.0,
+         cor=COmax, dp=dPmax, spec=SPECIF,interval=0.5,
          halo={6,halor,halox,haloy},bbeat=apbbeat,
          dparx=DParcx,dpary=DParcy,
          file=temp/ap_arcNARC1NARC2BIM.tfs;
 } else {
-  aperture,range=s.ds.lnir.bim/e.ds.rnir.bim,
-         offsetelem=./offset.IPnir.bim.tfs,
+  aperture,range=e.ds.rNARC1.BIM/s.ds.lNARC2.BIM,
          cor=COmax, dp=dPmax, spec=SPECIF,interval=0.5,
          exn=emittance_norm,eyn=emittance_norm,
          halo={6,halor,halox,haloy},bbeat=apbbeat,
