@@ -258,7 +258,11 @@ use,sequence=lhcbim,range=s.ds.lnir.bim/e.ds.rnir.bim;
 survey,file=temp/survey_irnirbim.tfs;
 
 select,flag=twiss,clear;
-select,flag=twiss,column=name,s,l,angle,k1l,k2l,hkick,vkick,kick,betx,bety,dx,dy,x,y,px,py,apertype,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,
+select,flag=twiss,
+       column=name,s,l,angle,k1l,k2l,hkick,vkick,kick,
+              betx,bety,dx,dy,x,y,px,py,
+              apertype,aper_1,aper_2,aper_3,aper_4,
+              aptol_1,aptol_2,aptol_3,
        range=s.ds.lnir.bim/e.ds.rnir.bim;
 if(FULL==0)
 {use,sequence=lhcbim,range=s.ds.lnir.bim/e.ds.rnir.bim;
@@ -276,7 +280,10 @@ if (l.MQX>6) { system, "cp aperture/offset.ip*b*.tfs ."; };
 
 
 select,flag=aperture,clear;
-select,flag=aperture,column=name,s,betx,bety,dx,dy,x,y,px,py,n1,apertype,Rtol,xtol,ytol,k1l,k1sl,k2l,k2sl,k3l,k3sl;
+select,flag=aperture,
+       column=name,s,betx,bety,dx,dy,x,y,n1,
+             apertype,aper_1,aper_2,aper_3,aper_4,
+             rtol,xtol,ytol;
 if (version >=50208) {
    aperture,range=s.ds.lnir.bim/e.ds.rnir.bim,
          offsetelem=./offset.IPnir.bim.tfs,
@@ -313,15 +320,19 @@ survey,file=temp/survey_arcNARC1NARC2BIM.tfs;
 
 use,sequence=lhcBIM;
 select,flag=twiss,clear;
-select,flag=twiss,column=name,s,
-       l,angle,k1l,k2l,hkick,vkick,kick,
-       betx,bety,dx,dy,x,y,
+select,flag=twiss,
+       column=name,s,l,angle,k1l,k2l,hkick,vkick,kick,
+              betx,bety,dx,dy,x,y,px,py,
+              apertype,aper_1,aper_2,aper_3,aper_4,
+              aptol_1,aptol_2,aptol_3,
        range=e.ds.rNARC1.BIM/s.ds.lNARC2.BIM;
 twiss,file=temp/twiss_arcNARC1NARC2BIM.tfs;
 
 select,flag=aperture,clear;
-select,flag=aperture,column=name,s,betx,bety,dx,dy,x,y,n1,apertype,Rtol,xtol,ytol;
-
+select,flag=aperture,
+       column=name,s,betx,bety,dx,dy,x,y,n1,
+             apertype,aper_1,aper_2,aper_3,aper_4,
+             rtol,xtol,ytol;
 if (version >=50208) {
 aperture,range=e.ds.rNARC1.BIM/s.ds.lNARC2.BIM,
          cor=COmax, dp=dPmax, spec=SPECIF,interval=0.5,
