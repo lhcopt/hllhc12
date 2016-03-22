@@ -2,8 +2,8 @@ option, warn,info;
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
 
+option, -echo, -warn,info;
 call,file="slhc/toolkit/macro.madx";
-
 call,file="slhc/hllhc.seq";
 exec,mk_beam(7000);
 
