@@ -30,6 +30,7 @@
 !     checkw(BIM)
 !     cable_sext_twofam
 !     twiss_opt
+!     save_optics_ir2846(filename)
 !     save_optics_ir15(filename)
 !     save_optics_ir2846(filename)
 !     save_optics_ir37arc(filename)
@@ -37,7 +38,7 @@
 !     save_optics_ir4637arc(filename)
 !     save_optics_ir234678arc(filename)
 !     myslice
-!     mk_beam(NRJ)
+!     mk_beam(NRJJ)
 !     make_squeeze
 !     make_presqueeze
 !     make_presqueeze_thin
@@ -144,9 +145,14 @@ refmuxipNIRBIM_l =table(twiss,IPNIR,mux);
 refmuyipNIRBIM_l =table(twiss,IPNIR,muy);
 refmuxipNIRBIM_r =refmuxipNIRBIM-refmuxipNIRBIM_l;
 refmuyipNIRBIM_r =refmuyipNIRBIM-refmuyipNIRBIM_l;
+refxipNIRBIM=table(twiss,IPNIR,x);
+refyipNIRBIM=table(twiss,IPNIR,y);
+refpxipNIRBIM=table(twiss,IPNIR,px);
+refpyipNIRBIM=table(twiss,IPNIR,py);
 value,refbetxipNIRBIM,refbetyipNIRBIM,refalfxipNIRBIM,refalfyipNIRBIM;
 value,refdxipNIRBIM,refdpxipNIRBIM,refmuxipNIRBIM,refmuyipNIRBIM;
 value,refmuxipNIRBIM_l,refmuyipNIRBIM_l,refmuxipNIRBIM_r,refmuyipNIRBIM_r;
+value,refxipNIRBIM,refyipNIRBIM,refpxipNIRBIM,refpyipNIRBIM;
 };
 
 
@@ -222,6 +228,18 @@ use,sequence=lhcb1;twiss,chrom,file=temp/twiss_lhcb1.tfs;
 use,sequence=lhcb2;twiss,chrom,file=temp/twiss_lhcb2.tfs;
 };
 
+mk_beam(NRJJ): macro = {
+NRJ=NRJJ;
+gamma_rel      := NRJ/pmass;
+if (emittance_norm==0){ emittance_norm = 2.5e-6; };
+bunch_len=0.0755;
+epsx:=emittance_norm /gamma_rel;
+epsy:=emittance_norm /gamma_rel;
+if (mylhcbeam>2){ bv_aux=-1; } else { bv_aux=1; };
+Beam,particle=proton,sequence=lhcb1,energy=NRJ,NPART=2.2E11,sige=4.5e-4*sqrt(450./NRJ),ex:=epsx,ey:=epsy,sigt:=bunch_len;
+Beam,particle=proton,sequence=lhcb2,energy=NRJ,bv = -bv_aux,NPART=2.2E11,sige=4.5e-4*sqrt(450./NRJ),ex:=epsx,ey:=epsy,sigt:=bunch_len;
+};
+
 
 mk_apir(nir,bim,NRJ,FULL) : macro ={
 exec,mk_beam(NRJ);
@@ -239,19 +257,20 @@ exec,select(nir,$sec1,$sec2,bim);
 use,sequence=lhcbim,range=s.ds.lnir.bim/e.ds.rnir.bim;
 survey,file=temp/survey_irnirbim.tfs;
 
+select,flag=twiss,clear;
+select,flag=twiss,
+       column=name,s,l,angle,k1l,k2l,hkick,vkick,kick,
+              betx,bety,dx,dy,x,y,px,py,
+              apertype,aper_1,aper_2,aper_3,aper_4,
+              aptol_1,aptol_2,aptol_3,
+       range=s.ds.lnir.bim/e.ds.rnir.bim;
 if(FULL==0)
 {use,sequence=lhcbim,range=s.ds.lnir.bim/e.ds.rnir.bim;
-select,flag=twiss,clear;
-select,flag=twiss,column=name,s,l,angle,k1l,k2l,hkick,vkick,kick,betx,bety,dx,dy,x,y,px,py,apertype,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,
-       range=s.ds.lnir.bim/e.ds.rnir.bim;
 twiss,beta0=birnirbim,file=temp/twiss_irnirbim.tfs;
 };
 
 if(FULL==1)
 {use,sequence=lhcbim;
-select,flag=twiss,clear;
-select,flag=twiss,column=name,s,l,angle,k1l,k2l,hkick,vkick,kick,betx,bety,dx,dy,x,y,px,py,apertype,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,
-       range=s.ds.lnir.bim/e.ds.rnir.bim;
 twiss,file=temp/twiss_irnirbim.tfs;
 };
 
@@ -261,24 +280,39 @@ if (l.MQX>6) { system, "cp aperture/offset.ip*b*.tfs ."; };
 
 
 select,flag=aperture,clear;
-select,flag=aperture,column=name,s,betx,bety,dx,dy,x,y,px,py,n1,apertype,Rtol,xtol,ytol,k1l,k1sl,k2l,k2sl,k3l,k3sl;
-aperture,range=s.ds.lnir.bim/e.ds.rnir.bim,
+select,flag=aperture,
+       column=name,s,betx,bety,dx,dy,x,y,n1,
+             apertype,aper_1,aper_2,aper_3,aper_4,
+             rtol,xtol,ytol;
+if (version >=50208) {
+   aperture,range=s.ds.lnir.bim/e.ds.rnir.bim,
+         offsetelem=./offset.IPnir.bim.tfs,
+         cor=COmax, dp=dPmax, spec=SPECIF,interval=0.5,
+         halo={6,halor,halox,haloy},bbeat=apbbeat,
+         dparx=DParcx,dpary=DParcy,
+         file=temp/ap_irnirbim.tfs;
+} else {
+  aperture,range=s.ds.lnir.bim/e.ds.rnir.bim,
          offsetelem=./offset.IPnir.bim.tfs,
          cor=COmax, dp=dPmax, spec=SPECIF,interval=0.5,
          exn=emittance_norm,eyn=emittance_norm,
          halo={6,halor,halox,haloy},bbeat=apbbeat,
          dparx=DParcx,dpary=DParcy,
          file=temp/ap_irnirbim.tfs;
-!system, "rm offset.ip*b*.tfs";
-if (NRJ < 4000){
-system,"slhc/aperture/check_aperture.py temp/ap_irnirbim.tfs 0 hllhc_inj";
-} else {
-system,"slhc/aperture/check_aperture.py temp/ap_irnirbim.tfs 0 hllhc_col";
 };
+!system, "rm offset.ip*b*.tfs";
+
+if (SPECIF==9){
+  system,"db5/aperture/check_aperture.py temp/ap_irnirbim.tfs 0 9";
+};
+if (SPECIF==12){
+  system,"db5/aperture/check_aperture.py temp/ap_irnirbim.tfs 0 12";
+};
+
 };
 
 mk_aparc(NARC1,NARC2,BIM,NRJ) : macro ={
-!exec,mk_beam(NRJ);
+exec,mk_beam(NRJ);
 
 use,sequence=lhcBIM,range=e.ds.rNARC1.BIM/s.ds.lNARC2.BIM;
 
@@ -286,20 +320,33 @@ survey,file=temp/survey_arcNARC1NARC2BIM.tfs;
 
 use,sequence=lhcBIM;
 select,flag=twiss,clear;
-select,flag=twiss,column=name,s,
-       l,angle,k1l,k2l,hkick,vkick,kick,
-       betx,bety,dx,dy,x,y,
+select,flag=twiss,
+       column=name,s,l,angle,k1l,k2l,hkick,vkick,kick,
+              betx,bety,dx,dy,x,y,px,py,
+              apertype,aper_1,aper_2,aper_3,aper_4,
+              aptol_1,aptol_2,aptol_3,
        range=e.ds.rNARC1.BIM/s.ds.lNARC2.BIM;
 twiss,file=temp/twiss_arcNARC1NARC2BIM.tfs;
 
 select,flag=aperture,clear;
-select,flag=aperture,column=name,s,betx,bety,dx,dy,x,y,n1,apertype,Rtol,xtol,ytol;
+select,flag=aperture,
+       column=name,s,betx,bety,dx,dy,x,y,n1,
+             apertype,aper_1,aper_2,aper_3,aper_4,
+             rtol,xtol,ytol;
+if (version >=50208) {
 aperture,range=e.ds.rNARC1.BIM/s.ds.lNARC2.BIM,
-         cor=COmax, dp=dPmax, spec=SPECIF,interval=1.0,
+         cor=COmax, dp=dPmax, spec=SPECIF,interval=0.5,
+         halo={6,halor,halox,haloy},bbeat=apbbeat,
+         dparx=DParcx,dpary=DParcy,
+         file=temp/ap_arcNARC1NARC2BIM.tfs;
+} else {
+  aperture,range=e.ds.rNARC1.BIM/s.ds.lNARC2.BIM,
+         cor=COmax, dp=dPmax, spec=SPECIF,interval=0.5,
          exn=emittance_norm,eyn=emittance_norm,
          halo={6,halor,halox,haloy},bbeat=apbbeat,
          dparx=DParcx,dpary=DParcy,
          file=temp/ap_arcNARC1NARC2BIM.tfs;
+};
 
 !system,"slhc/aperture/check_aperture.py temp/ap_arcNARC1NARC2BIM.tfs";
 };
@@ -2347,8 +2394,16 @@ round(xv,digits): macro = {
 twiss_opt: macro = {
 set,format=".15g";
 select,flag=twiss,clear;
-select,flag=twiss,column=name,s,l,lrad,angle,k1l,k2l,k3l,hkick,vkick,kick,tilt,betx,bety,alfx,alfy,dx,dpx,dy,dpy,mux,muy,x,y,px,py,wx,wy,phix,phiy,n1,ddx,ddy,ddpx,ddpy,keyword,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,apertype;
-select, flag=aperture, column=name,s,n1,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,betx,bety,dx,dy,x,y,apertype;
+select,flag=twiss,
+       column=name,s,l,
+              lrad,angle,k1l,k2l,k3l,hkick,vkick,kick,tilt,
+              betx,bety,alfx,alfy,dx,dpx,dy,dpy,mux,muy,x,y,px,py,
+              wx,wy,phix,phiy,n1,ddx,ddy,ddpx,ddpy,
+              keyword,aper_1,aper_2,aper_3,aper_4,
+              aptol_1,aptol_2,aptol_3,apertype,mech_sep;
+select,flag=aperture,
+       column=name,s,n1,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,
+              betx,bety,dx,dy,x,y,apertype;
 };
 
 
@@ -2380,8 +2435,11 @@ qtlimit6 := 1.0*90.0/scale;
 };
 
 
+
+
 save_optics_ir15(filename): macro = {
 print,text="printing filename";
+system,"rm filename";
 set,format=28.16g;
 option,-echo, -info ;assign, echo=filename;
 exec,_save_optics_layout;
@@ -2674,7 +2732,6 @@ exec,_save_optics_summ(4);
 };
 
 _save_optics_ir6: macro={
-exec,_save_optics_quad(Q,4,6);
 exec,_save_optics_quad(Q,5,6);
 exec,_save_optics_quad(Q,6,6);
 exec,_save_optics_ds(6);
@@ -2722,6 +2779,7 @@ if (MBX.4L2->l>0) {
   select, flag=makethin, pattern=mbrb\.,   slice=4;
   select, flag=makethin, pattern=mbrc\.,   slice=4;
   select, flag=makethin, pattern=mbrs\.,   slice=4;
+  select, flag=makethin, pattern=mbh\.,    slice=4;
   select, flag=makethin, pattern=mqwa\.,   slice=4;
   select, flag=makethin, pattern=mqwb\.,   slice=4;
   select, flag=makethin, pattern=mqy\.,    slice=4;
@@ -2732,8 +2790,16 @@ if (MBX.4L2->l>0) {
   select, flag=makethin, pattern=mqtli\.,  slice=2;
   select, flag=makethin, pattern=mqt\.  ,  slice=2;
   !thin lens
-  beam;use,sequence=lhcb1; makethin, sequence=lhcb1,style=teapot;
-  beam;use,sequence=lhcb2; makethin, sequence=lhcb2,style=teapot;
+  if (version >= 50208) { !
+     option rbarc=false; beam;
+     use,sequence=lhcb1; makethin,sequence=lhcb1,makedipedge=false,style=teapot;
+     use,sequence=lhcb2; makethin,sequence=lhcb2,makedipedge=false,style=teapot;
+     option rbarc=true;
+  } else {
+     beam;
+     use,sequence=lhcb1; makethin, sequence=lhcb1,style=teapot;
+     use,sequence=lhcb2; makethin, sequence=lhcb2,style=teapot;
+  }
 } else {
   print, text="Sequence is already thin";
 };
@@ -2741,18 +2807,6 @@ if (MBX.4L2->l>0) {
 };
 
 
-
-mk_beam(NRJJ): macro = {
-NRJ=NRJJ;
-gamma_rel      := NRJ/pmass;
-emittance_norm := 2.5e-6;
-bunch_len=0.0755;
-epsx:=emittance_norm /gamma_rel;
-epsy:=emittance_norm /gamma_rel;
-if (mylhcbeam>2){ bv_aux=-1; } else { bv_aux=1; };
-Beam,particle=proton,sequence=lhcb1,energy=NRJ,NPART=2.2E11,sige=4.5e-4*sqrt(450./NRJ),ex:=epsx,ey:=epsy,sigt:=bunch_len;
-Beam,particle=proton,sequence=lhcb2,energy=NRJ,bv = -bv_aux,NPART=2.2E11,sige=4.5e-4*sqrt(450./NRJ),ex:=epsx,ey:=epsy,sigt:=bunch_len;
-};
 
 
 make_squeeze(filename):macro = {

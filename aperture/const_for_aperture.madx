@@ -1,0 +1,16 @@
+REAL CONST l.TAN   = 3.7  ;REAL CONST l.TANAL = l.TAN;
+REAL CONST l.TANAR = l.TAN;REAL CONST l.TANC  = l.TAN;
+REAL CONST l.TCT   = 1.0;REAL CONST l.TCTH  = l.TCT;REAL CONST l.TCTVA = l.TCT;
+REAL CONST l.MBAS2             =0 ;
+REAL CONST l.MBAW              =0 ;
+REAL CONST l.MBCS2             =0 ;
+REAL CONST l.MBLS2             =0 ;
+REAL CONST l.MBLW              =0 ;
+REAL CONST l.MBWMD             =0 ;
+REAL CONST l.MBXWH             =0 ;
+REAL CONST l.MBXWS             =0 ;
+REAL CONST l.MBXWT             =0 ;
+
+REAL CONST l.MBXWH = 0;
+REAL CONST l.MBXWS = 0;
+REAL CONST l.MBLW  = 0;

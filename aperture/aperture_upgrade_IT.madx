@@ -34,8 +34,8 @@ OCTA2015=6; ! default
 if (bs_type==0){ bs_type= OCTA2015; };
 if (ap_mqx==0){ ap_mqx=150; };
 if (bs_type == OCTA2015) {
-  r1_Q1=51-1.5*(1-no_bs_tol); !C. Garion 9/5/2015
-  r2_Q1=51-1.5*(1-no_bs_tol); !C. Garion 9/5/2015
+  r1_Q1=51-1.5*(1-no_bs_tol);      !C. Garion 9/5/2015
+  r2_Q1=51-1.5*(1-no_bs_tol);      !C. Garion 9/5/2015
   r_Q1=sqrt((sqrt(2)*r1_Q1-r2_Q1)^2+r2_Q1^2)/1e3;
   g_Q1=r1_Q1/1e3;
   angle1_Q1=45-acos(g_Q1/r_Q1)/pi*180; !22.5 regular octagon
@@ -73,8 +73,8 @@ if (bs_type == OCTA2015) {
 
 !r_TAS   := 0.0270;     ! was 24 mm in slhcv1 and 25 mm in slhcv2 and 30 mm in slhc3, hllhc1.1
 r_TAS   := 0.0300;     ! was 24 mm in slhcv1 and 25 mm in slhcv2 and 30 mm in slhc3, hllhc1.1
-r_BPMSQW:= 0.075;      ! was 60 mm in slhcv1 and slhcv2
-r_BPMSQ := 0.075;      ! was 60 mm in slhcv1 and slhcv2
+r_BPMSQW:= r_Q1;      ! was 60 mm in slhcv1 and slhcv2
+r_BPMSQ := r_Q23;      ! was 60 mm in slhcv1 and slhcv2
 
 !(r,h,v) tolerance for TAS-IT-CP-D1
 
@@ -118,12 +118,19 @@ exec, aperture_def(MCDXF.3  , q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23
 
 exec, aperture_def(MBXF.4   , q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23, r_tol_D1, h_tol_D1, v_tol_D1);
 
-exec, aperture_2in1_def(BPMSQW.1 , rectellipse, r_BPMSQW, r_BPMSQW, r_BPMSQW, r_BPMSQW, r_tol_BPM, h_tol_BPM, v_tol_BPM);
-exec, aperture_2in1_def(BPMSQ.1  , rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
-exec, aperture_2in1_def(BPMSQT.A2, rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
-exec, aperture_2in1_def(BPMSQT.B2, rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
-exec, aperture_2in1_def(BPMSQT.A3, rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
-exec, aperture_2in1_def(BPMSQ.B3 , rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
-exec, aperture_2in1_def(BPMSQ.4  , rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
+!exec, aperture_2in1_def(BPMSQW.1 , rectellipse, r_BPMSQW, r_BPMSQW, r_BPMSQW, r_BPMSQW, r_tol_BPM, h_tol_BPM, v_tol_BPM);
+!exec, aperture_2in1_def(BPMSQ.1  , rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
+!exec, aperture_2in1_def(BPMSQT.A2, rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
+!exec, aperture_2in1_def(BPMSQT.B2, rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
+!exec, aperture_2in1_def(BPMSQT.A3, rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
+!exec, aperture_2in1_def(BPMSQ.B3 , rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
+!exec, aperture_2in1_def(BPMSQ.4  , rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
 
+exec, aperture_2in1_def(BPMSQW.1 , g_q1 , g_q1 , angle1_q1 , angle2_q1 , r_tol_Q1 , h_tol_Q1 , v_tol_Q1);
+exec, aperture_2in1_def(BPMSQ.1  , q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23, r_tol_Q3, h_tol_Q3, v_tol_Q3);
+exec, aperture_2in1_def(BPMSQT.A2, q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23, r_tol_Q3, h_tol_Q3, v_tol_Q3);
+exec, aperture_2in1_def(BPMSQT.B2, q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23, r_tol_Q3, h_tol_Q3, v_tol_Q3);
+exec, aperture_2in1_def(BPMSQT.A3, q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23, r_tol_Q3, h_tol_Q3, v_tol_Q3);
+exec, aperture_2in1_def(BPMSQ.B3 , q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23, r_tol_Q3, h_tol_Q3, v_tol_Q3);
+exec, aperture_2in1_def(BPMSQ.4  , q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23, r_tol_Q3, h_tol_Q3, v_tol_Q3);
 
