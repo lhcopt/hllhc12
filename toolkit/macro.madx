@@ -2394,8 +2394,16 @@ round(xv,digits): macro = {
 twiss_opt: macro = {
 set,format=".15g";
 select,flag=twiss,clear;
-select,flag=twiss,column=name,s,l,lrad,angle,k1l,k2l,k3l,hkick,vkick,kick,tilt,betx,bety,alfx,alfy,dx,dpx,dy,dpy,mux,muy,x,y,px,py,wx,wy,phix,phiy,n1,ddx,ddy,ddpx,ddpy,keyword,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,apertype;
-select, flag=aperture, column=name,s,n1,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,betx,bety,dx,dy,x,y,apertype;
+select,flag=twiss,
+       column=name,s,l,
+              lrad,angle,k1l,k2l,k3l,hkick,vkick,kick,tilt,
+              betx,bety,alfx,alfy,dx,dpx,dy,dpy,mux,muy,x,y,px,py,
+              wx,wy,phix,phiy,n1,ddx,ddy,ddpx,ddpy,
+              keyword,aper_1,aper_2,aper_3,aper_4,
+              aptol_1,aptol_2,aptol_3,apertype,mech_sep;
+select,flag=aperture,
+       column=name,s,n1,aper_1,aper_2,aper_3,aper_4,rtol,xtol,ytol,
+              betx,bety,dx,dy,x,y,apertype;
 };
 
 
