@@ -126,7 +126,7 @@ exec, aperture_def(MBXF.4   , q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23
 !exec, aperture_2in1_def(BPMSQ.B3 , rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
 !exec, aperture_2in1_def(BPMSQ.4  , rectellipse, r_BPMSQ , r_BPMSQ , r_BPMSQ , r_BPMSQ , r_tol_BPM, h_tol_BPM, v_tol_BPM);
 
-exec, aperture_2in1_def(BPMSQW.1 , g_q1 , g_q1 , angle1_q1 , angle2_q1 , r_tol_Q1 , h_tol_Q1 , v_tol_Q1);
+exec, aperture_2in1_def(BPMSQW.1 , q1_aperture , g_q1 , angle1_q1 , angle2_q1 , r_tol_Q1 , h_tol_Q1 , v_tol_Q1);
 exec, aperture_2in1_def(BPMSQ.1  , q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23, r_tol_Q3, h_tol_Q3, v_tol_Q3);
 exec, aperture_2in1_def(BPMSQT.A2, q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23, r_tol_Q3, h_tol_Q3, v_tol_Q3);
 exec, aperture_2in1_def(BPMSQT.B2, q23_aperture, g_q23, g_q23, angle1_q23, angle2_q23, r_tol_Q3, h_tol_Q3, v_tol_Q3);
