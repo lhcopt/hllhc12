@@ -1726,366 +1726,75 @@ Kqt13.R8B1   =     8.4846111955e-04 ;
 Kqt13.R8B2   =     1.7856060028e-03 ;
 
  !***IR8 X-scheme***
-acbxh1.l8x =    -1.1000000000e-05 ;
-acbxh1.l8s =     0.0000000000e+00 ;
-acbxh1.l8o =     0.0000000000e+00 ;
-acbxh1.l8ccp =     0.0000000000e+00 ;
-acbxh1.l8ccm =     0.0000000000e+00 ;
-acbxh1.l8ccs =     0.0000000000e+00 ;
-acbxh1.l8 :=+on_x8  *cphi_ir8*(   -1.1000000000e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbxv1.l8x =     0.0000000000e+00 ;
-acbxv1.l8s =    -1.6000000000e-05 ;
-acbxv1.l8o =     0.0000000000e+00 ;
-acbxv1.l8ccp =     0.0000000000e+00 ;
-acbxv1.l8ccm =     0.0000000000e+00 ;
-acbxv1.l8ccs =     0.0000000000e+00 ;
-acbxv1.l8 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(   -1.6000000000e-05)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbxh1.r8x =     1.1000000000e-05 ;
-acbxh1.r8s =     0.0000000000e+00 ;
-acbxh1.r8o =     0.0000000000e+00 ;
-acbxh1.r8ccp =     0.0000000000e+00 ;
-acbxh1.r8ccm =     0.0000000000e+00 ;
-acbxh1.r8ccs =     0.0000000000e+00 ;
-acbxh1.r8 :=+on_x8  *cphi_ir8*(    1.1000000000e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbxv1.r8x =     0.0000000000e+00 ;
-acbxv1.r8s =    -1.6000000000e-05 ;
-acbxv1.r8o =     0.0000000000e+00 ;
-acbxv1.r8ccp =     0.0000000000e+00 ;
-acbxv1.r8ccm =     0.0000000000e+00 ;
-acbxv1.r8ccs =     0.0000000000e+00 ;
-acbxv1.r8 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(   -1.6000000000e-05)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbxh2.l8x =    -1.1000000000e-05 ;
-acbxh2.l8s =     0.0000000000e+00 ;
-acbxh2.l8o =     0.0000000000e+00 ;
-acbxh2.l8ccp =     0.0000000000e+00 ;
-acbxh2.l8ccm =     0.0000000000e+00 ;
-acbxh2.l8ccs =     0.0000000000e+00 ;
-acbxh2.l8 :=+on_x8  *cphi_ir8*(   -1.1000000000e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbxv2.l8x =     0.0000000000e+00 ;
-acbxv2.l8s =    -1.6000000000e-05 ;
-acbxv2.l8o =     0.0000000000e+00 ;
-acbxv2.l8ccp =     0.0000000000e+00 ;
-acbxv2.l8ccm =     0.0000000000e+00 ;
-acbxv2.l8ccs =     0.0000000000e+00 ;
-acbxv2.l8 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(   -1.6000000000e-05)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbxh2.r8x =     1.1000000000e-05 ;
-acbxh2.r8s =     0.0000000000e+00 ;
-acbxh2.r8o =     0.0000000000e+00 ;
-acbxh2.r8ccp =     0.0000000000e+00 ;
-acbxh2.r8ccm =     0.0000000000e+00 ;
-acbxh2.r8ccs =     0.0000000000e+00 ;
-acbxh2.r8 :=+on_x8  *cphi_ir8*(    1.1000000000e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbxv2.r8x =     0.0000000000e+00 ;
-acbxv2.r8s =    -1.6000000000e-05 ;
-acbxv2.r8o =     0.0000000000e+00 ;
-acbxv2.r8ccp =     0.0000000000e+00 ;
-acbxv2.r8ccm =     0.0000000000e+00 ;
-acbxv2.r8ccs =     0.0000000000e+00 ;
-acbxv2.r8 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(   -1.6000000000e-05)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbxh3.l8x =    -1.1000000000e-05 ;
-acbxh3.l8s =     0.0000000000e+00 ;
-acbxh3.l8o =     0.0000000000e+00 ;
-acbxh3.l8ccp =     0.0000000000e+00 ;
-acbxh3.l8ccm =     0.0000000000e+00 ;
-acbxh3.l8ccs =     0.0000000000e+00 ;
-acbxh3.l8 :=+on_x8  *cphi_ir8*(   -1.1000000000e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbxv3.l8x =     0.0000000000e+00 ;
-acbxv3.l8s =    -1.6000000000e-05 ;
-acbxv3.l8o =     0.0000000000e+00 ;
-acbxv3.l8ccp =     0.0000000000e+00 ;
-acbxv3.l8ccm =     0.0000000000e+00 ;
-acbxv3.l8ccs =     0.0000000000e+00 ;
-acbxv3.l8 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(   -1.6000000000e-05)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbxh3.r8x =     1.1000000000e-05 ;
-acbxh3.r8s =     0.0000000000e+00 ;
-acbxh3.r8o =     0.0000000000e+00 ;
-acbxh3.r8ccp =     0.0000000000e+00 ;
-acbxh3.r8ccm =     0.0000000000e+00 ;
-acbxh3.r8ccs =     0.0000000000e+00 ;
-acbxh3.r8 :=+on_x8  *cphi_ir8*(    1.1000000000e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbxv3.r8x =     0.0000000000e+00 ;
-acbxv3.r8s =    -1.6000000000e-05 ;
-acbxv3.r8o =     0.0000000000e+00 ;
-acbxv3.r8ccp =     0.0000000000e+00 ;
-acbxv3.r8ccm =     0.0000000000e+00 ;
-acbxv3.r8ccs =     0.0000000000e+00 ;
-acbxv3.r8 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(   -1.6000000000e-05)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbyhs4.l8b1x =     1.1132596074e-05 ;
-acbyhs4.l8b1s =     0.0000000000e+00 ;
-acbyhs4.l8b1o =     0.0000000000e+00 ;
-acbyhs4.l8b1ccp =     0.0000000000e+00 ;
-acbyhs4.l8b1ccm =     0.0000000000e+00 ;
-acbyhs4.l8b1ccs =     0.0000000000e+00 ;
-acbyhs4.l8b1 :=+on_x8  *cphi_ir8*(    1.1132596074e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbyvs4.l8b1x =     0.0000000000e+00 ;
-acbyvs4.l8b1s =     3.5132479627e-06 ;
-acbyvs4.l8b1o =     0.0000000000e+00 ;
-acbyvs4.l8b1ccp =     0.0000000000e+00 ;
-acbyvs4.l8b1ccm =     0.0000000000e+00 ;
-acbyvs4.l8b1ccs =     0.0000000000e+00 ;
-acbyvs4.l8b1 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(    3.5132479627e-06)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbyhs4.l8b2x =    -3.9628603037e-05 ;
-acbyhs4.l8b2s =     0.0000000000e+00 ;
-acbyhs4.l8b2o =     0.0000000000e+00 ;
-acbyhs4.l8b2ccp =     0.0000000000e+00 ;
-acbyhs4.l8b2ccm =     0.0000000000e+00 ;
-acbyhs4.l8b2ccs =     0.0000000000e+00 ;
-acbyhs4.l8b2 :=+on_x8  *cphi_ir8*(   -3.9628603037e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbyvs4.l8b2x =     0.0000000000e+00 ;
-acbyvs4.l8b2s =     2.7610323407e-05 ;
-acbyvs4.l8b2o =     0.0000000000e+00 ;
-acbyvs4.l8b2ccp =     0.0000000000e+00 ;
-acbyvs4.l8b2ccm =     0.0000000000e+00 ;
-acbyvs4.l8b2ccs =     0.0000000000e+00 ;
-acbyvs4.l8b2 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(    2.7610323407e-05)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbyhs4.r8b1x =    -3.8325894376e-05 ;
-acbyhs4.r8b1s =     0.0000000000e+00 ;
-acbyhs4.r8b1o =     0.0000000000e+00 ;
-acbyhs4.r8b1ccp =     0.0000000000e+00 ;
-acbyhs4.r8b1ccm =     0.0000000000e+00 ;
-acbyhs4.r8b1ccs =     0.0000000000e+00 ;
-acbyhs4.r8b1 :=+on_x8  *cphi_ir8*(   -3.8325894376e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbyvs4.r8b1x =     0.0000000000e+00 ;
-acbyvs4.r8b1s =    -2.7456341646e-05 ;
-acbyvs4.r8b1o =     0.0000000000e+00 ;
-acbyvs4.r8b1ccp =     0.0000000000e+00 ;
-acbyvs4.r8b1ccm =     0.0000000000e+00 ;
-acbyvs4.r8b1ccs =     0.0000000000e+00 ;
-acbyvs4.r8b1 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(   -2.7456341646e-05)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbyhs4.r8b2x =     1.4199233450e-05 ;
-acbyhs4.r8b2s =     0.0000000000e+00 ;
-acbyhs4.r8b2o =     0.0000000000e+00 ;
-acbyhs4.r8b2ccp =     0.0000000000e+00 ;
-acbyhs4.r8b2ccm =     0.0000000000e+00 ;
-acbyhs4.r8b2ccs =     0.0000000000e+00 ;
-acbyhs4.r8b2 :=+on_x8  *cphi_ir8*(    1.4199233450e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbyvs4.r8b2x =     0.0000000000e+00 ;
-acbyvs4.r8b2s =    -4.4361099434e-06 ;
-acbyvs4.r8b2o =     0.0000000000e+00 ;
-acbyvs4.r8b2ccp =     0.0000000000e+00 ;
-acbyvs4.r8b2ccm =     0.0000000000e+00 ;
-acbyvs4.r8b2ccs =     0.0000000000e+00 ;
-acbyvs4.r8b2 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(   -4.4361099434e-06)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbchs5.l8b1x =     0.0000000000e+00 ;
-acbchs5.l8b1s =     0.0000000000e+00 ;
-acbchs5.l8b1o =     0.0000000000e+00 ;
-acbchs5.l8b1ccp =     0.0000000000e+00 ;
-acbchs5.l8b1ccm =     0.0000000000e+00 ;
-acbchs5.l8b1ccs =     0.0000000000e+00 ;
-acbchs5.l8b1 :=+on_x8  *cphi_ir8*(    0.0000000000e+00)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbcvs5.l8b1x =     0.0000000000e+00 ;
-acbcvs5.l8b1s =    -3.0508146430e-05 ;
-acbcvs5.l8b1o =     0.0000000000e+00 ;
-acbcvs5.l8b1ccp =     0.0000000000e+00 ;
-acbcvs5.l8b1ccm =     0.0000000000e+00 ;
-acbcvs5.l8b1ccs =     0.0000000000e+00 ;
-acbcvs5.l8b1 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(   -3.0508146430e-05)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbchs5.l8b2x =    -3.2555991206e-05 ;
-acbchs5.l8b2s =     0.0000000000e+00 ;
-acbchs5.l8b2o =     0.0000000000e+00 ;
-acbchs5.l8b2ccp =     0.0000000000e+00 ;
-acbchs5.l8b2ccm =     0.0000000000e+00 ;
-acbchs5.l8b2ccs =     0.0000000000e+00 ;
-acbchs5.l8b2 :=+on_x8  *cphi_ir8*(   -3.2555991206e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbcvs5.l8b2x =     0.0000000000e+00 ;
-acbcvs5.l8b2s =    -6.0143331626e-06 ;
-acbcvs5.l8b2o =     0.0000000000e+00 ;
-acbcvs5.l8b2ccp =     0.0000000000e+00 ;
-acbcvs5.l8b2ccm =     0.0000000000e+00 ;
-acbcvs5.l8b2ccs =     0.0000000000e+00 ;
-acbcvs5.l8b2 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(   -6.0143331626e-06)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbyhs5.r8b1x =    -3.3958209342e-05 ;
-acbyhs5.r8b1s =     0.0000000000e+00 ;
-acbyhs5.r8b1o =     0.0000000000e+00 ;
-acbyhs5.r8b1ccp =     0.0000000000e+00 ;
-acbyhs5.r8b1ccm =     0.0000000000e+00 ;
-acbyhs5.r8b1ccs =     0.0000000000e+00 ;
-acbyhs5.r8b1 :=+on_x8  *cphi_ir8*(   -3.3958209342e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbyvs5.r8b1x =     0.0000000000e+00 ;
-acbyvs5.r8b1s =     5.6496212388e-06 ;
-acbyvs5.r8b1o =     0.0000000000e+00 ;
-acbyvs5.r8b1ccp =     0.0000000000e+00 ;
-acbyvs5.r8b1ccm =     0.0000000000e+00 ;
-acbyvs5.r8b1ccs =     0.0000000000e+00 ;
-acbyvs5.r8b1 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(    5.6496212388e-06)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbyhs5.r8b2x =     3.7368042053e-05 ;
-acbyhs5.r8b2s =     0.0000000000e+00 ;
-acbyhs5.r8b2o =     0.0000000000e+00 ;
-acbyhs5.r8b2ccp =     0.0000000000e+00 ;
-acbyhs5.r8b2ccm =     0.0000000000e+00 ;
-acbyhs5.r8b2ccs =     0.0000000000e+00 ;
-acbyhs5.r8b2 :=+on_x8  *cphi_ir8*(    3.7368042053e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbyvs5.r8b2x =     0.0000000000e+00 ;
-acbyvs5.r8b2s =     3.1074891194e-05 ;
-acbyvs5.r8b2o =     0.0000000000e+00 ;
-acbyvs5.r8b2ccp =     0.0000000000e+00 ;
-acbyvs5.r8b2ccm =     0.0000000000e+00 ;
-acbyvs5.r8b2ccs =     0.0000000000e+00 ;
-acbyvs5.r8b2 :=+on_x8  *sphi_ir8*(    0.0000000000e+00)
-           +on_sep8*cphi_ir8*(    3.1074891194e-05)
-           +on_o8  *sphio_ir8*(    0.0000000000e+00)
-           +on_ccpv8  *(    0.0000000000e+00)
-           +on_ccmv8  *(    0.0000000000e+00)
-           +on_ccsv8  *(    0.0000000000e+00);
-acbwh5.l8b1x =     0.0000000000e+00 ;
-acbwh5.l8b1s =     0.0000000000e+00 ;
-acbwh5.l8b1o =     0.0000000000e+00 ;
-acbwh5.l8b1ccp =     0.0000000000e+00 ;
-acbwh5.l8b1ccm =     0.0000000000e+00 ;
-acbwh5.l8b1ccs =     0.0000000000e+00 ;
-acbwh5.l8b1 :=+on_x8  *cphi_ir8*(    0.0000000000e+00)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
-acbch5.l8b1x =     3.9030727242e-05 ;
-acbch5.l8b1s =     0.0000000000e+00 ;
-acbch5.l8b1o =     0.0000000000e+00 ;
-acbch5.l8b1ccp =     0.0000000000e+00 ;
-acbch5.l8b1ccm =     0.0000000000e+00 ;
-acbch5.l8b1ccs =     0.0000000000e+00 ;
-acbch5.l8b1 :=+on_x8  *cphi_ir8*(    3.9030727242e-05)
-           +on_sep8*sphi_ir8*(    0.0000000000e+00)
-           +on_o8  *cphio_ir8*(    0.0000000000e+00)
-           +on_ccph8  *(    0.0000000000e+00)
-           +on_ccmh8  *(    0.0000000000e+00)
-           +on_ccsh8  *(    0.0000000000e+00);
+acbxh1.l8    :=+8.500000000e-06*on_sep8h +6.176470588e-08*on_x8;
+acbxh1.r8    :=+8.500000000e-06*on_sep8h -6.176470588e-08*on_x8;
+acbxh2.l8    :=+8.500000000e-06*on_sep8h +6.176470588e-08*on_x8;
+acbxh2.r8    :=+8.500000000e-06*on_sep8h -6.176470588e-08*on_x8;
+acbxh3.l8    :=+8.500000000e-06*on_sep8h +6.176470588e-08*on_x8;
+acbxh3.r8    :=+8.500000000e-06*on_sep8h -6.176470588e-08*on_x8;
+acbyhs4.l8b1 :=+9.133514615e-06*on_sep8h +5.020830183e-07*on_a8h -5.222880134e-08*on_x8 +8.541737932e-05*on_o8;
+acbyhs4.r8b2 :=-9.119958200e-06*on_sep8h -4.905734373e-07*on_a8h -5.742952356e-08*on_x8 -8.453560376e-05*on_o8;
+acbyhs4.l8b2 :=+3.260871192e-06*on_sep8h +1.268135023e-07*on_a8h +2.167492964e-07*on_x8 -4.401991396e-05*on_o8;
+acbyhs4.r8b1 :=-4.024710275e-06*on_sep8h -1.542261744e-07*on_a8h +2.081885915e-07*on_x8 +4.585046465e-05*on_o8;
+acbyh4.l8b2   =0;
+acbyh4.r8b1   =0;
+acbchs5.l8b2 :=-1.908843344e-05*on_sep8h -6.850452547e-07*on_a8h +2.139394408e-07*on_x8 +4.574469999e-05*on_o8;
+acbch5.l8b1   =0;
+acbchs5.l8b1 :=-6.266044547e-07*on_sep8h -5.315687517e-07*on_a8h -2.401833288e-07*on_x8 -4.072678884e-05*on_o8;
+acbyhs5.r8b1 :=+1.991062775e-05*on_sep8h +7.145521857e-07*on_a8h +2.231540823e-07*on_x8 -4.771511125e-05*on_o8;
+acbyh5.r8b2   =0;
+acbyhs5.r8b2 :=+6.086249244e-07*on_sep8h +5.163111925e-07*on_a8h -2.332892475e-07*on_x8 +3.955783544e-05*on_o8;
+acbch6.l8b2   =0;
+acbch6.r8b1   =0;
+acbch7.l8b1   =0;
+acbch7.r8b2   =0;
+acbch8.l8b2   =0;
+acbch8.r8b1   =0;
+acbch9.l8b1   =0;
+acbch9.r8b2   =0;
+acbch10.l8b2  =0;
+acbch10.r8b1  =0;
+acbh11.l8b1   =0;
+acbh11.r8b2   =0;
+acbh12.l8b2   =0;
+acbh12.r8b1   =0;
+acbh13.l8b1   =0;
+acbh13.r8b2   =0;
+acbxv1.l8    :=+8.500000000e-06*on_sep8 +6.176470588e-08*on_x8v;
+acbxv1.r8    :=+8.500000000e-06*on_sep8 -6.176470588e-08*on_x8v;
+acbxv2.l8    :=+8.500000000e-06*on_sep8 +6.176470588e-08*on_x8v;
+acbxv2.r8    :=+8.500000000e-06*on_sep8 -6.176470588e-08*on_x8v;
+acbxv3.l8    :=+8.500000000e-06*on_sep8 +6.176470588e-08*on_x8v;
+acbxv3.r8    :=+8.500000000e-06*on_sep8 -6.176470588e-08*on_x8v;
+acbyvs4.l8b2 :=-9.171770951e-06*on_sep8 +5.350436135e-07*on_a8 +3.731642067e-08*on_x8v -8.793941375e-05*on_o8v;
+acbyvs4.r8b1 :=+9.155625152e-06*on_sep8 -5.213311515e-07*on_a8 +4.351272557e-08*on_x8v +8.688890156e-05*on_o8v;
+acbyvs4.l8b1 :=-4.856597112e-06*on_sep8 +1.840805894e-07*on_a8 -1.988572680e-07*on_x8v +4.784294612e-05*on_o8v;
+acbyvs4.r8b2 :=+5.433236615e-06*on_sep8 -2.047750413e-07*on_a8 -1.923944558e-07*on_x8v -4.922485132e-05*on_o8v;
+acbyv4.l8b1   =0;
+acbyv4.r8b2   =0;
+acbcvs5.l8b1 :=+1.906255262e-05*on_sep8 -6.841161522e-07*on_a8 -2.136569317e-07*on_x8v -4.568159725e-05*on_o8v;
+acbcv5.l8b2   =0;
+acbcvs5.l8b2 :=+6.309643178e-07*on_sep8 -5.354989145e-07*on_a8 +2.419680467e-07*on_x8v +4.102640280e-05*on_o8v;
+acbyvs5.r8b2 :=-1.941667837e-05*on_sep8 +6.968250434e-07*on_a8 -2.176257012e-07*on_x8v +4.653027873e-05*on_o8v;
+acbyv5.r8b1   =0;
+acbyvs5.r8b1 :=-5.927066306e-07*on_sep8 +5.030248270e-07*on_a8 +2.272943342e-07*on_x8v -3.853847444e-05*on_o8v;
+acbcv6.l8b1   =0;
+acbcv6.r8b2   =0;
+acbcv7.l8b2   =0;
+acbcv7.r8b1   =0;
+acbcv8.l8b1   =0;
+acbcv8.r8b2   =0;
+acbcv9.l8b2   =0;
+acbcv9.r8b1   =0;
+acbcv10.l8b1  =0;
+acbcv10.r8b2  =0;
+acbv11.l8b2   =0;
+acbv11.r8b1   =0;
+acbv12.l8b1   =0;
+acbv12.r8b2   =0;
+acbv13.l8b2   =0;
+acbv13.r8b1   =0;
+
 
  !***IR4 Optics***
 Kq5.L4B1   =     4.4859757137e-03 ;
