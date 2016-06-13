@@ -58,7 +58,7 @@ if (bs_type == OCTA2015) {
   r1_Q23=110.7/2-2.2*(1-no_bs_tol); !C. Garion 30/11/2015 1.5 mech tol
   r2_Q23=119.7/2-2.2*(1-no_bs_tol); !C. Garion 30/11/2015 1.5 mech tol
   r_Q23=sqrt((sqrt(2)*r1_Q23-r2_Q23)^2+r2_Q23^2)/1e3;
-  g_Q23=r1_Q23/1e3;
+  g_Q23=r2_Q23/1e3;
   angle1_Q23=45-acos(g_Q23/r_Q23)/pi*180; !22.5 regular octagon
   angle2_Q23=90-angle1_Q23;
   value,r_Q23,g_Q23,angle1_Q23,angle2_Q23;
