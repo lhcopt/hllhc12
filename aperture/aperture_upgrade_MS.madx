@@ -105,9 +105,9 @@ exec,aperture_2in1_def(TCLMA.4,d2_aperture,
 !r_tol_MC2 =r_tol_D2; h_tol_MC2 :=h_tol_D2+h_tol_MC2_mod; v_tol_MC2 :=v_tol_D2+v_tol_MC2_mod;
 
 exec,aperture_2in1_def(MCBRDH.4,d2_aperture,
-          r_D2,g_D2,angle1_D2,angle2_D2,r_tol_D2 , h_tol_D2 , v_tol_D2);
+          hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2 , h_tol_D2 , v_tol_D2);
 exec,aperture_2in1_def(MCBRDV.4,d2_aperture,
-          r_D2,g_D2,angle1_D2,angle2_D2,r_tol_D2 , h_tol_D2 , v_tol_D2);
+          hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2 , h_tol_D2 , v_tol_D2);
 
 
 
