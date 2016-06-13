@@ -68,8 +68,10 @@ g_D2=r_D2 - t_CT_D2;
 !r2_D2 = H,V halfgap
 !r1_D2=38.0;
 !r2_D2=42.5;
-r1_D2:=39-1.5*(1-no_bs_tol);   !C. Garion 9/4/2015 3mm CB, 1.5mm mech tol
-r2_D2:=43.5-1.5*(1-no_bs_tol); !C. Garion 9/4/2015 3mm CB, 1.5mm mech tol
+!r1_D2:=39-1.5*(1-no_bs_tol);   !C. Garion 9/4/2015 3mm CB, 1.5mm mech tol
+!r2_D2:=43.5-1.5*(1-no_bs_tol); !C. Garion 9/4/2015 3mm CB, 1.5mm mech tol
+r1_D2:=38.5-1.5*(1-no_bs_tol);  !C. Garion 30/11/2015 3mm CB, 1.5mm mech tol
+r2_D2:=43-1.5*(1-no_bs_tol);    !C. Garion 30/11/2015 3mm CB, 1.5mm mech tol
 
 r_D2=sqrt((sqrt(2)*r1_D2-r2_D2)^2+r2_D2^2);
 g_D2=r1_D2;
@@ -175,8 +177,10 @@ r_tol_Q4 =0.00084; h_tol_Q4 :=0.00126+h_tol_Q4_mod; v_tol_Q4 :=0.0006+v_tol_Q4_m
 !MQYY.4R5.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
 !                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
 !
-r1_q4:=31.9-1.5*(1-no_bs_tol); !C. Garion 9/4/2015  and adding tolerances
-r2_q4:=36.9-1.5*(1-no_bs_tol); !C. Garion 9/4/2015  and adding tolerances
+!r1_q4=31.9-1.5*(1-no_bs_tol); !C. Garion 9/4/2015  and adding tolerances
+!r2_q4=36.9-1.5*(1-no_bs_tol); !C. Garion 9/4/2015  and adding tolerances
+r1_q4=31.4-1.5*(1-no_bs_tol); !C. Garion 30/11/2015  and adding tolerances
+r2_q4=36.4-1.5*(1-no_bs_tol); !C. Garion 30/11/2015  and adding tolerances
 
 r_q4=sqrt((sqrt(2)*r1_q4-r2_q4)^2+r2_q4^2);
 g_q4=r1_q4;
