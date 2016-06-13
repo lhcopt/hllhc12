@@ -2396,7 +2396,7 @@ set,format=".15g";
 select,flag=twiss,clear;
 select,flag=twiss,
        column=name,s,l,
-              lrad,angle,k1l,k2l,k3l,hkick,vkick,kick,tilt,
+              lrad,angle,k1l,k2l,k3l,k1sl,k2sl,k3sl,hkick,vkick,kick,tilt,
               betx,bety,alfx,alfy,dx,dpx,dy,dpy,mux,muy,x,y,px,py,
               wx,wy,phix,phiy,n1,ddx,ddy,ddpx,ddpy,
               keyword,aper_1,aper_2,aper_3,aper_4,

@@ -68,21 +68,24 @@ g_D2=r_D2 - t_CT_D2;
 !r2_D2 = H,V halfgap
 !r1_D2=38.0;
 !r2_D2=42.5;
-r1_D2:=39-1.5*(1-no_bs_tol);   !C. Garion 9/4/2015 3mm CB, 1.5mm mech tol
-r2_D2:=43.5-1.5*(1-no_bs_tol); !C. Garion 9/4/2015 3mm CB, 1.5mm mech tol
+!r1_D2:=39-1.5*(1-no_bs_tol);   !C. Garion 9/4/2015 3mm CB, 1.5mm mech tol
+!r2_D2:=43.5-1.5*(1-no_bs_tol); !C. Garion 9/4/2015 3mm CB, 1.5mm mech tol
+r1_D2:=38.5-1.5*(1-no_bs_tol);  !C. Garion 30/11/2015 3mm CB, 1.5mm mech tol
+r2_D2:=43-1.5*(1-no_bs_tol);    !C. Garion 30/11/2015 3mm CB, 1.5mm mech tol
 
-r_D2=sqrt((sqrt(2)*r1_D2-r2_D2)^2+r2_D2^2);
-g_D2=r1_D2;
+r_D2=sqrt((sqrt(2)*r1_D2-r2_D2)^2+r2_D2^2)/1e3;
+g_D2=r1_D2/1e3;
+hv_D2=r2_D2/1e3;
 
 angle1_D2=45-acos(g_d2/r_d2)/pi*180; !22.5 regular octagon
 angle2_D2=90-angle1_D2;
 
 value,r_D2,g_D2,angle1_D2,angle2_D2;
 
-xx1=r_D2*1e-3*cos(angle1_D2/180*pi);!conversion to m
-yy1=r_D2*1e-3*sin(angle1_D2/180*pi);
-xx2=r_D2*1e-3*cos(angle2_D2/180*pi);
-yy2=r_D2*1e-3*sin(angle2_D2/180*pi);
+xx1=r_D2*cos(angle1_D2/180*pi);!conversion to m
+yy1=r_D2*sin(angle1_D2/180*pi);
+xx2=r_D2*cos(angle2_D2/180*pi);
+yy2=r_D2*sin(angle2_D2/180*pi);
 
 value,xx1,yy1,xx2,yy2;
 
@@ -90,14 +93,10 @@ system,"rm d2_aperture";assign, echo="d2_aperture";
 exec,write_OCTAGON(xx1,yy1,xx2,yy2);
 assign, echo=terminal;
 
-r_D2=r_D2/1000;
-g_D2=g_D2/1000;
-
-
 exec,aperture_2in1_def(MBRD.4,d2_aperture,
-          r_D2,g_D2,angle1_D2,angle2_D2,r_tol_D2, h_tol_D2, v_tol_D2);
+          hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2, h_tol_D2, v_tol_D2);
 exec,aperture_2in1_def(TCLMA.4,d2_aperture,
-          r_D2,g_D2,angle1_D2,angle2_D2,r_tol_D2, h_tol_D2, v_tol_D2);
+          hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2, h_tol_D2, v_tol_D2);
 
 ! big corrector for crabs
 !g_MC2=0.037000;r_MC2=0.042000; !equal to D2 for the time being
@@ -175,21 +174,25 @@ r_tol_Q4 =0.00084; h_tol_Q4 :=0.00126+h_tol_Q4_mod; v_tol_Q4 :=0.0006+v_tol_Q4_m
 !MQYY.4R5.B2,    APERTYPE=RECTELLIPSE, APERTURE:={ r_Q4,g_Q4,r_Q4,r_Q4},
 !                APER_TOL:={r_tol_Q4,h_tol_Q4,v_tol_Q4 };
 !
-r1_q4:=31.9-1.5*(1-no_bs_tol); !C. Garion 9/4/2015  and adding tolerances
-r2_q4:=36.9-1.5*(1-no_bs_tol); !C. Garion 9/4/2015  and adding tolerances
+!r1_q4=31.9-1.5*(1-no_bs_tol); !C. Garion 9/4/2015  and adding tolerances
+!r2_q4=36.9-1.5*(1-no_bs_tol); !C. Garion 9/4/2015  and adding tolerances
+r1_q4=31.4-1.5*(1-no_bs_tol); !C. Garion 30/11/2015  and adding tolerances
+r2_q4=36.4-1.5*(1-no_bs_tol); !C. Garion 30/11/2015  and adding tolerances
 
-r_q4=sqrt((sqrt(2)*r1_q4-r2_q4)^2+r2_q4^2);
-g_q4=r1_q4;
+r_q4=sqrt((sqrt(2)*r1_q4-r2_q4)^2+r2_q4^2)/1e3;
+g_q4=r1_q4/1e3;
+hv_q4=r2_q4/1e3;
+
 
 angle1_q4=45-acos(g_q4/r_q4)/pi*180; !22.5 regular octagon
 angle2_q4=90-angle1_q4;
 
 value,r_q4,g_q4,angle1_q4,angle2_q4;
 
-xx1=r_q4/1000*cos(angle1_q4/180*pi);!conversion to m
-yy1=r_q4/1000*sin(angle1_q4/180*pi);
-xx2=r_q4/1000*cos(angle2_q4/180*pi);
-yy2=r_q4/1000*sin(angle2_q4/180*pi);
+xx1=r_q4*cos(angle1_q4/180*pi);!conversion to m
+yy1=r_q4*sin(angle1_q4/180*pi);
+xx2=r_q4*cos(angle2_q4/180*pi);
+yy2=r_q4*sin(angle2_q4/180*pi);
 
 value,xx1,yy1,xx2,yy2;
 
@@ -197,12 +200,9 @@ system,"rm q4_aperture";assign, echo="q4_aperture";
 exec,write_OCTAGON(xx1,yy1,xx2,yy2);
 assign, echo=terminal;
 
-r_q4=r_q4/1000;
-g_q4=g_q4/1000;
-
 
 exec,aperture_2in1_def(MQYY.4,q4_aperture,
-          r_q4,g_q4,angle1_q4,angle2_q4,r_tol_q4, h_tol_q4, v_tol_q4);
+          hv_q4,hv_q4,angle1_q4,angle2_q4,r_tol_q4, h_tol_q4, v_tol_q4);
 
 ! big corrector for crabs
 !g_MC2=0.037000;r_MC2=0.042000; !equal to q4 for the time being
@@ -211,9 +211,9 @@ exec,aperture_2in1_def(MQYY.4,q4_aperture,
 !r_tol_MC2 =r_tol_q4; h_tol_MC2 :=h_tol_q4+h_tol_MC2_mod; v_tol_MC2 :=v_tol_q4+v_tol_MC2_mod;
 
 exec,aperture_2in1_def(MCBYYH.4,q4_aperture,
-          r_q4,g_q4,angle1_q4,angle2_q4,r_tol_q4 , h_tol_q4 , v_tol_q4);
+          hv_q4,hv_q4,angle1_q4,angle2_q4,r_tol_q4 , h_tol_q4 , v_tol_q4);
 exec,aperture_2in1_def(MCBYYV.4,q4_aperture,
-          r_q4,g_q4,angle1_q4,angle2_q4,r_tol_q4 , h_tol_q4 , v_tol_q4);
+          hv_q4,hv_q4,angle1_q4,angle2_q4,r_tol_q4 , h_tol_q4 , v_tol_q4);
 
 
 !Q5  NOMINAL B.S ORIENTATION
