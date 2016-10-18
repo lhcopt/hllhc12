@@ -8,12 +8,13 @@ scale = 23348.89927; #Brho 7 TeV
 #dictionary with maximum corrector strength
 corrmax= {'acbx%s%s'%(pp,ii): 2.5 for ii in ['1','2'] for pp in ['h','v']}
 corrmax.update({'acbx%s3'%(pp): 4.5 for pp in ['h','v']})
-corrmax.update({'acbrd%s4'%(pp): 4.5 for pp in ['h','v']})
-corrmax.update({'acby%ss4'%(pp): 4.5 for pp in ['h','v']})
+corrmax.update({'acbrd%s4'%(pp): 5 for pp in ['h','v']})
+corrmax.update({'acby%ss4'%(pp): 5for pp in ['h','v']})
 #corrmax.update({'acbrd%s4'%(pp): 4.5*1.8/1.5 for pp in ['h','v']})#1.8m length
 #corrmax.update({'acby%ss4'%(pp): 4.5*1.8/1.5 for pp in ['h','v']})#1.8m length
-corrmax.update({'acby%ss5'%(pp): 2.7 for pp in ['h','v']})
-corrmax.update({'acbc%s%s'%(pp,ii): 2.8 for ii in ['6','7'] for pp in ['h','v']})
+corrmax.update({'acby%ss5'%(pp): 2.8 for pp in ['h','v']})
+corrmax.update({'acbc%s6'%(pp): 2.1  for pp in ['h','v']})
+corrmax.update({'acbc%s7'%(pp): 2.8  for pp in ['h','v']})
 
 #dictionary with strength required for IT error correction
 iterror= {'acbx%s1'%(pp): 0.92 for pp in ['h','v']}
@@ -37,10 +38,10 @@ lumi.update({'acbc%s%s'%(pp,ii): 0.0 for ii in ['6','7'] for pp in ['h','v']})
 arc= {'acbx%s1'%(pp): 0.0 for pp in ['h','v']}
 arc.update({'acbx%s2'%(pp): 0.0 for pp in ['h','v']})
 arc.update({'acbx%s3'%(pp): 0.0 for pp in ['h','v']})
-arc.update({'acbrd%s4'%(pp): 0.0 for pp in ['h','v']})
-arc.update({'acby%ss4'%(pp): 0.7 for pp in ['h','v']})
+arc.update({'acbrd%s4'%(pp): 0.35 for pp in ['h','v']})
+arc.update({'acby%ss4'%(pp): 0.35 for pp in ['h','v']})
 arc.update({'acby%ss5'%(pp): 0.0 for pp in ['h','v']})
-arc.update({'acbc%s%s'%(pp,ii): 0.0 for ii in ['6','7'] for pp in ['h','v']})
+arc.update({'acbc%s%s'%(pp,ii): 0.7 for ii in ['6','7'] for pp in ['h','v']})
 
 #dictionary with strength required for D2 transfer fucntion errors scan knobs
 #assume 2.e-3 transfer function error for 35 Tm
@@ -117,6 +118,8 @@ def check_orbit(fn):
                 outallmax.append([abs(ll) for ll in out[1:-1] ])#maximum strength
                 outmargin.append([out[-1]])
     #get the maximum,use numpy method in order to define the axis
+    #if ii=='s4':
+    #  print outallmax
     maxall=list(np.max(np.array(outallmax),axis=0))
     marginall=[np.min(np.array(outmargin))]
     sout=(('-- '+name.split('.')[0].replace('v','[hv]')).ljust(15)+'%7.2f'*13) % tuple(maxall+min(outmargin))

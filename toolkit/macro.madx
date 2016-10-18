@@ -3884,7 +3884,7 @@ value,v_crabv.l5b2;
 value,v_crabv.r5b1;
 value,v_crabv.r5b2;};
 
-print_orbit_knob_ip(corrname,ccc,sss,irn): macro={
+print_orbit_knob_ip_knob(corrname,ccc,sss,irn): macro={
   printf,text="corrnamex = %20.10e ;",value=corrnamex;
   printf,text="corrnames = %20.10e ;",value=corrnames;
   printf,text="corrnameo = %20.10e ;",value=corrnameo;
@@ -3893,23 +3893,23 @@ print_orbit_knob_ip(corrname,ccc,sss,irn): macro={
   printf,text="corrnameccs = %20.10e ;",value=corrnameccs;
 };
 
-!print_orbit_knob_ip(corrname,ccc,sss,irn): macro={
+!print_orbit_knob_ip_knob(corrname,ccc,sss,irn): macro={
 !  printf,text="corrnameo = %20.10e ;",value=corrname;
 !};
 
 print_orbit_mcbx(mcbn,irn): macro={
-exec, print_orbit_knob_ip(acbxhmcbn.lirn,c,s,irn);
-exec, print_orbit_knob_ip(acbxvmcbn.lirn,s,c,irn);
-exec, print_orbit_knob_ip(acbxhmcbn.rirn,c,s,irn);
-exec, print_orbit_knob_ip(acbxvmcbn.rirn,s,c,irn);
+exec, print_orbit_knob_ip_knob(acbxhmcbn.lirn,c,s,irn);
+exec, print_orbit_knob_ip_knob(acbxvmcbn.lirn,s,c,irn);
+exec, print_orbit_knob_ip_knob(acbxhmcbn.rirn,c,s,irn);
+exec, print_orbit_knob_ip_knob(acbxvmcbn.rirn,s,c,irn);
 };
 
 
 print_orbit_acb(acbn1,acbn2,side,irn): macro={
-exec, print_orbit_knob_ip(ACBacbn1Hacbn2.sideirnB1,c,s,irn);
-exec, print_orbit_knob_ip(ACBacbn1Vacbn2.sideirnB1,s,c,irn);
-exec, print_orbit_knob_ip(ACBacbn1Hacbn2.sideirnB2,c,s,irn);
-exec, print_orbit_knob_ip(ACBacbn1Vacbn2.sideirnB2,s,c,irn);
+exec, print_orbit_knob_ip_knob(ACBacbn1Hacbn2.sideirnB1,c,s,irn);
+exec, print_orbit_knob_ip_knob(ACBacbn1Vacbn2.sideirnB1,s,c,irn);
+exec, print_orbit_knob_ip_knob(ACBacbn1Hacbn2.sideirnB2,c,s,irn);
+exec, print_orbit_knob_ip_knob(ACBacbn1Vacbn2.sideirnB2,s,c,irn);
 };
 
 check_orbit: macro={
@@ -3933,14 +3933,14 @@ exec,print_orbit_acb(y,s4,l,5);
 exec,print_orbit_acb(y,s4,r,5);
 exec,print_orbit_acb(y,s5,l,5);
 exec,print_orbit_acb(y,s5,r,5);
-exec,print_orbit_knob_ip(acbch6.l5b1,c,s,5);
-exec,print_orbit_knob_ip(acbcv6.l5b2,s,c,5);
-exec,print_orbit_knob_ip(acbcv6.r5b1,s,c,5);
-exec,print_orbit_knob_ip(acbch6.r5b2,c,s,5);
-exec,print_orbit_knob_ip(acbcv7.l5b1,s,c,5);
-exec,print_orbit_knob_ip(acbch7.l5b2,c,s,5);
-exec,print_orbit_knob_ip(acbch7.r5b1,c,s,5);
-exec,print_orbit_knob_ip(acbcv7.r5b2,s,c,5);
+exec,print_orbit_knob_ip_knob(acbch6.l5b1,c,s,5);
+exec,print_orbit_knob_ip_knob(acbcv6.l5b2,s,c,5);
+exec,print_orbit_knob_ip_knob(acbcv6.r5b1,s,c,5);
+exec,print_orbit_knob_ip_knob(acbch6.r5b2,c,s,5);
+exec,print_orbit_knob_ip_knob(acbcv7.l5b1,s,c,5);
+exec,print_orbit_knob_ip_knob(acbch7.l5b2,c,s,5);
+exec,print_orbit_knob_ip_knob(acbch7.r5b1,c,s,5);
+exec,print_orbit_knob_ip_knob(acbcv7.r5b2,s,c,5);
 exec,print_orbit_mcbx(1,1);
 exec,print_orbit_mcbx(2,1);
 exec,print_orbit_mcbx(3,1);
@@ -3950,16 +3950,19 @@ exec,print_orbit_acb(y,s4,l,1);
 exec,print_orbit_acb(y,s4,r,1);
 exec,print_orbit_acb(y,s5,l,1);
 exec,print_orbit_acb(y,s5,r,1);
-exec,print_orbit_knob_ip(acbch6.l1b1,c,s,1);
-exec,print_orbit_knob_ip(acbcv6.l1b2,s,c,1);
-exec,print_orbit_knob_ip(acbcv6.r1b1,s,c,1);
-exec,print_orbit_knob_ip(acbch6.r1b2,c,s,1);
-exec,print_orbit_knob_ip(acbcv7.l1b1,s,c,1);
-exec,print_orbit_knob_ip(acbch7.l1b2,c,s,1);
-exec,print_orbit_knob_ip(acbch7.r1b1,c,s,1);
-exec,print_orbit_knob_ip(acbcv7.r1b2,s,c,1);
+exec,print_orbit_knob_ip_knob(acbch6.l1b1,c,s,1);
+exec,print_orbit_knob_ip_knob(acbcv6.l1b2,s,c,1);
+exec,print_orbit_knob_ip_knob(acbcv6.r1b1,s,c,1);
+exec,print_orbit_knob_ip_knob(acbch6.r1b2,c,s,1);
+exec,print_orbit_knob_ip_knob(acbcv7.l1b1,s,c,1);
+exec,print_orbit_knob_ip_knob(acbch7.l1b2,c,s,1);
+exec,print_orbit_knob_ip_knob(acbch7.r1b1,c,s,1);
+exec,print_orbit_knob_ip_knob(acbcv7.r1b2,s,c,1);
 assign,echo=terminal ;
 
+system,"cat offknob_miriam.madx >>temp/orbit_knobs";
+
 system,"slhc/toolkit/check_mcb.py temp/orbit_knobs";
+
 
 };

@@ -1,6 +1,7 @@
 option, warn,info;
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/runII/2015 db5";
+system,"mkdir result";
 
 
 
