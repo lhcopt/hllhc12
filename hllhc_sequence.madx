@@ -1278,18 +1278,36 @@ endedit;
 crab_make_tkicker(NNN,FFF): macro {
 omega_crabsc:=twopi*HRF400/LHCLENGTH;
 z_crab:=0;
-sin_crab:=sin(omega_crabsc*z_crab);
+
+phi_crab_l1b1 := 0;
+phi_crab_r1b1 := 0;
+phi_crab_l1b2 := 0;
+phi_crab_r1b2 := 0;
+phi_crab_l5b1 := 0;
+phi_crab_r5b1 := 0;
+phi_crab_l5b2 := 0;
+phi_crab_r5b2 := 0;
+
+sin_crab_l1b1:=sin(omega_crabsc*z_crab+phi_crab_l1b1);
+sin_crab_r1b1:=sin(omega_crabsc*z_crab+phi_crab_r1b1);
+sin_crab_l1b2:=sin(omega_crabsc*z_crab+phi_crab_l1b2);
+sin_crab_r1b2:=sin(omega_crabsc*z_crab+phi_crab_r1b2);
+sin_crab_l5b1:=sin(omega_crabsc*z_crab+phi_crab_l5b1);
+sin_crab_r5b1:=sin(omega_crabsc*z_crab+phi_crab_r5b1);
+sin_crab_l5b2:=sin(omega_crabsc*z_crab+phi_crab_l5b2);
+sin_crab_r5b2:=sin(omega_crabsc*z_crab+phi_crab_r5b2);
+
 cosi1:=cos(twopi*phi_IR1/360.);sinu1:=sin(twopi*phi_IR1/360.);
 cosi5:=cos(twopi*phi_IR5/360.);sinu5:=sin(twopi*phi_IR5/360.);
 on_crab1=0;on_crab5=0;
-acfca.NNNl1.b1: tkicker, l=0, HKICK:=on_crab1*ahcrab_l1b1/FFF*sin_crab*cosi1,VKICK:=on_crab1*avcrab_l1b1/FFF*sin_crab*sinu1*bv_aux;
-acfca.NNNl1.b2: tkicker, l=0, HKICK:=on_crab1*ahcrab_l1b2/FFF*sin_crab*cosi1,VKICK:=on_crab1*avcrab_l1b2/FFF*sin_crab*sinu1*bv_aux;
-acfca.NNNr1.b1: tkicker, l=0, HKICK:=on_crab1*ahcrab_r1b1/FFF*sin_crab*cosi1,VKICK:=on_crab1*avcrab_r1b1/FFF*sin_crab*sinu1*bv_aux;
-acfca.NNNr1.b2: tkicker, l=0, HKICK:=on_crab1*ahcrab_r1b2/FFF*sin_crab*cosi1,VKICK:=on_crab1*avcrab_r1b2/FFF*sin_crab*sinu1*bv_aux;
-acfca.NNNl5.b1: tkicker, l=0, HKICK:=on_crab5*ahcrab_l5b1/FFF*sin_crab*cosi5,VKICK:=on_crab5*avcrab_l5b1/FFF*sin_crab*sinu5*bv_aux;
-acfca.NNNl5.b2: tkicker, l=0, HKICK:=on_crab5*ahcrab_l5b2/FFF*sin_crab*cosi5,VKICK:=on_crab5*avcrab_l5b2/FFF*sin_crab*sinu5*bv_aux;
-acfca.NNNr5.b1: tkicker, l=0, HKICK:=on_crab5*ahcrab_r5b1/FFF*sin_crab*cosi5,VKICK:=on_crab5*avcrab_r5b1/FFF*sin_crab*sinu5*bv_aux;
-acfca.NNNr5.b2: tkicker, l=0, HKICK:=on_crab5*ahcrab_r5b2/FFF*sin_crab*cosi5,VKICK:=on_crab5*avcrab_r5b2/FFF*sin_crab*sinu5*bv_aux;
+acfca.NNNl1.b1: tkicker, l=0, HKICK:=on_crab1*ahcrab_l1b1/FFF*sin_crab_l1b1*cosi1,VKICK:=on_crab1*avcrab_l1b1/FFF*sin_crab_l1b1*sinu1*bv_aux;
+acfca.NNNl1.b2: tkicker, l=0, HKICK:=on_crab1*ahcrab_l1b2/FFF*sin_crab_l1b2*cosi1,VKICK:=on_crab1*avcrab_l1b2/FFF*sin_crab_l1b2*sinu1*bv_aux;
+acfca.NNNr1.b1: tkicker, l=0, HKICK:=on_crab1*ahcrab_r1b1/FFF*sin_crab_r1b1*cosi1,VKICK:=on_crab1*avcrab_r1b1/FFF*sin_crab_r1b1*sinu1*bv_aux;
+acfca.NNNr1.b2: tkicker, l=0, HKICK:=on_crab1*ahcrab_r1b2/FFF*sin_crab_r1b2*cosi1,VKICK:=on_crab1*avcrab_r1b2/FFF*sin_crab_r1b2*sinu1*bv_aux;
+acfca.NNNl5.b1: tkicker, l=0, HKICK:=on_crab5*ahcrab_l5b1/FFF*sin_crab_l5b1*cosi5,VKICK:=on_crab5*avcrab_l5b1/FFF*sin_crab_l5b1*sinu5*bv_aux;
+acfca.NNNl5.b2: tkicker, l=0, HKICK:=on_crab5*ahcrab_l5b2/FFF*sin_crab_l5b2*cosi5,VKICK:=on_crab5*avcrab_l5b2/FFF*sin_crab_l5b2*sinu5*bv_aux;
+acfca.NNNr5.b1: tkicker, l=0, HKICK:=on_crab5*ahcrab_r5b1/FFF*sin_crab_r5b1*cosi5,VKICK:=on_crab5*avcrab_r5b1/FFF*sin_crab_r5b1*sinu5*bv_aux;
+acfca.NNNr5.b2: tkicker, l=0, HKICK:=on_crab5*ahcrab_r5b2/FFF*sin_crab_r5b2*cosi5,VKICK:=on_crab5*avcrab_r5b2/FFF*sin_crab_r5b2*sinu5*bv_aux;
 };
 
 crab_install(NNN,PFFF,PBBB): macro ={
