@@ -1277,7 +1277,7 @@ endedit;
 
 crab_make_tkicker(NNN,FFF): macro {
 omega_crabsc:=twopi*HRF400/LHCLENGTH;
-z_crab:=0;
+z_crab:=0; ! positive means head of the bunch i.e. z=-cT and z==t(madx)
 
 phi_crab_l1b1 := 0;
 phi_crab_r1b1 := 0;
@@ -1288,14 +1288,14 @@ phi_crab_r5b1 := 0;
 phi_crab_l5b2 := 0;
 phi_crab_r5b2 := 0;
 
-sin_crab_l1b1:=sin(omega_crabsc*z_crab+phi_crab_l1b1);
-sin_crab_r1b1:=sin(omega_crabsc*z_crab+phi_crab_r1b1);
-sin_crab_l1b2:=sin(omega_crabsc*z_crab+phi_crab_l1b2);
-sin_crab_r1b2:=sin(omega_crabsc*z_crab+phi_crab_r1b2);
-sin_crab_l5b1:=sin(omega_crabsc*z_crab+phi_crab_l5b1);
-sin_crab_r5b1:=sin(omega_crabsc*z_crab+phi_crab_r5b1);
-sin_crab_l5b2:=sin(omega_crabsc*z_crab+phi_crab_l5b2);
-sin_crab_r5b2:=sin(omega_crabsc*z_crab+phi_crab_r5b2);
+sin_crab_l1b1:=sin(-omega_crabsc*z_crab+phi_crab_l1b1);
+sin_crab_r1b1:=sin(-omega_crabsc*z_crab+phi_crab_r1b1);
+sin_crab_l1b2:=sin(-omega_crabsc*z_crab+phi_crab_l1b2);
+sin_crab_r1b2:=sin(-omega_crabsc*z_crab+phi_crab_r1b2);
+sin_crab_l5b1:=sin(-omega_crabsc*z_crab+phi_crab_l5b1);
+sin_crab_r5b1:=sin(-omega_crabsc*z_crab+phi_crab_r5b1);
+sin_crab_l5b2:=sin(-omega_crabsc*z_crab+phi_crab_l5b2);
+sin_crab_r5b2:=sin(-omega_crabsc*z_crab+phi_crab_r5b2);
 
 cosi1:=cos(twopi*phi_IR1/360.);sinu1:=sin(twopi*phi_IR1/360.);
 cosi5:=cos(twopi*phi_IR5/360.);sinu5:=sin(twopi*phi_IR5/360.);

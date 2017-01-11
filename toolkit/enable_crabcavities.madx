@@ -1,0 +1,126 @@
+crab_make_rf(NNN,SIDE,IRN,BIM,FFF): macro {
+    acrabrfNNN.SIDEIRNBIM: rfmultipole,l=0, freq=400.0,
+    knl:={0,kn2_crabNNNSIDEIRNBIM,
+          kn3_crabNNNSIDEIRNBIM,kn4_crabNNNSIDEIRNBIM},
+    ksl:={0,ks2_crabNNNSIDEIRNBIM,
+          ks3_crabNNNSIDEIRNBIM,ks4_crabNNNSIDEIRNBIM},
+    pnl:={0,pn2_crabNNNSIDEIRNBIM,pn3_crabNNNSIDEIRNBIM,pn4_crabNNNSIDEIRNBIM},
+    psl:={0,ps2_crabNNNSIDEIRNBIM,ps3_crabNNNSIDEIRNBIM,ps4_crabNNNSIDEIRNBIM};
+};
+
+crab_make_cc(NNN,SIDE,IRN,BIM,FFF): macro {
+    crabrf:=HRF400/LHCLENGTH*clight;
+    !sigmas=0.075;
+    ahcrabref_SIDEIRNBIM:=ahcrab_SIDEIRNBIM/FFF*cosiIRN;
+    avcrabref_SIDEIRNBIM:=avcrab_SIDEIRNBIM/FFF*sinuIRN;
+    acrabref_SIDEIRNBIM:=sqrt(ahcrabref_SIDEIRNBIM^2+avcrabref_SIDEIRNBIM^2);
+    !vcrabref_SIDEIRNBIM:=acrabref_SIDEIRNBIM/sigmas*nrj*1e9*clight/(2*pi*crabrf);
+    vcrabref_SIDEIRNBIM:=acrabref_SIDEIRNBIM*nrj*1e9/1e6;
+    acrabccNNN.SIDEIRNBIM: crabcavity, l=0, volt:=on_crabIRN*vcrabref_SIDEIRNBIM,
+    lag=0.0,freq=crabrf/1e6,tilt=phi_irIRN/180*pi,rv3=1e9,rv4=1e9;
+};
+
+crab_install_rf(NNN,PFFF,PBBB): macro ={
+seqedit, sequence=lhcb1;
+install,element=acrabrfNNN.l5b1,at=-PBBB,from=IP5;
+install,element=acrabrfNNN.r5b1,at= PFFF,from=IP5;
+install,element=acrabrfNNN.l1b1,at=-PBBB,from=IP1.L1;
+install,element=acrabrfNNN.r1b1,at= PFFF,from=IP1;
+endedit;
+seqedit, sequence=lhcb2;
+install,element=acrabrfNNN.l5b2,at=-PFFF,from=IP5;
+install,element=acrabrfNNN.r5b2,at= PBBB,from=IP5;
+install,element=acrabrfNNN.l1b2,at=-PFFF,from=IP1.L1;
+install,element=acrabrfNNN.r1b2,at= PBBB,from=IP1;
+endedit;
+};
+
+crab_install_cc(NNN,PFFF,PBBB): macro ={
+seqedit, sequence=lhcb1;
+install,element=acrabccNNN.l5b1,at=-PBBB,from=IP5;
+install,element=acrabccNNN.r5b1,at= PFFF,from=IP5;
+install,element=acrabccNNN.l1b1,at=-PBBB,from=IP1.L1;
+install,element=acrabccNNN.r1b1,at= PFFF,from=IP1;
+endedit;
+seqedit, sequence=lhcb2;
+install,element=acrabccNNN.l5b2,at=-PFFF,from=IP5;
+install,element=acrabccNNN.r5b2,at= PBBB,from=IP5;
+install,element=acrabccNNN.l1b2,at=-PFFF,from=IP1.L1;
+install,element=acrabccNNN.r1b2,at= PBBB,from=IP1;
+endedit;
+};
+
+crab_remove_cc(NNN): macro ={
+seqedit, sequence=lhcb1;
+remove,element=acrabccNNN.l5b1;
+remove,element=acrabccNNN.r5b1;
+remove,element=acrabccNNN.l1b1;
+remove,element=acrabccNNN.r1b1;
+endedit;
+seqedit, sequence=lhcb2;
+remove,element=acrabccNNN.l5b2;
+remove,element=acrabccNNN.r5b2;
+remove,element=acrabccNNN.l1b2;
+remove,element=acrabccNNN.r1b2;
+endedit;
+};
+
+crab_remove_rf(NNN): macro ={
+seqedit, sequence=lhcb1;
+remove,element=acrabrfNNN.l5b1;
+remove,element=acrabrfNNN.r5b1;
+remove,element=acrabrfNNN.l1b1;
+remove,element=acrabrfNNN.r1b1;
+endedit;
+seqedit, sequence=lhcb2;
+remove,element=acrabrfNNN.l5b2;
+remove,element=acrabrfNNN.r5b2;
+remove,element=acrabrfNNN.l1b2;
+remove,element=acrabrfNNN.r1b2;
+endedit;
+};
+
+
+crab_make(NNN,FFF): macro {
+!exec,crab_make_rf(NNN,l,5,b1,FFF);
+!exec,crab_make_rf(NNN,l,5,b2,FFF);
+!exec,crab_make_rf(NNN,r,5,b1,FFF);
+!exec,crab_make_rf(NNN,r,5,b2,FFF);
+!exec,crab_make_rf(NNN,l,1,b1,FFF);
+!exec,crab_make_rf(NNN,l,1,b2,FFF);
+!exec,crab_make_rf(NNN,r,1,b1,FFF);
+!exec,crab_make_rf(NNN,r,1,b2,FFF);
+exec,crab_make_cc(NNN,l,5,b1,FFF);
+exec,crab_make_cc(NNN,l,5,b2,FFF);
+exec,crab_make_cc(NNN,r,5,b1,FFF);
+exec,crab_make_cc(NNN,r,5,b2,FFF);
+exec,crab_make_cc(NNN,l,1,b1,FFF);
+exec,crab_make_cc(NNN,l,1,b2,FFF);
+exec,crab_make_cc(NNN,r,1,b1,FFF);
+exec,crab_make_cc(NNN,r,1,b2,FFF);
+};
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! EXECUTE THE MACROS
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+exec,crab_make(A,4); exec,crab_make(B,4);
+exec,crab_make(C,4); exec,crab_make(D,4);
+
+exec,crab_remove(A); exec,crab_remove(B);
+exec,crab_remove(C); exec,crab_remove(D);
+
+!exec,crab_remove_rf(A); exec,crab_remove_rf(B);
+!exec,crab_remove_rf(C); exec,crab_remove_rf(D);
+exec,crab_remove_cc(A); exec,crab_remove_cc(B);
+exec,crab_remove_cc(C); exec,crab_remove_cc(D);
+
+!exec,crab_install_rf(A,posCRABA1,posCRABA2);
+!exec,crab_install_rf(B,posCRABB1,posCRABB2);
+!exec,crab_install_rf(C,posCRABC1,posCRABC2);
+!exec,crab_install_rf(D,posCRABD1,posCRABD2);
+
+exec,crab_install_cc(A,posCRABA1,posCRABA2);
+exec,crab_install_cc(B,posCRABB1,posCRABB2);
+exec,crab_install_cc(C,posCRABC1,posCRABC2);
+exec,crab_install_cc(D,posCRABD1,posCRABD2);

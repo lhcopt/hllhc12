@@ -27,7 +27,7 @@ match_crab(IRN,BIM,HV,XY): macro={
 on_crabIRN=1;
 use,sequence=lhcBIM;
 match,      sequence=lhcBIM;
-constraint, sequence=lhcBIM,range=IPIRN, XY  = refpXYipIRNBIM*z_crab;
+constraint, sequence=lhcBIM,range=IPIRN, XY  = -refpXYipIRNBIM*z_crab;
 constraint, sequence=lhcBIM,range=IPIRN, pXY  = 0;
 vary, name=aHVcrab_lIRNBIM;
 vary, name=aHVcrab_rIRNBIM;
