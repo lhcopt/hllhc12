@@ -8,16 +8,17 @@ crab_make_rf(NNN,SIDE,IRN,BIM,FFF): macro {
     psl:={0,ps2_crabNNNSIDEIRNBIM,ps3_crabNNNSIDEIRNBIM,ps4_crabNNNSIDEIRNBIM};
 };
 
-crab_make_cc(NNN,SIDE,IRN,BIM,FFF): macro {
-    crabrf:=HRF400/LHCLENGTH*clight;
+crab_make_cc(nnn,side,irn,bim,fff): macro {
+    crabrf:=hrf400/lhclength*clight;
     !sigmas=0.075;
-    ahcrabref_SIDEIRNBIM:=ahcrab_SIDEIRNBIM/FFF*cosiIRN;
-    avcrabref_SIDEIRNBIM:=avcrab_SIDEIRNBIM/FFF*sinuIRN;
-    acrabref_SIDEIRNBIM:=sqrt(ahcrabref_SIDEIRNBIM^2+avcrabref_SIDEIRNBIM^2);
-    !vcrabref_SIDEIRNBIM:=acrabref_SIDEIRNBIM/sigmas*nrj*1e9*clight/(2*pi*crabrf);
-    vcrabref_SIDEIRNBIM:=acrabref_SIDEIRNBIM*nrj*1e9/1e6;
-    acrabccNNN.SIDEIRNBIM: crabcavity, l=0, volt:=on_crabIRN*vcrabref_SIDEIRNBIM,
-    lag=0.0,freq=crabrf/1e6,tilt=phi_irIRN/180*pi,rv3=1e9,rv4=1e9;
+    ahcrabref_sideirnbim:=ahcrab_sideirnbim/fff*cosiirn;
+    avcrabref_sideirnbim:=avcrab_sideirnbim/fff*sinuirn;
+    acrabref_sideirnbim:=sqrt(ahcrabref_sideirnbim^2+avcrabref_sideirnbim^2);
+    !vcrabref_sideirnbim:=acrabref_sideirnbim/sigmas*nrj*1e9*clight/(2*pi*crabrf);
+    vcrabref_sideirnbim:=acrabref_sideirnbim*nrj*1e9/1e6;
+    acrabccnnn.sideirnbim: crabcavity, l=0, volt:=on_crabirn*vcrabref_sideirnbim,
+    lag=0.0,freq=crabrf/1e6,tilt=phi_irirn/180*pi,rv3=1e9,rv4=1e9;
+    print,text="making acrabccnnn.sideirnbim";
 };
 
 crab_install_rf(NNN,PFFF,PBBB): macro ={
