@@ -20,18 +20,6 @@
 
 ! Macros
 
-write_OCTAGON(xx1,yy1,xx2,yy2): macro = {
- printf,text=" %g  %g",value=xx1,yy1;
- printf,text=" %g  %g",value=xx2,yy2;
- printf,text="-%g  %g",value=xx2,yy2;
- printf,text="-%g  %g",value=xx1,yy1;
- printf,text="-%g -%g",value=xx1,yy1;
- printf,text="-%g -%g",value=xx2,yy2;
- printf,text=" %g -%g",value=xx2,yy2;
- printf,text=" %g -%g",value=xx1,yy1;
- printf,text=" %g  %g",value=xx1,yy1;
-};
-
 aperture_2in1_def(eee,ttt,ap1,ap2,ap3,ap4,rtol,htol,vtol): macro={
 eeeL1.B1,APERTYPE=ttt,APERTURE:={ap1,ap2,ap3,ap4},APER_TOL:={rtol,htol,vtol};
 eeeR1.B1,APERTYPE=ttt,APERTURE:={ap1,ap2,ap3,ap4},APER_TOL:={rtol,htol,vtol};
@@ -77,26 +65,13 @@ r_D2=sqrt((sqrt(2)*r1_D2-r2_D2)^2+r2_D2^2)/1e3;
 g_D2=r1_D2/1e3;
 hv_D2=r2_D2/1e3;
 
-angle1_D2=45-acos(g_d2/r_d2)/pi*180; !22.5 regular octagon
-angle2_D2=90-angle1_D2;
+angle1_D2=pi/4-acos(g_d2/r_d2); !22.5 regular octagon
+angle2_D2=pi/2-angle1_D2;
 
 value,r_D2,g_D2,angle1_D2,angle2_D2;
 
-xx1=r_D2*cos(angle1_D2/180*pi);!conversion to m
-yy1=r_D2*sin(angle1_D2/180*pi);
-xx2=r_D2*cos(angle2_D2/180*pi);
-yy2=r_D2*sin(angle2_D2/180*pi);
-
-value,xx1,yy1,xx2,yy2;
-
-system,"rm d2_aperture";assign, echo="d2_aperture";
-exec,write_OCTAGON(xx1,yy1,xx2,yy2);
-assign, echo=terminal;
-
-exec,aperture_2in1_def(MBRD.4,d2_aperture,
-          hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2, h_tol_D2, v_tol_D2);
-exec,aperture_2in1_def(TCLMA.4,d2_aperture,
-          hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2, h_tol_D2, v_tol_D2);
+exec,aperture_2in1_def(MBRD.4, OCTAGON,hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2,h_tol_D2,v_tol_D2);
+exec,aperture_2in1_def(TCLMA.4,OCTAGON,hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2,h_tol_D2,v_tol_D2);
 
 ! big corrector for crabs
 !g_MC2=0.037000;r_MC2=0.042000; !equal to D2 for the time being
@@ -104,10 +79,8 @@ exec,aperture_2in1_def(TCLMA.4,d2_aperture,
 !g_MC2=g_D2;r_MC2=r_D2; !equal to D2 for the time being
 !r_tol_MC2 =r_tol_D2; h_tol_MC2 :=h_tol_D2+h_tol_MC2_mod; v_tol_MC2 :=v_tol_D2+v_tol_MC2_mod;
 
-exec,aperture_2in1_def(MCBRDH.4,d2_aperture,
-          hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2 , h_tol_D2 , v_tol_D2);
-exec,aperture_2in1_def(MCBRDV.4,d2_aperture,
-          hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2 , h_tol_D2 , v_tol_D2);
+exec,aperture_2in1_def(MCBRDH.4,OCTAGON,hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2,h_tol_D2,v_tol_D2);
+exec,aperture_2in1_def(MCBRDV.4,OCTAGON,hv_D2,hv_D2,angle1_D2,angle2_D2,r_tol_D2,h_tol_D2,v_tol_D2);
 
 
 
@@ -183,26 +156,12 @@ r_q4=sqrt((sqrt(2)*r1_q4-r2_q4)^2+r2_q4^2)/1e3;
 g_q4=r1_q4/1e3;
 hv_q4=r2_q4/1e3;
 
-
-angle1_q4=45-acos(g_q4/r_q4)/pi*180; !22.5 regular octagon
-angle2_q4=90-angle1_q4;
+angle1_q4=pi/4-acos(g_q4/r_q4); !22.5 regular octagon
+angle2_q4=pi/2-angle1_q4;
 
 value,r_q4,g_q4,angle1_q4,angle2_q4;
 
-xx1=r_q4*cos(angle1_q4/180*pi);!conversion to m
-yy1=r_q4*sin(angle1_q4/180*pi);
-xx2=r_q4*cos(angle2_q4/180*pi);
-yy2=r_q4*sin(angle2_q4/180*pi);
-
-value,xx1,yy1,xx2,yy2;
-
-system,"rm q4_aperture";assign, echo="q4_aperture";
-exec,write_OCTAGON(xx1,yy1,xx2,yy2);
-assign, echo=terminal;
-
-
-exec,aperture_2in1_def(MQYY.4,q4_aperture,
-          hv_q4,hv_q4,angle1_q4,angle2_q4,r_tol_q4, h_tol_q4, v_tol_q4);
+exec,aperture_2in1_def(MQYY.4,OCTAGON,hv_q4,hv_q4,angle1_q4,angle2_q4,r_tol_q4,h_tol_q4,v_tol_q4);
 
 ! big corrector for crabs
 !g_MC2=0.037000;r_MC2=0.042000; !equal to q4 for the time being
@@ -210,10 +169,8 @@ exec,aperture_2in1_def(MQYY.4,q4_aperture,
 !g_MC2=g_q4;r_MC2=r_q4; !equal to q4 for the time being
 !r_tol_MC2 =r_tol_q4; h_tol_MC2 :=h_tol_q4+h_tol_MC2_mod; v_tol_MC2 :=v_tol_q4+v_tol_MC2_mod;
 
-exec,aperture_2in1_def(MCBYYH.4,q4_aperture,
-          hv_q4,hv_q4,angle1_q4,angle2_q4,r_tol_q4 , h_tol_q4 , v_tol_q4);
-exec,aperture_2in1_def(MCBYYV.4,q4_aperture,
-          hv_q4,hv_q4,angle1_q4,angle2_q4,r_tol_q4 , h_tol_q4 , v_tol_q4);
+exec,aperture_2in1_def(MCBYYH.4,OCTAGON,hv_q4,hv_q4,angle1_q4,angle2_q4,r_tol_q4,h_tol_q4,v_tol_q4);
+exec,aperture_2in1_def(MCBYYV.4,OCTAGON,hv_q4,hv_q4,angle1_q4,angle2_q4,r_tol_q4,h_tol_q4,v_tol_q4);
 
 
 !Q5  NOMINAL B.S ORIENTATION
