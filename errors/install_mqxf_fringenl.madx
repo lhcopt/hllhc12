@@ -1,0 +1,46 @@
+install_ends(refname,reftype):macro={
+refname..FL: multipole;
+refname..FR: multipole;
+print,text="refname..FL refname..FR refname";
+if (mylhcbeam<3) {
+	seqedit,sequence=lhcb1;
+	install,element=refname..FL,at=-L.reftype/2,from=refname;
+	install,element=refname..FR,at=+L.reftype/2,from=refname;
+	endedit;
+};
+seqedit,sequence=lhcb2;
+install,element=refname..FL,at=-L.reftype/2*bv_aux,from=refname;
+install,element=refname..FR,at=+L.reftype/2*bv_aux,from=refname;
+endedit;
+};
+
+l.MQXFA=8.002/2;
+l.MQXFB=6.792;
+
+exec,install_ends(MQXFA.A1R5,MQXFA);
+exec,install_ends(MQXFA.B1R5,MQXFA);
+exec,install_ends(MQXFB.A2R5,MQXFB);
+exec,install_ends(MQXFB.B2R5,MQXFB);
+exec,install_ends(MQXFA.A3R5,MQXFA);
+exec,install_ends(MQXFA.B3R5,MQXFA);
+exec,install_ends(MQXFA.A1L5,MQXFA);
+exec,install_ends(MQXFA.B1L5,MQXFA);
+exec,install_ends(MQXFB.A2L5,MQXFB);
+exec,install_ends(MQXFB.B2L5,MQXFB);
+exec,install_ends(MQXFA.A3L5,MQXFA);
+exec,install_ends(MQXFA.B3L5,MQXFA);
+exec,install_ends(MQXFA.A1R1,MQXFA);
+exec,install_ends(MQXFA.B1R1,MQXFA);
+exec,install_ends(MQXFB.A2R1,MQXFB);
+exec,install_ends(MQXFB.B2R1,MQXFB);
+exec,install_ends(MQXFA.A3R1,MQXFA);
+exec,install_ends(MQXFA.B3R1,MQXFA);
+exec,install_ends(MQXFA.A1L1,MQXFA);
+exec,install_ends(MQXFA.B1L1,MQXFA);
+exec,install_ends(MQXFB.A2L1,MQXFB);
+exec,install_ends(MQXFB.B2L1,MQXFB);
+exec,install_ends(MQXFA.A3L1,MQXFA);
+exec,install_ends(MQXFA.B3L1,MQXFA);
+
+
+

@@ -350,20 +350,20 @@ exec PLOT_BB_SEP(8,$npara_8);
 
 use,sequence=lhcb1;
 select,flag=twiss,clear;
-select,flag=twiss,class=marker,pattern=PAR.*L1,range=mbxa.4l1..4/IP1.L1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
-select,flag=twiss,class=marker,pattern=PAR.*L5,range=mbxa.4l5..4/IP5,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
-select,flag=twiss,class=marker,pattern=PAR.*R1,range=IP1/mbxa.4r1..1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
-select,flag=twiss,class=marker,pattern=PAR.*R5,range=IP5/mbxa.4r5..1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
+select,flag=twiss,class=marker,pattern=PAR.*L1,range=mbxf.4l1..4/IP1.L1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
+select,flag=twiss,class=marker,pattern=PAR.*L5,range=mbxf.4l5..4/IP5,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
+select,flag=twiss,class=marker,pattern=PAR.*R1,range=IP1/mbxf.4r1..1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
+select,flag=twiss,class=marker,pattern=PAR.*R5,range=IP5/mbxf.4r5..1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
 select,flag=twiss,class=marker,pattern=IP1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
 select,flag=twiss,class=marker,pattern=IP5,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
 twiss,file=twiss_bb.b1;system,"cat twiss_bb.b1";
 
 use,sequence=lhcb2;
 select,flag=twiss,clear;
-select,flag=twiss,class=marker,pattern=PAR.*L1,range=mbxa.4l1..4/IP1.L1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
-select,flag=twiss,class=marker,pattern=PAR.*L5,range=mbxa.4l5..4/IP5,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
-select,flag=twiss,class=marker,pattern=PAR.*R1,range=IP1/mbxa.4r1..1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
-select,flag=twiss,class=marker,pattern=PAR.*R5,range=IP5/mbxa.4r5..1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
+select,flag=twiss,class=marker,pattern=PAR.*L1,range=mbxf.4l1..4/IP1.L1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
+select,flag=twiss,class=marker,pattern=PAR.*L5,range=mbxf.4l5..4/IP5,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
+select,flag=twiss,class=marker,pattern=PAR.*R1,range=IP1/mbxf.4r1..1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
+select,flag=twiss,class=marker,pattern=PAR.*R5,range=IP5/mbxf.4r5..1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
 select,flag=twiss,class=marker,pattern=IP1,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
 select,flag=twiss,class=marker,pattern=IP5,column=s,name,betx,bety,alfx,alfy,mux,muy,x,y,px,py;
 twiss,file=twiss_bb.b2;system,"cat twiss_bb.b2";

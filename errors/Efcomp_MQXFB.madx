@@ -1,0 +1,40 @@
+! S. Fartoukh March 2009
+!Generation of errors for the new IT with the orientation LE-MQX-NLE-...-IP-...-NLE-MQX-LE 
+! S. Fartoukh March 2012
+! Update for compatibility with the macro_error.madx file of SLHCV3.1b
+! R. De Maria Nov 2012
+! Update new names and lead end on the cryostat convention  IP =Q1a||Q1b=   =Q2a||Q2b=   =Q3a||Q3b=
+
+exec new_magnetfamily(MQXFB); iap=0;
+
+!Q2a.R5
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.A2R5.*[0-9]$";
+exec new_magnetindividual(MQXFB,iap);exec errorgenerate_quad(MQXFB);
+
+!Q2b.R5
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.B2R5.*[0-9]$";
+exec new_magnetindividual(MQXFB,iap);exec errorgenerate_quad_inv(MQXFB);
+
+!Q2a.L5
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.A2L5.*[0-9]$";
+exec new_magnetindividual(MQXFB,iap);exec errorgenerate_quad_inv(MQXFB);
+
+!Q2b.L5
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.B2L5.*[0-9]$";
+exec new_magnetindividual(MQXFB,iap);exec errorgenerate_quad(MQXFB);
+
+!Q2a.R1
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.A2R1.*[0-9]$";
+exec new_magnetindividual(MQXFB,iap);exec errorgenerate_quad(MQXFB);
+
+!Q2b.R1
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.B2R1.*[0-9]$";
+exec new_magnetindividual(MQXFB,iap);exec errorgenerate_quad_inv(MQXFB);
+
+!Q2a.L1
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.A2L1.*[0-9]$";
+exec new_magnetindividual(MQXFB,iap);exec errorgenerate_quad_inv(MQXFB);
+
+!Q2b.L1
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.B2L1.*[0-9]$";
+exec new_magnetindividual(MQXFB,iap);exec errorgenerate_quad(MQXFB);

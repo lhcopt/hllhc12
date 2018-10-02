@@ -1162,6 +1162,15 @@ MS.10R5.B2: MS,K2:=0, polarity=+1*bv_aux;
 on_cutMS.10=1;
 };
 
+DISABLE_SEXT_F(MS.10):macro={
+MS.10L1.B1: MS,K2:=0;
+MS.10L5.B1: MS,K2:=0;
+MS.10R1.B2: MS,K2:=0, polarity=+1*bv_aux;
+MS.10R5.B2: MS,K2:=0, polarity=+1*bv_aux;
+on_cutMS.10=1;
+};
+
+
 ENABLE_SEXT(MS.10,ksf1,ksd2,ksd1,ksf2):macro={
 MS.10L1.B1: MS,K2:=ksf1.a81b1;
 MS.10R1.B1: MS,K2:=ksd2.a12b1;

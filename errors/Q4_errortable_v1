@@ -1,0 +1,86 @@
+!!!  S. Fartoukh June 2012 
+!!! Q4 error table at injection and in collision, with some rounding up for high order multipole (n>=7) 
+!!! The systemtatic b6 is set to 0 at 7TeV with an uncertainty of 1.5 units 
+!!! The systematic b10 is set to 0 both at injection and in collision with an uncertainty set to 0.3 units 
+!!! Based on the measured MQY (70 mm coilID) error table at Rr=17 mm but applied at Rr=17*90/70~22 mm 
+!!! R. De Maria Sep 2012, as v0 but rescaled to new ref. radius 
+!!! Random b2 component added for optics studies (agreed with E. Todesco - February 2015)
+! ----------------------------------------------------------------------- 
+! Error type  : M - AVERAGE 
+!               R - STANDARD 
+!               U - UNCERTAINTY 
+! ----------------------------------------------------------------------- 
+! ----------------------------------------------------------------------- 
+! ********Magnet type : MQYY (new Q4)*************** 
+! ----------------------------------------------------------------------- 
+
+! Units : relative field error for Rr = 30 mm in units of 10^-4
+ 
+Rr_MQYY :=  0.030 ; 
+!                bn at inj 
+b1M_MQYY_V1_inj  :=  0.000 ;b1M_MQYY_V2_inj  :=  0.000 ;b1U_MQYY_inj  :=  0.000 ;b1R_MQYY_inj  :=  0.000 ; 
+b2M_MQYY_V1_inj  :=  0.000 ;b2M_MQYY_V2_inj  :=  0.000 ;b2U_MQYY_inj  :=  0.000 ;b2R_MQYY_inj  := 10.000 ; 
+b3M_MQYY_V1_inj  :=  0.000 ;b3M_MQYY_V2_inj  :=  0.000 ;b3U_MQYY_inj  :=  1.282 ;b3R_MQYY_inj  :=  1.500 ; 
+b4M_MQYY_V1_inj  :=  0.000 ;b4M_MQYY_V2_inj  :=  0.000 ;b4U_MQYY_inj  :=  0.483 ;b4R_MQYY_inj  :=  0.465 ; 
+b5M_MQYY_V1_inj  :=  0.000 ;b5M_MQYY_V2_inj  :=  0.000 ;b5U_MQYY_inj  :=  0.203 ;b5R_MQYY_inj  :=  0.431 ; 
+b6M_MQYY_V1_inj  :=-10.373 ;b6M_MQYY_V2_inj  :=-10.373 ;b6U_MQYY_inj  := 10.373 ;b6R_MQYY_inj  :=  2.974 ; 
+b7M_MQYY_V1_inj  :=  0.000 ;b7M_MQYY_V2_inj  :=  0.000 ;b7U_MQYY_inj  :=  0.094 ;b7R_MQYY_inj  :=  0.189 ; 
+b8M_MQYY_V1_inj  :=  0.000 ;b8M_MQYY_V2_inj  :=  0.000 ;b8U_MQYY_inj  :=  0.193 ;b8R_MQYY_inj  :=  0.257 ; 
+b9M_MQYY_V1_inj  :=  0.000 ;b9M_MQYY_V2_inj  :=  0.000 ;b9U_MQYY_inj  :=  0.088 ;b9R_MQYY_inj  :=  0.088 ; 
+b10M_MQYY_V1_inj :=  0.000 ;b10M_MQYY_V2_inj :=  0.000 ;b10U_MQYY_inj :=  3.587 ;b10R_MQYY_inj :=  0.956 ; 
+b11M_MQYY_V1_inj :=  0.000 ;b11M_MQYY_V2_inj :=  0.000 ;b11U_MQYY_inj :=  0.326 ;b11R_MQYY_inj :=  0.489 ; 
+b12M_MQYY_V1_inj :=  0.000 ;b12M_MQYY_V2_inj :=  0.000 ;b12U_MQYY_inj :=  0.445 ;b12R_MQYY_inj :=  0.222 ; 
+b13M_MQYY_V1_inj :=  0.000 ;b13M_MQYY_V2_inj :=  0.000 ;b13U_MQYY_inj :=  0.606 ;b13R_MQYY_inj :=  0.303 ; 
+b14M_MQYY_V1_inj :=  0.000 ;b14M_MQYY_V2_inj :=  0.000 ;b14U_MQYY_inj :=  2.067 ;b14R_MQYY_inj :=  0.413 ; 
+b15M_MQYY_V1_inj :=  0.000 ;b15M_MQYY_V2_inj :=  0.000 ;b15U_MQYY_inj :=  1.127 ;b15R_MQYY_inj :=  0.564 ; 
+ 
+!                an at inj 
+a1M_MQYY_V1_inj  :=  0.000 ;a1M_MQYY_V2_inj  :=  0.000 ;a1U_MQYY_inj  :=  0.000 ;a1R_MQYY_inj  :=  0.000 ; 
+a2M_MQYY_V1_inj  :=  0.000 ;a2M_MQYY_V2_inj  :=  0.000 ;a2U_MQYY_inj  :=  0.000 ;a2R_MQYY_inj  :=  0.000 ; 
+a3M_MQYY_V1_inj  :=  0.000 ;a3M_MQYY_V2_inj  :=  0.000 ;a3U_MQYY_inj  :=  0.682 ;a3R_MQYY_inj  :=  1.227 ; 
+a4M_MQYY_V1_inj  :=  0.000 ;a4M_MQYY_V2_inj  :=  0.000 ;a4U_MQYY_inj  :=  0.428 ;a4R_MQYY_inj  :=  0.893 ; 
+a5M_MQYY_V1_inj  :=  0.000 ;a5M_MQYY_V2_inj  :=  0.000 ;a5U_MQYY_inj  :=  0.177 ;a5R_MQYY_inj  :=  0.406 ; 
+a6M_MQYY_V1_inj  :=  0.000 ;a6M_MQYY_V2_inj  :=  0.000 ;a6U_MQYY_inj  :=  0.484 ;a6R_MQYY_inj  :=  0.277 ; 
+a7M_MQYY_V1_inj  :=  0.000 ;a7M_MQYY_V2_inj  :=  0.000 ;a7U_MQYY_inj  :=  0.094 ;a7R_MQYY_inj  :=  0.189 ; 
+a8M_MQYY_V1_inj  :=  0.000 ;a8M_MQYY_V2_inj  :=  0.000 ;a8U_MQYY_inj  :=  0.193 ;a8R_MQYY_inj  :=  0.257 ; 
+a9M_MQYY_V1_inj  :=  0.000 ;a9M_MQYY_V2_inj  :=  0.000 ;a9U_MQYY_inj  :=  0.088 ;a9R_MQYY_inj  :=  0.088 ; 
+a10M_MQYY_V1_inj :=  0.000 ;a10M_MQYY_V2_inj :=  0.000 ;a10U_MQYY_inj :=  0.120 ;a10R_MQYY_inj :=  0.120 ; 
+a11M_MQYY_V1_inj :=  0.000 ;a11M_MQYY_V2_inj :=  0.000 ;a11U_MQYY_inj :=  0.326 ;a11R_MQYY_inj :=  0.489 ; 
+a12M_MQYY_V1_inj :=  0.000 ;a12M_MQYY_V2_inj :=  0.000 ;a12U_MQYY_inj :=  0.445 ;a12R_MQYY_inj :=  0.222 ; 
+a13M_MQYY_V1_inj :=  0.000 ;a13M_MQYY_V2_inj :=  0.000 ;a13U_MQYY_inj :=  0.606 ;a13R_MQYY_inj :=  0.303 ; 
+a14M_MQYY_V1_inj :=  0.000 ;a14M_MQYY_V2_inj :=  0.000 ;a14U_MQYY_inj :=  0.827 ;a14R_MQYY_inj :=  0.413 ; 
+a15M_MQYY_V1_inj :=  0.000 ;a15M_MQYY_V2_inj :=  0.000 ;a15U_MQYY_inj :=  1.127 ;a15R_MQYY_inj :=  0.564 ; 
+ 
+!                bn at col 
+b1M_MQYY_V1_col  :=  0.000 ;b1M_MQYY_V2_col  :=  0.000 ;b1U_MQYY_col  :=  0.000 ;b1R_MQYY_col  :=  0.000 ; 
+b2M_MQYY_V1_col  :=  0.000 ;b2M_MQYY_V2_col  :=  0.000 ;b2U_MQYY_col  :=  0.000 ;b2R_MQYY_col  := 10.000 ; 
+b3M_MQYY_V1_col  :=  0.000 ;b3M_MQYY_V2_col  :=  0.000 ;b3U_MQYY_col  :=  1.282 ;b3R_MQYY_col  :=  1.500 ; 
+b4M_MQYY_V1_col  :=  0.000 ;b4M_MQYY_V2_col  :=  0.000 ;b4U_MQYY_col  :=  0.483 ;b4R_MQYY_col  :=  0.465 ; 
+b5M_MQYY_V1_col  :=  0.000 ;b5M_MQYY_V2_col  :=  0.000 ;b5U_MQYY_col  :=  0.203 ;b5R_MQYY_col  :=  0.431 ; 
+b6M_MQYY_V1_col  :=  0.000 ;b6M_MQYY_V2_col  :=  0.000 ;b6U_MQYY_col  :=  5.187 ;b6R_MQYY_col  :=  1.487 ; 
+b7M_MQYY_V1_col  :=  0.000 ;b7M_MQYY_V2_col  :=  0.000 ;b7U_MQYY_col  :=  0.094 ;b7R_MQYY_col  :=  0.189 ; 
+b8M_MQYY_V1_col  :=  0.000 ;b8M_MQYY_V2_col  :=  0.000 ;b8U_MQYY_col  :=  0.193 ;b8R_MQYY_col  :=  0.257 ; 
+b9M_MQYY_V1_col  :=  0.000 ;b9M_MQYY_V2_col  :=  0.000 ;b9U_MQYY_col  :=  0.088 ;b9R_MQYY_col  :=  0.088 ; 
+b10M_MQYY_V1_col :=  0.000 ;b10M_MQYY_V2_col :=  0.000 ;b10U_MQYY_col :=  3.587 ;b10R_MQYY_col :=  0.956 ; 
+b11M_MQYY_V1_col :=  0.000 ;b11M_MQYY_V2_col :=  0.000 ;b11U_MQYY_col :=  0.326 ;b11R_MQYY_col :=  0.489 ; 
+b12M_MQYY_V1_col :=  0.000 ;b12M_MQYY_V2_col :=  0.000 ;b12U_MQYY_col :=  0.445 ;b12R_MQYY_col :=  0.222 ; 
+b13M_MQYY_V1_col :=  0.000 ;b13M_MQYY_V2_col :=  0.000 ;b13U_MQYY_col :=  0.606 ;b13R_MQYY_col :=  0.303 ; 
+b14M_MQYY_V1_col :=  0.000 ;b14M_MQYY_V2_col :=  0.000 ;b14U_MQYY_col :=  2.067 ;b14R_MQYY_col :=  0.413 ; 
+b15M_MQYY_V1_col :=  0.000 ;b15M_MQYY_V2_col :=  0.000 ;b15U_MQYY_col :=  1.127 ;b15R_MQYY_col :=  0.564 ; 
+ 
+!                an at col 
+a1M_MQYY_V1_col  :=  0.000 ;a1M_MQYY_V2_col  :=  0.000 ;a1U_MQYY_col  :=  0.000 ;a1R_MQYY_col  :=  0.000 ; 
+a2M_MQYY_V1_col  :=  0.000 ;a2M_MQYY_V2_col  :=  0.000 ;a2U_MQYY_col  :=  0.000 ;a2R_MQYY_col  :=  0.000 ; 
+a3M_MQYY_V1_col  :=  0.000 ;a3M_MQYY_V2_col  :=  0.000 ;a3U_MQYY_col  :=  0.682 ;a3R_MQYY_col  :=  1.227 ; 
+a4M_MQYY_V1_col  :=  0.000 ;a4M_MQYY_V2_col  :=  0.000 ;a4U_MQYY_col  :=  0.428 ;a4R_MQYY_col  :=  0.893 ; 
+a5M_MQYY_V1_col  :=  0.000 ;a5M_MQYY_V2_col  :=  0.000 ;a5U_MQYY_col  :=  0.177 ;a5R_MQYY_col  :=  0.406 ; 
+a6M_MQYY_V1_col  :=  0.000 ;a6M_MQYY_V2_col  :=  0.000 ;a6U_MQYY_col  :=  0.484 ;a6R_MQYY_col  :=  0.277 ; 
+a7M_MQYY_V1_col  :=  0.000 ;a7M_MQYY_V2_col  :=  0.000 ;a7U_MQYY_col  :=  0.094 ;a7R_MQYY_col  :=  0.189 ; 
+a8M_MQYY_V1_col  :=  0.000 ;a8M_MQYY_V2_col  :=  0.000 ;a8U_MQYY_col  :=  0.193 ;a8R_MQYY_col  :=  0.257 ; 
+a9M_MQYY_V1_col  :=  0.000 ;a9M_MQYY_V2_col  :=  0.000 ;a9U_MQYY_col  :=  0.088 ;a9R_MQYY_col  :=  0.088 ; 
+a10M_MQYY_V1_col :=  0.000 ;a10M_MQYY_V2_col :=  0.000 ;a10U_MQYY_col :=  0.120 ;a10R_MQYY_col :=  0.120 ; 
+a11M_MQYY_V1_col :=  0.000 ;a11M_MQYY_V2_col :=  0.000 ;a11U_MQYY_col :=  0.326 ;a11R_MQYY_col :=  0.489 ; 
+a12M_MQYY_V1_col :=  0.000 ;a12M_MQYY_V2_col :=  0.000 ;a12U_MQYY_col :=  0.445 ;a12R_MQYY_col :=  0.222 ; 
+a13M_MQYY_V1_col :=  0.000 ;a13M_MQYY_V2_col :=  0.000 ;a13U_MQYY_col :=  0.606 ;a13R_MQYY_col :=  0.303 ; 
+a14M_MQYY_V1_col :=  0.000 ;a14M_MQYY_V2_col :=  0.000 ;a14U_MQYY_col :=  0.827 ;a14R_MQYY_col :=  0.413 ; 
+a15M_MQYY_V1_col :=  0.000 ;a15M_MQYY_V2_col :=  0.000 ;a15U_MQYY_col :=  1.127 ;a15R_MQYY_col :=  0.564 ; 

@@ -1,0 +1,27 @@
+! S. Fartoukh March 2012
+! Error generation for the new Q4 (MQYY) in IR1 and IR5. 
+! The orientation for Q4 left is LE-BODY-NLE in IR1 and IR5, and then mirror symmetry w.r.t. IP
+
+exec new_magnetfamily_MQ(MQYY);
+
+!Q4L1
+select,flag=error,clear;select,flag=error,pattern="^MQYY\.4L1.*$";
+if(mylhcbeam==1) {iap=2;};if(mylhcbeam>1) {iap=1;};
+exec new_magnetindividual(MQYY,iap);exec errorgenerate_quad(MQYY);
+
+!Q4R1
+select,flag=error,clear;select,flag=error,pattern="^MQYY\.4R1.*$";
+if(mylhcbeam==1) {iap=2;};if(mylhcbeam>1) {iap=1;};
+exec new_magnetindividual(MQYY,iap);exec errorgenerate_quad_inv(MQYY);
+
+!Q4L5
+select,flag=error,clear;select,flag=error,pattern="^MQYY\.4L5.*$";
+if(mylhcbeam==1) {iap=2;};if(mylhcbeam>1) {iap=1;};
+exec new_magnetindividual(MQYY,iap);exec errorgenerate_quad(MQYY);
+
+!Q4R5
+select,flag=error,clear;select,flag=error,pattern="^MQYY\.4R5.*$";
+if(mylhcbeam==1) {iap=2;};if(mylhcbeam>1) {iap=1;};
+exec new_magnetindividual(MQYY,iap);exec errorgenerate_quad_inv(MQYY);
+
+return;
