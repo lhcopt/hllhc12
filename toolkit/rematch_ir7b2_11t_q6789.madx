@@ -1,0 +1,78 @@
+use, sequence=lhcb2, range=IP7/MQ.15R7.b2;
+acbch7.l7b2=0; acbch9.l7b2=0; acbh11.l7b2=0;
+acbh12.r7b2=0; acbch10.r7b2=0; acbch8.r7b2=0;
+
+!nrj=450; exec,prepare_apir(7,b2,$nrj,0);
+!survey; exec,align_mbh(8,7,b2); exec,align_mbh(10,7,b2);
+!twiss,beta0=bir7b2,file=twiss_ir7b2_clean.tfs;
+!exec,mk_apir_simple(7,b2,$nrj);
+!system, "cp temp/ap_ir7b2.tfs ap_ir7b2_clean.tfs";
+
+
+!nrj=450; exec,prepare_apir(7,b2,$nrj,0);
+!b0_MBH=0.0010;
+!b0_MBH=0.0270; ! MB stronger
+select, flag=error, clear;
+select, flag=error, pattern="^MBH\.A8R7.*$";
+select, flag=error, pattern="^MBH\.B8R7.*$";
+!select, flag=error, pattern="^MBH\.A10R7.*$";
+!select, flag=error, pattern="^MBH\.B10R7.*$";
+select, flag=error, pattern="^MBH\.A8L7.*$";
+select, flag=error, pattern="^MBH\.B8L7.*$";
+!select, flag=error, pattern="^MBH\.A10L7.*$";
+!select, flag=error, pattern="^MBH\.B10L7.*$";
+efcomp, order=0, radius=0.017,dknr:={b0_MBH};
+eprint;
+
+
+
+!twiss,beta0=bir7b2,file=twiss_ir7b2_error.tfs;
+
+match,orbit, beta0=bir7b2;
+  WEIGHT,     x = 1, px =  10, y = 1, py = 10;
+  !!! necessary constraints:
+  constraint, sequence=lhcb2,range=MQ.13L7.B2,x=0, px=0; ! 
+  constraint, sequence=lhcb2,range=MQ.13R7.B2,x=0, px=0; !
+  constraint, sequence=lhcb2,range=IP7,x=0,px=0;
+  !!! additional constraints:
+  !constraint, sequence=lhcb2,range=MQ.7R7.b2,x=-0.0005; !focus
+  !constraint, sequence=lhcb2,range=MQ.9R7.b2,x=0; !focus
+  !constraint, sequence=lhcb2,range=MQ.8R7.b2,x=-0.0005; ! defocuc
+  !constraint, sequence=lhcb2,range=MQ.12R7.b2,x=0,px=0;
+  !constraint, sequence=lhcb2,range=MQ.9L7.b2,x=0;! defocus
+  !!constraint, sequence=lhcb2,range=MQ.8L7.b2,x=-0.0007; ! defocus (bad)
+  !constraint, sequence=lhcb2,range=IP7,x=0,px=0;
+  !!! LEFT correctors  
+  !vary, name=acbh15.l7b2;
+  !vary, name=acbh13.l7b2;
+  !vary, name=acbh11.l7b2;
+  vary, name=acbch9.l7b2;
+  vary, name=acbch7.l7b2;
+  !!! RIGHT
+  vary, name=acbch6.r7b2;
+  vary, name=acbch8.r7b2;
+  !vary, name=acbch10.r7b2;
+  !vary, name=acbh12.r7b2;
+  !vary, name=acbh14.r7b2;
+  !vary, name=acbh16.r7b2;
+  !simplex,calls=100;
+  jacobian,calls=10,tolerance=1e-30;
+endmatch;
+
+
+!twiss,beta0=bir7b2,file=twiss_ir7b2_corr.tfs;
+
+!exec,mk_apir_simple(7,b2,$nrj);
+!system, "cp temp/ap_ir7b2.tfs ap_ir7b2_corr.tfs";
+
+
+brho=nrj*1e9/clight*7000/450;
+value,acbch7.l7b2 *brho/Kmax_MCBCH/l.MCBCH;
+value,acbch8.r7b2 *brho/Kmax_MCBCH/l.MCBCH;
+value,acbch9.l7b2 *brho/Kmax_MCBCH/l.MCBCH;
+value,acbch10.r7b2*brho/Kmax_MCBCH/l.MCBCH;
+value,acbh11.l7b2 *brho/Kmax_MCBH/l.MCBH;
+value,acbh12.r7b2 *brho/Kmax_MCBH/l.MCBH;
+
+
+

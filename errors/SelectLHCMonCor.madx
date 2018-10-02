@@ -1,0 +1,99 @@
+! Select monitors and correctors required for LHC orbit correction
+! to be used with THIN sequence of V6.500
+! saved on 28/06/07 10:49:19 by T.Risselada
+! S. Fartoukh: Change the list of correctors disabbled for X-scheme (disable MCBWH at Q5.L8.b1)
+! 2012/03/20 from SLHCV3.0 enabling mcbyy,
+!            disabling MCBYY that might participate to the crossing,
+!            disabling MCBCH.B5L8.B1 not operational
+
+ usemonitor, status=off;
+
+! enable all monitors for required beam
+ if (mylhcbeam < 2) { usemonitor, status=on,  pattern=^bpm.*b1$;}
+ if (mylhcbeam > 1) { usemonitor, status=on,  pattern=^bpm.*b2$;}
+
+ usemonitor, status=off, class=bpmwa; ! in IP4
+ usemonitor, status=off, class=bpmwb; ! in D2 in IP1-2-5-8
+ usemonitor, status=off, class=bpmse; ! in IP6
+ usemonitor, status=off, class=bpmsd; ! were in IP6 in V6.5000
+
+
+ usekick,    status=off;
+
+ usekick,    status=on,  class=mcbh ;
+ usekick,    status=on,  class=mcbch;
+ usekick,    status=on,  class=mcbwh;
+ usekick,    status=on,  class=mcbyh;
+ usekick,    status=on,  class=mcbyyh;
+
+ usekick,    status=on,  class=mcbv ;
+ usekick,    status=on,  class=mcbcv;
+ usekick,    status=on,  class=mcbwv;
+ usekick,    status=on,  class=mcbyv;
+ usekick,    status=on,  class=mcbyyv;
+
+! disable correctors reserved for crossing schemes
+
+ if (mylhcbeam < 2) {
+! IR1 (special MCBYY at Q4 only)
+usekick,    status=off, range=mcbyyh.a4l1.b1;
+usekick,    status=off, range=mcbyyv.a4r1.b1;
+usekick,    status=off, range=mcbyyv.4l1.b1;
+usekick,    status=off, range=mcbyyh.4r1.b1;
+! IR5 (special MCBYY at Q4 only)
+usekick,    status=off, range=mcbyyh.a4l5.b1;
+usekick,    status=off, range=mcbyyv.a4r5.b1;
+usekick,    status=off, range=mcbyyv.4l5.b1;
+usekick,    status=off, range=mcbyyh.4r5.b1;
+! IR2 (special MCBY at Q4/Q5.L and special MCBC at Q5.R)
+usekick,    status=off, range=mcbyh.b5l2.b1; !acbyhs5.l2b1
+usekick,    status=off, range=mcbyv.a4l2.b1; !acbyvs4.l2b1
+usekick,    status=off, range=mcbyv.5l2.b1;  !acbyvs5.l2b1
+usekick,    status=off, range=mcbyh.4l2.b1;  !acbyhs4.l2b1
+usekick,    status=off, range=mcbyh.a4r2.b1; !acbyhs4.r2b1
+usekick,    status=off, range=mcbcv.a5r2.b1; !acbcvs5.r2b1
+usekick,    status=off, range=mcbyv.4r2.b1;  !acbyvs4.r2b1
+usekick,    status=off, range=mcbch.5r2.b1;  !acbchs5.r2b1
+! IR8 (special MCBY at Q4/Q5.R and special MCBC at Q5.L)
+usekick,    status=off, range=mcbch.b5l8.b1; ! acbchs5.l8b1 not working
+usekick,    status=off, range=MCBCH.A5L8.B1; ! acbch5.l8b1 used for crossing
+usekick,    status=off, range=mcbyv.a4l8.b1; ! acbyvs4.l8b1
+usekick,    status=off, range=mcbcv.5l8.b1;  ! acbcvs5.l8b1
+usekick,    status=off, range=mcbyh.4l8.b1;  ! acbyhs4.l8b1
+usekick,    status=off, range=mcbyh.a4r8.b1; ! acbyhs4.r8b1
+usekick,    status=off, range=mcbyv.b5r8.b1; ! acbyvs5.r8b1
+usekick,    status=off, range=mcbyv.4r8.b1;  ! acbyvs4.r8b1
+usekick,    status=off, range=mcbyh.5r8.b1;  ! acbyhs5.r8b1
+                    };
+ if (mylhcbeam > 1) {
+! IR1 (special MCBYY at Q4 only)
+usekick,    status=off, range=mcbyyv.a4l1.b2;
+usekick,    status=off, range=mcbyyh.a4r1.b2;
+usekick,    status=off, range=mcbyyh.4l1.b2;
+usekick,    status=off, range=mcbyyv.4r1.b2;
+! IR5 (special MCBYY at Q4 only)
+usekick,    status=off, range=mcbyyv.a4l5.b2;
+usekick,    status=off, range=mcbyyh.a4r5.b2;
+usekick,    status=off, range=mcbyyh.4l5.b2;
+usekick,    status=off, range=mcbyyv.4r5.b2;
+! IR2 (special MCBY at Q4/Q5.L and special MCBC at Q5.R)
+usekick,    status=off, range=mcbyv.b5l2.b2;  !acbyvs5.l2b2
+usekick,    status=off, range=mcbyh.a4l2.b2;  !acbyhs4.l2b2
+usekick,    status=off, range=mcbyh.5l2.b2;   !acbyhs5.l2b2
+usekick,    status=off, range=mcbyv.4l2.b2;   !acbyvs4.l2b2
+usekick,    status=off, range=mcbyv.a4r2.b2;  !acbyvs4.r2b2
+usekick,    status=off, range=mcbch.a5r2.b2;  !acbchs5.r2b2
+usekick,    status=off, range=mcbyh.4r2.b2;   !acbyhs4.r2b2
+usekick,    status=off, range=mcbcv.5r2.b2;   !acbcvs5.r2b2
+! IR8 (special MCBY at Q4/Q5.R and special MCBC at Q5.L)
+usekick,    status=off, range=mcbcv.b5l8.b2;  !acbcvs5.l8b2
+usekick,    status=off, range=mcbyh.a4l8.b2;  !acbyhs4.l8b2
+usekick,    status=off, range=mcbch.5l8.b2;   !acbchs5.l8b2
+usekick,    status=off, range=mcbyv.4l8.b2;   !acbyvs4.l8b2
+usekick,    status=off, range=mcbyv.a4r8.b2;  !acbyvs4.r8b2
+usekick,    status=off, range=mcbyh.b5r8.b2;  !acbyhs5.r8b2
+usekick,    status=off, range=mcbyh.4r8.b2;   !acbyhs4.r8b2
+usekick,    status=off, range=mcbyv.5r8.b2;   !acbyvs5.r8b2
+                    };
+
+return;

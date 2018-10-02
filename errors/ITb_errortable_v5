@@ -1,0 +1,107 @@
+!!! S. Fartoukh March 2012
+!!! IT error table at injection and in collision
+!!! At injection based on expected error in the Phase I triplet (SLHCPR001, see also SLHCV2.0/errors/ITD1_errortable_v2) but defined at Rr=50 mm
+!!! bn_new(Rr_new)=bn_old(Rr_old)
+!!! In collision based on measured MQXB error table (at Rr=17 mm, beta_max=4.5 km)  but rescaled to beta_max=22 km and defined at Rr=50 mm
+!!! bn_new(Rr_new)=bn_old(Rr_old)*(Rr_new/Rr_old)^(n-2)*(beta_max_old/beta_max_new)^(n/2)
+!!! R. De Maria June 2012
+!!! Adding average of b6 =-20 and b10=4 with random at 1/5 of the average
+!!! to take into account the persistent current effect due to larger filaments
+!!! in the Nb3Sn cables. The values are estimated with tracking studies.
+!!! They produce a small effect from the target0 baseline with an inj. optics
+!!! of 5.5m
+!!! M. Giovannozzi June 2012
+!!! New collision values with respect to IT_errortable_v1 based on the presentation by E. Todesco on 7 June 2012
+!!! M. Giovannozzi November 2012
+!!! New collision values with respect to IT_errortable_v2 based on the presentation by E. Todesco on November 6 2012
+!!! M. Giovannozzi June 2014
+!!! New collision values provided by E. Todesco (version 3 - May 20 2014)
+!!! Random b2 component added for optics studies (agreed with E. Todesco - February 2015)
+!!! M. Giovannozzi October 2015
+!!! New error table including new cross section and ends effects. Two tables are now provided for MQXFA and MQXFB
+!!! Provided by E. Todesco (version 4 - May 20 2015)
+
+! -----------------------------------------------------------------------
+! Error type  : M - AVERAGE
+!               R - STANDARD
+!               U - UNCERTAINTY
+! -----------------------------------------------------------------------
+
+! Units : relative field error for Rr = 50 mm in units of 10^-4
+Rr_MQXFB := 0.050; ! reference radius
+
+! -----------------------------------------------------------------------
+! ********Magnet type : MQXFB (new Inner Triplet Quad)*******************
+! -----------------------------------------------------------------------
+!                                bn at injection
+b1M_MQXFB_inj  :=  0.0000 ; b1U_MQXFB_inj  :=  0.0000 ; b1R_MQXFB_inj  :=  0.0000 ;
+b2M_MQXFB_inj  :=  0.0000 ; b2U_MQXFB_inj  :=  0.0000 ; b2R_MQXFB_inj  := 10.0000 ;
+b3M_MQXFB_inj  :=  0.0000 ; b3U_MQXFB_inj  :=  0.8200 ; b3R_MQXFB_inj  :=  0.8200 ;
+b4M_MQXFB_inj  :=  0.0000 ; b4U_MQXFB_inj  :=  0.5700 ; b4R_MQXFB_inj  :=  0.5700 ;
+b5M_MQXFB_inj  :=  0.0000 ; b5U_MQXFB_inj  :=  0.4200 ; b5R_MQXFB_inj  :=  0.4200 ;
+b6M_MQXFB_inj  :=-18.4510 ; b6U_MQXFB_inj  :=  1.1000 ; b6R_MQXFB_inj  :=  1.1000 ;
+b7M_MQXFB_inj  :=  0.0000 ; b7U_MQXFB_inj  :=  0.1900 ; b7R_MQXFB_inj  :=  0.1900 ;
+b8M_MQXFB_inj  :=  0.0000 ; b8U_MQXFB_inj  :=  0.1300 ; b8R_MQXFB_inj  :=  0.1300 ;
+b9M_MQXFB_inj  :=  0.0000 ; b9U_MQXFB_inj  :=  0.0700 ; b9R_MQXFB_inj  :=  0.0700 ;
+b10M_MQXFB_inj :=  3.4130 ; b10U_MQXFB_inj :=  0.2000 ; b10R_MQXFB_inj :=  0.2000 ;
+b11M_MQXFB_inj :=  0.0000 ; b11U_MQXFB_inj :=  0.0260 ; b11R_MQXFB_inj :=  0.0260 ;
+b12M_MQXFB_inj :=  0.0000 ; b12U_MQXFB_inj :=  0.0180 ; b12R_MQXFB_inj :=  0.0180 ;
+b13M_MQXFB_inj :=  0.0000 ; b13U_MQXFB_inj :=  0.0090 ; b13R_MQXFB_inj :=  0.0090 ;
+b14M_MQXFB_inj :=  0.1010 ; b14U_MQXFB_inj :=  0.0230 ; b14R_MQXFB_inj :=  0.0230 ;
+b15M_MQXFB_inj :=  0.0000 ; b15U_MQXFB_inj :=  0.0000 ; b15R_MQXFB_inj :=  0.0000 ;
+
+!                                bn in collision
+b1M_MQXFB_col  :=  0.0000 ; b1U_MQXFB_col  :=  0.0000 ; b1R_MQXFB_col  :=  0.0000 ;
+b2M_MQXFB_col  :=  0.0000 ; b2U_MQXFB_col  :=  0.0000 ; b2R_MQXFB_col  := 10.0000 ;
+b3M_MQXFB_col  :=  0.0000 ; b3U_MQXFB_col  :=  0.8200 ; b3R_MQXFB_col  :=  0.8200 ;
+b4M_MQXFB_col  :=  0.0000 ; b4U_MQXFB_col  :=  0.5700 ; b4R_MQXFB_col  :=  0.5700 ;
+b5M_MQXFB_col  :=  0.0000 ; b5U_MQXFB_col  :=  0.4200 ; b5R_MQXFB_col  :=  0.4200 ;
+b6M_MQXFB_col  := -0.0450 ; b6U_MQXFB_col  :=  1.1000 ; b6R_MQXFB_col  :=  1.1000 ;
+b7M_MQXFB_col  :=  0.0000 ; b7U_MQXFB_col  :=  0.1900 ; b7R_MQXFB_col  :=  0.1900 ;
+b8M_MQXFB_col  :=  0.0000 ; b8U_MQXFB_col  :=  0.1300 ; b8R_MQXFB_col  :=  0.1300 ;
+b9M_MQXFB_col  :=  0.0000 ; b9U_MQXFB_col  :=  0.0700 ; b9R_MQXFB_col  :=  0.0700 ;
+b10M_MQXFB_col := -0.1500 ; b10U_MQXFB_col :=  0.2000 ; b10R_MQXFB_col :=  0.2000 ;
+b11M_MQXFB_col :=  0.0000 ; b11U_MQXFB_col :=  0.0260 ; b11R_MQXFB_col :=  0.0260 ;
+b12M_MQXFB_col :=  0.0000 ; b12U_MQXFB_col :=  0.0180 ; b12R_MQXFB_col :=  0.0180 ;
+b13M_MQXFB_col :=  0.0000 ; b13U_MQXFB_col :=  0.0090 ; b13R_MQXFB_col :=  0.0090 ;
+b14M_MQXFB_col := -0.8620 ; b14U_MQXFB_col :=  0.0230 ; b14R_MQXFB_col :=  0.0230 ;
+b15M_MQXFB_col :=  0.0000 ; b15U_MQXFB_col :=  0.0000 ; b15R_MQXFB_col :=  0.0000 ;
+
+!                               an at injection
+a1M_MQXFB_inj  :=  0.0000 ; a1U_MQXFB_inj  :=  0.0000 ; a1R_MQXFB_inj  :=  0.0000 ;
+a2M_MQXFB_inj  := -1.8460 ; a2U_MQXFB_inj  :=  0.0000 ; a2R_MQXFB_inj  := 10.0000 ;
+a3M_MQXFB_inj  :=  0.0000 ; a3U_MQXFB_inj  :=  0.6500 ; a3R_MQXFB_inj  :=  0.6500 ;
+a4M_MQXFB_inj  :=  0.0000 ; a4U_MQXFB_inj  :=  0.6500 ; a4R_MQXFB_inj  :=  0.6500 ;
+a5M_MQXFB_inj  :=  0.0000 ; a5U_MQXFB_inj  :=  0.4300 ; a5R_MQXFB_inj  :=  0.4300 ;
+a6M_MQXFB_inj  :=  0.1300 ; a6U_MQXFB_inj  :=  0.3100 ; a6R_MQXFB_inj  :=  0.3100 ;
+a7M_MQXFB_inj  :=  0.0000 ; a7U_MQXFB_inj  :=  0.1900 ; a7R_MQXFB_inj  :=  0.1900 ;
+a8M_MQXFB_inj  :=  0.0000 ; a8U_MQXFB_inj  :=  0.1100 ; a8R_MQXFB_inj  :=  0.1100 ;
+a9M_MQXFB_inj  :=  0.0000 ; a9U_MQXFB_inj  :=  0.0800 ; a9R_MQXFB_inj  :=  0.0800 ;
+a10M_MQXFB_inj :=  0.0000 ; a10U_MQXFB_inj :=  0.0400 ; a10R_MQXFB_inj :=  0.0400 ;
+a11M_MQXFB_inj :=  0.0000 ; a11U_MQXFB_inj :=  0.0260 ; a11R_MQXFB_inj :=  0.0260 ;
+a12M_MQXFB_inj :=  0.0000 ; a12U_MQXFB_inj :=  0.0140 ; a12R_MQXFB_inj :=  0.0140 ;
+a13M_MQXFB_inj :=  0.0000 ; a13U_MQXFB_inj :=  0.0100 ; a13R_MQXFB_inj :=  0.0100 ;
+a14M_MQXFB_inj := -0.0130 ; a14U_MQXFB_inj :=  0.0050 ; a14R_MQXFB_inj :=  0.0050 ;
+a15M_MQXFB_inj :=  0.0000 ; a15U_MQXFB_inj :=  0.0000 ; a15R_MQXFB_inj :=  0.0000 ;
+
+!                               an in collision
+a1M_MQXFB_col  :=  0.0000 ; a1U_MQXFB_col  :=  0.0000 ; a1R_MQXFB_col  :=  0.0000 ;
+a2M_MQXFB_col  := -1.8460 ; a2U_MQXFB_col  :=  0.0000 ; a2R_MQXFB_col  := 10.0000 ;
+a3M_MQXFB_col  :=  0.0000 ; a3U_MQXFB_col  :=  0.6500 ; a3R_MQXFB_col  :=  0.6500 ;
+a4M_MQXFB_col  :=  0.0000 ; a4U_MQXFB_col  :=  0.6500 ; a4R_MQXFB_col  :=  0.6500 ;
+a5M_MQXFB_col  :=  0.0000 ; a5U_MQXFB_col  :=  0.4300 ; a5R_MQXFB_col  :=  0.4300 ;
+a6M_MQXFB_col  :=  0.1300 ; a6U_MQXFB_col  :=  0.3100 ; a6R_MQXFB_col  :=  0.3100 ;
+a7M_MQXFB_col  :=  0.0000 ; a7U_MQXFB_col  :=  0.1900 ; a7R_MQXFB_col  :=  0.1900 ;
+a8M_MQXFB_col  :=  0.0000 ; a8U_MQXFB_col  :=  0.1100 ; a8R_MQXFB_col  :=  0.1100 ;
+a9M_MQXFB_col  :=  0.0000 ; a9U_MQXFB_col  :=  0.0800 ; a9R_MQXFB_col  :=  0.0800 ;
+a10M_MQXFB_col :=  0.0000 ; a10U_MQXFB_col :=  0.0400 ; a10R_MQXFB_col :=  0.0400 ;
+a11M_MQXFB_col :=  0.0000 ; a11U_MQXFB_col :=  0.0260 ; a11R_MQXFB_col :=  0.0260 ;
+a12M_MQXFB_col :=  0.0000 ; a12U_MQXFB_col :=  0.0140 ; a12R_MQXFB_col :=  0.0140 ;
+a13M_MQXFB_col :=  0.0000 ; a13U_MQXFB_col :=  0.0100 ; a13R_MQXFB_col :=  0.0100 ;
+a14M_MQXFB_col := -0.0130 ; a14U_MQXFB_col :=  0.0050 ; a14R_MQXFB_col :=  0.0050 ;
+a15M_MQXFB_col :=  0.0000 ; a15U_MQXFB_col :=  0.0000 ; a15R_MQXFB_col :=  0.0000 ;
+
+return;
+
+
+

@@ -1,0 +1,78 @@
+! MBH target error v2 Susana Izquierdo Bermudez 5 Feb 2017 
+! -----------------------------------------------------------------------
+! Error type  : M - AVERAGE
+!               R - STANDARD
+!               U - UNCERTAINTY
+! -----------------------------------------------------------------------
+
+! Units : relative field error for Rr = 0.017 in units of 10^-4
+Rr_MBH := 0.017; ! reference radius
+
+! -----------------------------------------------------------------------
+! ********Magnet type : MBH (new short dipole 11-T)***************
+! -----------------------------------------------------------------------
+!                                bn at injection
+b1M_MBH_V1_inj  :=  0.0000 ; b1M_MBH_V2_inj  :=  0.0000 ; b1U_MBH_inj  :=  0.0000 ; b1R_MBH_inj  := 0.0000 ;
+b2M_MBH_V1_inj  :=  0.0000 ; b2M_MBH_V2_inj  :=  0.0000 ; b2U_MBH_inj  :=  1.7050 ; b2R_MBH_inj  := 1.7045 ;
+b3M_MBH_V1_inj  := -1.3000 ; b3M_MBH_V2_inj  := -1.3000 ; b3U_MBH_inj  :=  1.0790 ; b3R_MBH_inj  := 1.0788 ;
+b4M_MBH_V1_inj  :=  0.0000 ; b4M_MBH_V2_inj  :=  0.0000 ; b4U_MBH_inj  :=  0.6230 ; b4R_MBH_inj  := 0.6229 ;
+b5M_MBH_V1_inj  :=  2.3860 ; b5M_MBH_V2_inj  :=  2.3860 ; b5U_MBH_inj  :=  0.3490 ; b5R_MBH_inj  := 0.3490 ;
+b6M_MBH_V1_inj  :=  0.0000 ; b6M_MBH_V2_inj  :=  0.0000 ; b6U_MBH_inj  :=  0.1750 ; b6R_MBH_inj  := 0.1746 ;
+b7M_MBH_V1_inj  :=  0.3070 ; b7M_MBH_V2_inj  :=  0.3070 ; b7U_MBH_inj  :=  0.1020 ; b7R_MBH_inj  := 0.1017 ;
+b8M_MBH_V1_inj  :=  0.0000 ; b8M_MBH_V2_inj  :=  0.0000 ; b8U_MBH_inj  :=  0.0550 ; b8R_MBH_inj  := 0.0551 ;
+b9M_MBH_V1_inj  :=  1.3120 ; b9M_MBH_V2_inj  :=  1.3120 ; b9U_MBH_inj  :=  0.0290 ; b9R_MBH_inj  := 0.0286 ;
+b10M_MBH_V1_inj :=  0.0000 ; b10M_MBH_V2_inj :=  0.0000 ; b10U_MBH_inj :=  0.0130 ; b10R_MBH_inj := 0.0131 ;
+b11M_MBH_V1_inj :=  0.4500 ; b11M_MBH_V2_inj :=  0.4500 ; b11U_MBH_inj :=  0.0070 ; b11R_MBH_inj := 0.0065 ;
+b12M_MBH_V1_inj :=  0.0000 ; b12M_MBH_V2_inj :=  0.0000 ; b12U_MBH_inj :=  0.0030 ; b12R_MBH_inj := 0.0030 ;
+b13M_MBH_V1_inj := -0.1150 ; b13M_MBH_V2_inj := -0.1150 ; b13U_MBH_inj :=  0.0000 ; b13R_MBH_inj := 0.0000 ;
+b14M_MBH_V1_inj :=  0.0000 ; b14M_MBH_V2_inj :=  0.0000 ; b14U_MBH_inj :=  0.0000 ; b14R_MBH_inj := 0.0000 ;
+b15M_MBH_V1_inj := -0.0320 ; b15M_MBH_V2_inj := -0.0320 ; b15U_MBH_inj :=  0.0000 ; b15R_MBH_inj := 0.0000 ;
+!    bn in collision
+b1M_MBH_V1_col  :=  0.0000 ; b1M_MBH_V2_col  :=  0.0000 ; b1U_MBH_col  :=  0.0000 ; b1R_MBH_col  := 0.0000 ;
+b2M_MBH_V1_col  :=-14.6330 ; b2M_MBH_V2_col  := 14.6330 ; b2U_MBH_col  :=  1.7050 ; b2R_MBH_col  := 1.7050 ;
+b3M_MBH_V1_col  :=  6.8890 ; b3M_MBH_V2_col  :=  6.8890 ; b3U_MBH_col  :=  1.0790 ; b3R_MBH_col  := 1.0790 ;
+b4M_MBH_V1_col  := -0.8590 ; b4M_MBH_V2_col  :=  0.8590 ; b4U_MBH_col  :=  0.6230 ; b4R_MBH_col  := 0.6230 ;
+b5M_MBH_V1_col  :=  0.4030 ; b5M_MBH_V2_col  :=  0.4030 ; b5U_MBH_col  :=  0.3490 ; b5R_MBH_col  := 0.3490 ;
+b6M_MBH_V1_col  := -0.0210 ; b6M_MBH_V2_col  :=  0.0210 ; b6U_MBH_col  :=  0.1750 ; b6R_MBH_col  := 0.1750 ;
+b7M_MBH_V1_col  := -0.0330 ; b7M_MBH_V2_col  := -0.0330 ; b7U_MBH_col  :=  0.1020 ; b7R_MBH_col  := 0.1020 ;
+b8M_MBH_V1_col  :=  0.0000 ; b8M_MBH_V2_col  :=  0.0000 ; b8U_MBH_col  :=  0.0550 ; b8R_MBH_col  := 0.0550 ;
+b9M_MBH_V1_col  :=  0.9400 ; b9M_MBH_V2_col  :=  0.9400 ; b9U_MBH_col  :=  0.0290 ; b9R_MBH_col  := 0.0290 ;
+b10M_MBH_V1_col :=  0.0020 ; b10M_MBH_V2_col := -0.0020 ; b10U_MBH_col :=  0.0130 ; b10R_MBH_col := 0.0130 ;
+b11M_MBH_V1_col :=  0.4500 ; b11M_MBH_V2_col :=  0.4500 ; b11U_MBH_col :=  0.0070 ; b11R_MBH_col := 0.0070 ;
+b12M_MBH_V1_col :=  0.0000 ; b12M_MBH_V2_col :=  0.0000 ; b12U_MBH_col :=  0.0030 ; b12R_MBH_col := 0.0030 ;
+b13M_MBH_V1_col := -0.1210 ; b13M_MBH_V2_col := -0.1210 ; b13U_MBH_col :=  0.0000 ; b13R_MBH_col := 0.0000 ;
+b14M_MBH_V1_col :=  0.0000 ; b14M_MBH_V2_col :=  0.0000 ; b14U_MBH_col :=  0.0000 ; b14R_MBH_col := 0.0000 ;
+b15M_MBH_V1_col := -0.0340 ; b15M_MBH_V2_col := -0.0340 ; b15U_MBH_col :=  0.0000 ; b15R_MBH_col := 0.0000 ;
+!    an at injection
+a1M_MBH_V1_inj  :=  0.0000 ; a1M_MBH_V2_inj  :=  0.0000 ; a1U_MBH_inj  :=  0.0000 ; a1R_MBH_inj  := 0.0000 ;
+a2M_MBH_V1_inj  :=  0.0000 ; a2M_MBH_V2_inj  :=  0.0000 ; a2U_MBH_inj  :=  1.8200 ; a2R_MBH_inj  := 1.6600 ;
+a3M_MBH_V1_inj  := -0.1300 ; a3M_MBH_V2_inj  :=  0.1300 ; a3U_MBH_inj  :=  1.1800 ; a3R_MBH_inj  := 1.0000 ;
+a4M_MBH_V1_inj  :=  0.0000 ; a4M_MBH_V2_inj  :=  0.0000 ; a4U_MBH_inj  :=  0.6730 ; a4R_MBH_inj  := 0.6400 ;
+a5M_MBH_V1_inj  :=  0.0800 ; a5M_MBH_V2_inj  := -0.0800 ; a5U_MBH_inj  :=  0.3890 ; a5R_MBH_inj  := 0.3800 ;
+a6M_MBH_V1_inj  :=  0.0000 ; a6M_MBH_V2_inj  :=  0.0000 ; a6U_MBH_inj  :=  0.2020 ; a6R_MBH_inj  := 0.2000 ;
+a7M_MBH_V1_inj  :=  0.0300 ; a7M_MBH_V2_inj  := -0.0300 ; a7U_MBH_inj  :=  0.1030 ; a7R_MBH_inj  := 0.0900 ;
+a8M_MBH_V1_inj  :=  0.0000 ; a8M_MBH_V2_inj  :=  0.0000 ; a8U_MBH_inj  :=  0.0510 ; a8R_MBH_inj  := 0.0500 ;
+a9M_MBH_V1_inj  :=  0.0000 ; a9M_MBH_V2_inj  :=  0.0000 ; a9U_MBH_inj  :=  0.0240 ; a9R_MBH_inj  := 0.0300 ;
+a10M_MBH_V1_inj :=  0.0000 ; a10M_MBH_V2_inj :=  0.0000 ; a10U_MBH_inj :=  0.0130 ; a10R_MBH_inj := 0.0200 ;
+a11M_MBH_V1_inj :=  0.0000 ; a11M_MBH_V2_inj :=  0.0000 ; a11U_MBH_inj :=  0.0070 ; a11R_MBH_inj := 0.0100 ;
+a12M_MBH_V1_inj :=  0.0000 ; a12M_MBH_V2_inj :=  0.0000 ; a12U_MBH_inj :=  0.0000 ; a12R_MBH_inj := 0.0000 ;
+a13M_MBH_V1_inj :=  0.0000 ; a13M_MBH_V2_inj :=  0.0000 ; a13U_MBH_inj :=  0.0000 ; a13R_MBH_inj := 0.0000 ;
+a14M_MBH_V1_inj :=  0.0000 ; a14M_MBH_V2_inj :=  0.0000 ; a14U_MBH_inj :=  0.0000 ; a14R_MBH_inj := 0.0000 ;
+a15M_MBH_V1_inj :=  0.0000 ; a15M_MBH_V2_inj :=  0.0000 ; a15U_MBH_inj :=  0.0000 ; a15R_MBH_inj := 0.0000 ;
+!   an in collision
+a1M_MBH_V1_col  :=  0.0000 ; a1M_MBH_V2_col  :=  0.0000 ; a1U_MBH_col  :=  0.0000 ; a1R_MBH_col  := 0.0000 ;
+a2M_MBH_V1_col  := -0.2600 ; a2M_MBH_V2_col  := -0.2600 ; a2U_MBH_col  :=  1.8200 ; a2R_MBH_col  := 1.8200 ;
+a3M_MBH_V1_col  := -1.0600 ; a3M_MBH_V2_col  :=  1.0600 ; a3U_MBH_col  :=  1.1800 ; a3R_MBH_col  := 1.1800 ;
+a4M_MBH_V1_col  := -0.1120 ; a4M_MBH_V2_col  := -0.1120 ; a4U_MBH_col  :=  0.6730 ; a4R_MBH_col  := 0.6730 ;
+a5M_MBH_V1_col  :=  0.0680 ; a5M_MBH_V2_col  := -0.0680 ; a5U_MBH_col  :=  0.3890 ; a5R_MBH_col  := 0.3890 ;
+a6M_MBH_V1_col  :=  0.0000 ; a6M_MBH_V2_col  :=  0.0000 ; a6U_MBH_col  :=  0.2020 ; a6R_MBH_col  := 0.2020 ;
+a7M_MBH_V1_col  :=  0.0300 ; a7M_MBH_V2_col  := -0.0300 ; a7U_MBH_col  :=  0.1030 ; a7R_MBH_col  := 0.1030 ;
+a8M_MBH_V1_col  :=  0.0000 ; a8M_MBH_V2_col  :=  0.0000 ; a8U_MBH_col  :=  0.0510 ; a8R_MBH_col  := 0.0510 ;
+a9M_MBH_V1_col  :=  0.0000 ; a9M_MBH_V2_col  :=  0.0000 ; a9U_MBH_col  :=  0.0240 ; a9R_MBH_col  := 0.0240 ;
+a10M_MBH_V1_col :=  0.0000 ; a10M_MBH_V2_col :=  0.0000 ; a10U_MBH_col :=  0.0130 ; a10R_MBH_col := 0.0130 ;
+a11M_MBH_V1_col :=  0.0000 ; a11M_MBH_V2_col :=  0.0000 ; a11U_MBH_col :=  0.0070 ; a11R_MBH_col := 0.0070 ;
+a12M_MBH_V1_col :=  0.0000 ; a12M_MBH_V2_col :=  0.0000 ; a12U_MBH_col :=  0.0000 ; a12R_MBH_col := 0.0030 ;
+a13M_MBH_V1_col :=  0.0000 ; a13M_MBH_V2_col :=  0.0000 ; a13U_MBH_col :=  0.0000 ; a13R_MBH_col := 0.0000 ;
+a14M_MBH_V1_col :=  0.0000 ; a14M_MBH_V2_col :=  0.0000 ; a14U_MBH_col :=  0.0000 ; a14R_MBH_col := 0.0000 ;
+a15M_MBH_V1_col :=  0.0000 ; a15M_MBH_V2_col :=  0.0000 ; a15U_MBH_col :=  0.0000 ; a15R_MBH_col := 0.0000 ;
+return;

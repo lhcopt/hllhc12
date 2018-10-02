@@ -1,0 +1,205 @@
+! F.F. Van der Veken 2015
+! Data from "2015-06-02_Progress_on_MCBXFB_Design.pptx" slide 12
+
+! -----------------------------------------------------------------------
+! Error type  : M - AVERAGE
+!               R - STANDARD
+!               U - UNCERTAINTY
+! -----------------------------------------------------------------------
+
+
+! Units : relative field error for Rr = 50 mm in units of 10^-4
+Rr_MCBXFAH= 0.050;
+Rr_MCBXFBH= 0.050;
+Rr_MCBXFAV=-0.050;!skew reference
+Rr_MCBXFBV=-0.050;!skew reference
+!magnetic_sign=0;
+
+sign_MCBXFAH.3L1 = 1;
+sign_MCBXFAH.3R1 = 1;
+sign_MCBXFAH.3L5 = 1;
+sign_MCBXFAH.3R5 = 1;
+sign_MCBXFAV.3L1 = 1;
+sign_MCBXFAV.3R1 = 1;
+sign_MCBXFAV.3L5 = 1;
+sign_MCBXFAV.3R5 = 1;
+
+sign_MCBXFBH.a2L1 = 1;
+sign_MCBXFBH.a2R1 = 1;
+sign_MCBXFBH.a2L5 = 1;
+sign_MCBXFBH.a2R5 = 1;
+sign_MCBXFBV.a2L1 = 1;
+sign_MCBXFBV.a2R1 = 1;
+sign_MCBXFBV.a2L5 = 1;
+sign_MCBXFBV.a2R5 = 1;
+
+sign_MCBXFBH.b2L1 = 1;
+sign_MCBXFBH.b2R1 = 1;
+sign_MCBXFBH.b2L5 = 1;
+sign_MCBXFBH.b2R5 = 1;
+sign_MCBXFBV.b2L1 = 1;
+sign_MCBXFBV.b2R1 = 1;
+sign_MCBXFBV.b2L5 = 1;
+sign_MCBXFBV.b2R5 = 1;
+
+! -----------------------------------------------------------------------
+! *********************** Magnet type : MCBXFA (in CP) ****************** 
+! -----------------------------------------------------------------------
+BRef_MCBXFAH = 4.5/l.MCBXFA;                    ! B1
+BRef_MCBXFAV = 4.54/l.MCBXFA;                   ! A1
+
+! ----------------------------- INJECTION -------------------------------
+!                               bn                                                                                                                              ! No an components in horizontal part
+b1M_MCBXFAH_inj  :=  0.0000 ; b1U_MCBXFAH_inj  :=  0. ; b1R_MCBXFAH_inj  :=  0. ;                               a1M_MCBXFAH_inj :=0; a1U_MCBXFAH_inj :=0; a1R_MCBXFAH_inj :=0;
+b2M_MCBXFAH_inj  :=  0.0000 ; b2U_MCBXFAH_inj  :=  0. ; b2R_MCBXFAH_inj  :=  0. ;                               a2M_MCBXFAH_inj :=0; a2U_MCBXFAH_inj :=0; a2R_MCBXFAH_inj :=0;
+b3M_MCBXFAH_inj  :=-16.6500 ; b3U_MCBXFAH_inj  :=  0. ; b3R_MCBXFAH_inj  :=  0. ;                               a3M_MCBXFAH_inj :=0; a3U_MCBXFAH_inj :=0; a3R_MCBXFAH_inj :=0;
+b4M_MCBXFAH_inj  :=  0.0000 ; b4U_MCBXFAH_inj  :=  0. ; b4R_MCBXFAH_inj  :=  0. ;                               a4M_MCBXFAH_inj :=0; a4U_MCBXFAH_inj :=0; a4R_MCBXFAH_inj :=0;
+b5M_MCBXFAH_inj  := -0.3500 ; b5U_MCBXFAH_inj  :=  0. ; b5R_MCBXFAH_inj  :=  0. ;                               a5M_MCBXFAH_inj :=0; a5U_MCBXFAH_inj :=0; a5R_MCBXFAH_inj :=0;
+b6M_MCBXFAH_inj  :=  0.0000 ; b6U_MCBXFAH_inj  :=  0. ; b6R_MCBXFAH_inj  :=  0. ;                               a6M_MCBXFAH_inj :=0; a6U_MCBXFAH_inj :=0; a6R_MCBXFAH_inj :=0;
+b7M_MCBXFAH_inj  :=  0.9800 ; b7U_MCBXFAH_inj  :=  0. ; b7R_MCBXFAH_inj  :=  0. ;                               a7M_MCBXFAH_inj :=0; a7U_MCBXFAH_inj :=0; a7R_MCBXFAH_inj :=0;
+b8M_MCBXFAH_inj  :=  0.0000 ; b8U_MCBXFAH_inj  :=  0. ; b8R_MCBXFAH_inj  :=  0. ;                               a8M_MCBXFAH_inj :=0; a8U_MCBXFAH_inj :=0; a8R_MCBXFAH_inj :=0;
+b9M_MCBXFAH_inj  :=  0.0700 ; b9U_MCBXFAH_inj  :=  0. ; b9R_MCBXFAH_inj  :=  0. ;                               a9M_MCBXFAH_inj :=0; a9U_MCBXFAH_inj :=0; a9R_MCBXFAH_inj :=0;
+b10M_MCBXFAH_inj :=  0.0000 ; b10U_MCBXFAH_inj :=  0. ; b10R_MCBXFAH_inj :=  0. ;                               a10M_MCBXFAH_inj:=0; a10U_MCBXFAH_inj:=0; a10R_MCBXFAH_inj:=0;
+b11M_MCBXFAH_inj :=  4.3000 ; b11U_MCBXFAH_inj :=  0. ; b11R_MCBXFAH_inj :=  0. ;                               a11M_MCBXFAH_inj:=0; a11U_MCBXFAH_inj:=0; a11R_MCBXFAH_inj:=0;
+b12M_MCBXFAH_inj :=  0.0000 ; b12U_MCBXFAH_inj :=  0. ; b12R_MCBXFAH_inj :=  0. ;                               a12M_MCBXFAH_inj:=0; a12U_MCBXFAH_inj:=0; a12R_MCBXFAH_inj:=0;
+b13M_MCBXFAH_inj :=  0.0000 ; b13U_MCBXFAH_inj :=  0. ; b13R_MCBXFAH_inj :=  0. ;                               a13M_MCBXFAH_inj:=0; a13U_MCBXFAH_inj:=0; a13R_MCBXFAH_inj:=0;
+b14M_MCBXFAH_inj :=  0.0000 ; b14U_MCBXFAH_inj :=  0. ; b14R_MCBXFAH_inj :=  0. ;                               a14M_MCBXFAH_inj:=0; a14U_MCBXFAH_inj:=0; a14R_MCBXFAH_inj:=0;
+b15M_MCBXFAH_inj :=  0.0000 ; b15U_MCBXFAH_inj :=  0. ; b15R_MCBXFAH_inj :=  0. ;                               a15M_MCBXFAH_inj:=0; a15U_MCBXFAH_inj:=0; a15R_MCBXFAH_inj:=0;
+
+!                               an                                                                                                                              ! No bn components in vertical part
+a1M_MCBXFAV_inj  :=  0.0000 ; a1U_MCBXFAV_inj  :=  0. ; a1R_MCBXFAV_inj  :=  0. ;                               b1M_MCBXFAV_inj :=0; b1U_MCBXFAV_inj :=0; b1R_MCBXFAV_inj :=0;
+a2M_MCBXFAV_inj  :=  0.0000 ; a2U_MCBXFAV_inj  :=  0. ; a2R_MCBXFAV_inj  :=  0. ;                               b2M_MCBXFAV_inj :=0; b2U_MCBXFAV_inj :=0; b2R_MCBXFAV_inj :=0;
+a3M_MCBXFAV_inj  := 20.1200 ; a3U_MCBXFAV_inj  :=  0. ; a3R_MCBXFAV_inj  :=  0. ;                               b3M_MCBXFAV_inj :=0; b3U_MCBXFAV_inj :=0; b3R_MCBXFAV_inj :=0;
+a4M_MCBXFAV_inj  :=  0.0000 ; a4U_MCBXFAV_inj  :=  0. ; a4R_MCBXFAV_inj  :=  0. ;                               b4M_MCBXFAV_inj :=0; b4U_MCBXFAV_inj :=0; b4R_MCBXFAV_inj :=0;
+a5M_MCBXFAV_inj  := -3.0400 ; a5U_MCBXFAV_inj  :=  0. ; a5R_MCBXFAV_inj  :=  0. ;                               b5M_MCBXFAV_inj :=0; b5U_MCBXFAV_inj :=0; b5R_MCBXFAV_inj :=0;
+a6M_MCBXFAV_inj  :=  0.0000 ; a6U_MCBXFAV_inj  :=  0. ; a6R_MCBXFAV_inj  :=  0. ;                               b6M_MCBXFAV_inj :=0; b6U_MCBXFAV_inj :=0; b6R_MCBXFAV_inj :=0;
+a7M_MCBXFAV_inj  := -3.9800 ; a7U_MCBXFAV_inj  :=  0. ; a7R_MCBXFAV_inj  :=  0. ;                               b7M_MCBXFAV_inj :=0; b7U_MCBXFAV_inj :=0; b7R_MCBXFAV_inj :=0;
+a8M_MCBXFAV_inj  :=  0.0000 ; a8U_MCBXFAV_inj  :=  0. ; a8R_MCBXFAV_inj  :=  0. ;                               b8M_MCBXFAV_inj :=0; b8U_MCBXFAV_inj :=0; b8R_MCBXFAV_inj :=0;
+a9M_MCBXFAV_inj  := -0.6200 ; a9U_MCBXFAV_inj  :=  0. ; a9R_MCBXFAV_inj  :=  0. ;                               b9M_MCBXFAV_inj :=0; b9U_MCBXFAV_inj :=0; b9R_MCBXFAV_inj :=0;
+a10M_MCBXFAV_inj :=  0.0000 ; a10U_MCBXFAV_inj :=  0. ; a10R_MCBXFAV_inj :=  0. ;                               b10M_MCBXFAV_inj:=0; b10U_MCBXFAV_inj:=0; b10R_MCBXFAV_inj:=0;
+a11M_MCBXFAV_inj :=  0.0200 ; a11U_MCBXFAV_inj :=  0. ; a11R_MCBXFAV_inj :=  0. ;                               b11M_MCBXFAV_inj:=0; b11U_MCBXFAV_inj:=0; b11R_MCBXFAV_inj:=0;
+a12M_MCBXFAV_inj :=  0.0000 ; a12U_MCBXFAV_inj :=  0. ; a12R_MCBXFAV_inj :=  0. ;                               b12M_MCBXFAV_inj:=0; b12U_MCBXFAV_inj:=0; b12R_MCBXFAV_inj:=0;
+a13M_MCBXFAV_inj :=  0.0000 ; a13U_MCBXFAV_inj :=  0. ; a13R_MCBXFAV_inj :=  0. ;                               b13M_MCBXFAV_inj:=0; b13U_MCBXFAV_inj:=0; b13R_MCBXFAV_inj:=0;
+a14M_MCBXFAV_inj :=  0.0000 ; a14U_MCBXFAV_inj :=  0. ; a14R_MCBXFAV_inj :=  0. ;                               b14M_MCBXFAV_inj:=0; b14U_MCBXFAV_inj:=0; b14R_MCBXFAV_inj:=0;
+a15M_MCBXFAV_inj :=  0.0000 ; a15U_MCBXFAV_inj :=  0. ; a15R_MCBXFAV_inj :=  0. ;                               b15M_MCBXFAV_inj:=0; b15U_MCBXFAV_inj:=0; b15R_MCBXFAV_inj:=0;
+
+
+! ----------------------------- COLLISION -------------------------------
+!                               bn                                                                                                                              ! No an components in horizontal part
+b1M_MCBXFAH_col  :=  0.0000 ; b1U_MCBXFAH_col  :=  0. ; b1R_MCBXFAH_col  :=  0. ;                               a1M_MCBXFAH_col :=0; a1U_MCBXFAH_col :=0; a1R_MCBXFAH_col :=0;
+b2M_MCBXFAH_col  :=  0.0000 ; b2U_MCBXFAH_col  :=  0. ; b2R_MCBXFAH_col  :=  0. ;                               a2M_MCBXFAH_col :=0; a2U_MCBXFAH_col :=0; a2R_MCBXFAH_col :=0;
+b3M_MCBXFAH_col  :=-16.6500 ; b3U_MCBXFAH_col  :=  0. ; b3R_MCBXFAH_col  :=  0. ;                               a3M_MCBXFAH_col :=0; a3U_MCBXFAH_col :=0; a3R_MCBXFAH_col :=0;
+b4M_MCBXFAH_col  :=  0.0000 ; b4U_MCBXFAH_col  :=  0. ; b4R_MCBXFAH_col  :=  0. ;                               a4M_MCBXFAH_col :=0; a4U_MCBXFAH_col :=0; a4R_MCBXFAH_col :=0;
+b5M_MCBXFAH_col  := -0.3500 ; b5U_MCBXFAH_col  :=  0. ; b5R_MCBXFAH_col  :=  0. ;                               a5M_MCBXFAH_col :=0; a5U_MCBXFAH_col :=0; a5R_MCBXFAH_col :=0;
+b6M_MCBXFAH_col  :=  0.0000 ; b6U_MCBXFAH_col  :=  0. ; b6R_MCBXFAH_col  :=  0. ;                               a6M_MCBXFAH_col :=0; a6U_MCBXFAH_col :=0; a6R_MCBXFAH_col :=0;
+b7M_MCBXFAH_col  :=  0.9800 ; b7U_MCBXFAH_col  :=  0. ; b7R_MCBXFAH_col  :=  0. ;                               a7M_MCBXFAH_col :=0; a7U_MCBXFAH_col :=0; a7R_MCBXFAH_col :=0;
+b8M_MCBXFAH_col  :=  0.0000 ; b8U_MCBXFAH_col  :=  0. ; b8R_MCBXFAH_col  :=  0. ;                               a8M_MCBXFAH_col :=0; a8U_MCBXFAH_col :=0; a8R_MCBXFAH_col :=0;
+b9M_MCBXFAH_col  :=  0.0700 ; b9U_MCBXFAH_col  :=  0. ; b9R_MCBXFAH_col  :=  0. ;                               a9M_MCBXFAH_col :=0; a9U_MCBXFAH_col :=0; a9R_MCBXFAH_col :=0;
+b10M_MCBXFAH_col :=  0.0000 ; b10U_MCBXFAH_col :=  0. ; b10R_MCBXFAH_col :=  0. ;                               a10M_MCBXFAH_col:=0; a10U_MCBXFAH_col:=0; a10R_MCBXFAH_col:=0;
+b11M_MCBXFAH_col :=  4.3000 ; b11U_MCBXFAH_col :=  0. ; b11R_MCBXFAH_col :=  0. ;                               a11M_MCBXFAH_col:=0; a11U_MCBXFAH_col:=0; a11R_MCBXFAH_col:=0;
+b12M_MCBXFAH_col :=  0.0000 ; b12U_MCBXFAH_col :=  0. ; b12R_MCBXFAH_col :=  0. ;                               a12M_MCBXFAH_col:=0; a12U_MCBXFAH_col:=0; a12R_MCBXFAH_col:=0;
+b13M_MCBXFAH_col :=  0.0000 ; b13U_MCBXFAH_col :=  0. ; b13R_MCBXFAH_col :=  0. ;                               a13M_MCBXFAH_col:=0; a13U_MCBXFAH_col:=0; a13R_MCBXFAH_col:=0;
+b14M_MCBXFAH_col :=  0.0000 ; b14U_MCBXFAH_col :=  0. ; b14R_MCBXFAH_col :=  0. ;                               a14M_MCBXFAH_col:=0; a14U_MCBXFAH_col:=0; a14R_MCBXFAH_col:=0;
+b15M_MCBXFAH_col :=  0.0000 ; b15U_MCBXFAH_col :=  0. ; b15R_MCBXFAH_col :=  0. ;                               a15M_MCBXFAH_col:=0; a15U_MCBXFAH_col:=0; a15R_MCBXFAH_col:=0;
+
+!                               an                                                                                                                              ! No bn components in vertical part
+a1M_MCBXFAV_col  :=  0.0000 ; a1U_MCBXFAV_col  :=  0. ; a1R_MCBXFAV_col  :=  0. ;                               b1M_MCBXFAV_col :=0; b1U_MCBXFAV_col :=0; b1R_MCBXFAV_col :=0;
+a2M_MCBXFAV_col  :=  0.0000 ; a2U_MCBXFAV_col  :=  0. ; a2R_MCBXFAV_col  :=  0. ;                               b2M_MCBXFAV_col :=0; b2U_MCBXFAV_col :=0; b2R_MCBXFAV_col :=0;
+a3M_MCBXFAV_col  := 20.1200 ; a3U_MCBXFAV_col  :=  0. ; a3R_MCBXFAV_col  :=  0. ;                               b3M_MCBXFAV_col :=0; b3U_MCBXFAV_col :=0; b3R_MCBXFAV_col :=0;
+a4M_MCBXFAV_col  :=  0.0000 ; a4U_MCBXFAV_col  :=  0. ; a4R_MCBXFAV_col  :=  0. ;                               b4M_MCBXFAV_col :=0; b4U_MCBXFAV_col :=0; b4R_MCBXFAV_col :=0;
+a5M_MCBXFAV_col  := -3.0400 ; a5U_MCBXFAV_col  :=  0. ; a5R_MCBXFAV_col  :=  0. ;                               b5M_MCBXFAV_col :=0; b5U_MCBXFAV_col :=0; b5R_MCBXFAV_col :=0;
+a6M_MCBXFAV_col  :=  0.0000 ; a6U_MCBXFAV_col  :=  0. ; a6R_MCBXFAV_col  :=  0. ;                               b6M_MCBXFAV_col :=0; b6U_MCBXFAV_col :=0; b6R_MCBXFAV_col :=0;
+a7M_MCBXFAV_col  := -3.9800 ; a7U_MCBXFAV_col  :=  0. ; a7R_MCBXFAV_col  :=  0. ;                               b7M_MCBXFAV_col :=0; b7U_MCBXFAV_col :=0; b7R_MCBXFAV_col :=0;
+a8M_MCBXFAV_col  :=  0.0000 ; a8U_MCBXFAV_col  :=  0. ; a8R_MCBXFAV_col  :=  0. ;                               b8M_MCBXFAV_col :=0; b8U_MCBXFAV_col :=0; b8R_MCBXFAV_col :=0;
+a9M_MCBXFAV_col  := -0.6200 ; a9U_MCBXFAV_col  :=  0. ; a9R_MCBXFAV_col  :=  0. ;                               b9M_MCBXFAV_col :=0; b9U_MCBXFAV_col :=0; b9R_MCBXFAV_col :=0;
+a10M_MCBXFAV_col :=  0.0000 ; a10U_MCBXFAV_col :=  0. ; a10R_MCBXFAV_col :=  0. ;                               b10M_MCBXFAV_col:=0; b10U_MCBXFAV_col:=0; b10R_MCBXFAV_col:=0;
+a11M_MCBXFAV_col :=  0.0200 ; a11U_MCBXFAV_col :=  0. ; a11R_MCBXFAV_col :=  0. ;                               b11M_MCBXFAV_col:=0; b11U_MCBXFAV_col:=0; b11R_MCBXFAV_col:=0;
+a12M_MCBXFAV_col :=  0.0000 ; a12U_MCBXFAV_col :=  0. ; a12R_MCBXFAV_col :=  0. ;                               b12M_MCBXFAV_col:=0; b12U_MCBXFAV_col:=0; b12R_MCBXFAV_col:=0;
+a13M_MCBXFAV_col :=  0.0000 ; a13U_MCBXFAV_col :=  0. ; a13R_MCBXFAV_col :=  0. ;                               b13M_MCBXFAV_col:=0; b13U_MCBXFAV_col:=0; b13R_MCBXFAV_col:=0;
+a14M_MCBXFAV_col :=  0.0000 ; a14U_MCBXFAV_col :=  0. ; a14R_MCBXFAV_col :=  0. ;                               b14M_MCBXFAV_col:=0; b14U_MCBXFAV_col:=0; b14R_MCBXFAV_col:=0;
+a15M_MCBXFAV_col :=  0.0000 ; a15U_MCBXFAV_col :=  0. ; a15R_MCBXFAV_col :=  0. ;                               b15M_MCBXFAV_col:=0; b15U_MCBXFAV_col:=0; b15R_MCBXFAV_col:=0;
+
+
+
+
+
+! -----------------------------------------------------------------------
+! *********************** Magnet type : MCBXFB (around new Q2) ****************** 
+! -----------------------------------------------------------------------
+BRef_MCBXFBH = 2.49/l.MCBXFB;           ! B1
+BRef_MCBXFBV = 2.52/l.MCBXFB;           ! A1
+
+! ----------------------------- INJECTION -------------------------------
+!                                bn                                                                                                                             ! No an components in horizontal part
+b1M_MCBXFBH_inj  :=  0.0000 ; b1U_MCBXFBH_inj  :=  0. ; b1R_MCBXFBH_inj  :=  0. ;                               a1M_MCBXFBH_inj :=0; a1U_MCBXFBH_inj :=0; a1R_MCBXFBH_inj :=0;
+b2M_MCBXFBH_inj  :=  0.0000 ; b2U_MCBXFBH_inj  :=  0. ; b2R_MCBXFBH_inj  :=  0. ;                               a2M_MCBXFBH_inj :=0; a2U_MCBXFBH_inj :=0; a2R_MCBXFBH_inj :=0;
+b3M_MCBXFBH_inj  := 17.3700 ; b3U_MCBXFBH_inj  :=  0. ; b3R_MCBXFBH_inj  :=  0. ;                               a3M_MCBXFBH_inj :=0; a3U_MCBXFBH_inj :=0; a3R_MCBXFBH_inj :=0;
+b4M_MCBXFBH_inj  :=  0.0000 ; b4U_MCBXFBH_inj  :=  0. ; b4R_MCBXFBH_inj  :=  0. ;                               a4M_MCBXFBH_inj :=0; a4U_MCBXFBH_inj :=0; a4R_MCBXFBH_inj :=0;
+b5M_MCBXFBH_inj  :=  2.4900 ; b5U_MCBXFBH_inj  :=  0. ; b5R_MCBXFBH_inj  :=  0. ;                               a5M_MCBXFBH_inj :=0; a5U_MCBXFBH_inj :=0; a5R_MCBXFBH_inj :=0;
+b6M_MCBXFBH_inj  :=  0.0000 ; b6U_MCBXFBH_inj  :=  0. ; b6R_MCBXFBH_inj  :=  0. ;                               a6M_MCBXFBH_inj :=0; a6U_MCBXFBH_inj :=0; a6R_MCBXFBH_inj :=0;
+b7M_MCBXFBH_inj  :=  0.6200 ; b7U_MCBXFBH_inj  :=  0. ; b7R_MCBXFBH_inj  :=  0. ;                               a7M_MCBXFBH_inj :=0; a7U_MCBXFBH_inj :=0; a7R_MCBXFBH_inj :=0;
+b8M_MCBXFBH_inj  :=  0.0000 ; b8U_MCBXFBH_inj  :=  0. ; b8R_MCBXFBH_inj  :=  0. ;                               a8M_MCBXFBH_inj :=0; a8U_MCBXFBH_inj :=0; a8R_MCBXFBH_inj :=0;
+b9M_MCBXFBH_inj  := -0.7500 ; b9U_MCBXFBH_inj  :=  0. ; b9R_MCBXFBH_inj  :=  0. ;                               a9M_MCBXFBH_inj :=0; a9U_MCBXFBH_inj :=0; a9R_MCBXFBH_inj :=0;
+b10M_MCBXFBH_inj :=  0.0000 ; b10U_MCBXFBH_inj :=  0. ; b10R_MCBXFBH_inj :=  0. ;                               a10M_MCBXFBH_inj:=0; a10U_MCBXFBH_inj:=0; a10R_MCBXFBH_inj:=0;
+b11M_MCBXFBH_inj :=  3.6000 ; b11U_MCBXFBH_inj :=  0. ; b11R_MCBXFBH_inj :=  0. ;                               a11M_MCBXFBH_inj:=0; a11U_MCBXFBH_inj:=0; a11R_MCBXFBH_inj:=0;
+b12M_MCBXFBH_inj :=  0.0000 ; b12U_MCBXFBH_inj :=  0. ; b12R_MCBXFBH_inj :=  0. ;                               a12M_MCBXFBH_inj:=0; a12U_MCBXFBH_inj:=0; a12R_MCBXFBH_inj:=0;
+b13M_MCBXFBH_inj :=  0.0000 ; b13U_MCBXFBH_inj :=  0. ; b13R_MCBXFBH_inj :=  0. ;                               a13M_MCBXFBH_inj:=0; a13U_MCBXFBH_inj:=0; a13R_MCBXFBH_inj:=0;
+b14M_MCBXFBH_inj :=  0.0000 ; b14U_MCBXFBH_inj :=  0. ; b14R_MCBXFBH_inj :=  0. ;                               a14M_MCBXFBH_inj:=0; a14U_MCBXFBH_inj:=0; a14R_MCBXFBH_inj:=0;
+b15M_MCBXFBH_inj :=  0.0000 ; b15U_MCBXFBH_inj :=  0. ; b15R_MCBXFBH_inj :=  0. ;                               a15M_MCBXFBH_inj:=0; a15U_MCBXFBH_inj:=0; a15R_MCBXFBH_inj:=0;
+
+!                               an                                                                                                                              ! No bn components in vertical part
+a1M_MCBXFBV_inj  :=  0.0000 ; a1U_MCBXFBV_inj  :=  0. ; a1R_MCBXFBV_inj  :=  0. ;                               b1M_MCBXFBV_inj :=0; b1U_MCBXFBV_inj :=0; b1R_MCBXFBV_inj :=0;
+a2M_MCBXFBV_inj  :=  0.0000 ; a2U_MCBXFBV_inj  :=  0. ; a2R_MCBXFBV_inj  :=  0. ;                               b2M_MCBXFBV_inj :=0; b2U_MCBXFBV_inj :=0; b2R_MCBXFBV_inj :=0;
+a3M_MCBXFBV_inj  :=-10.3300 ; a3U_MCBXFBV_inj  :=  0. ; a3R_MCBXFBV_inj  :=  0. ;                               b3M_MCBXFBV_inj :=0; b3U_MCBXFBV_inj :=0; b3R_MCBXFBV_inj :=0;
+a4M_MCBXFBV_inj  :=  0.0000 ; a4U_MCBXFBV_inj  :=  0. ; a4R_MCBXFBV_inj  :=  0. ;                               b4M_MCBXFBV_inj :=0; b4U_MCBXFBV_inj :=0; b4R_MCBXFBV_inj :=0;
+a5M_MCBXFBV_inj  := -3.6000 ; a5U_MCBXFBV_inj  :=  0. ; a5R_MCBXFBV_inj  :=  0. ;                               b5M_MCBXFBV_inj :=0; b5U_MCBXFBV_inj :=0; b5R_MCBXFBV_inj :=0;
+a6M_MCBXFBV_inj  :=  0.0000 ; a6U_MCBXFBV_inj  :=  0. ; a6R_MCBXFBV_inj  :=  0. ;                               b6M_MCBXFBV_inj :=0; b6U_MCBXFBV_inj :=0; b6R_MCBXFBV_inj :=0;
+a7M_MCBXFBV_inj  := -3.2600 ; a7U_MCBXFBV_inj  :=  0. ; a7R_MCBXFBV_inj  :=  0. ;                               b7M_MCBXFBV_inj :=0; b7U_MCBXFBV_inj :=0; b7R_MCBXFBV_inj :=0;
+a8M_MCBXFBV_inj  :=  0.0000 ; a8U_MCBXFBV_inj  :=  0. ; a8R_MCBXFBV_inj  :=  0. ;                               b8M_MCBXFBV_inj :=0; b8U_MCBXFBV_inj :=0; b8R_MCBXFBV_inj :=0;
+a9M_MCBXFBV_inj  := -0.5800 ; a9U_MCBXFBV_inj  :=  0. ; a9R_MCBXFBV_inj  :=  0. ;                               b9M_MCBXFBV_inj :=0; b9U_MCBXFBV_inj :=0; b9R_MCBXFBV_inj :=0;
+a10M_MCBXFBV_inj :=  0.0000 ; a10U_MCBXFBV_inj :=  0. ; a10R_MCBXFBV_inj :=  0. ;                               b10M_MCBXFBV_inj:=0; b10U_MCBXFBV_inj:=0; b10R_MCBXFBV_inj:=0;
+a11M_MCBXFBV_inj :=  0.1200 ; a11U_MCBXFBV_inj :=  0. ; a11R_MCBXFBV_inj :=  0. ;                               b11M_MCBXFBV_inj:=0; b11U_MCBXFBV_inj:=0; b11R_MCBXFBV_inj:=0;
+a12M_MCBXFBV_inj :=  0.0000 ; a12U_MCBXFBV_inj :=  0. ; a12R_MCBXFBV_inj :=  0. ;                               b12M_MCBXFBV_inj:=0; b12U_MCBXFBV_inj:=0; b12R_MCBXFBV_inj:=0;
+a13M_MCBXFBV_inj :=  0.0000 ; a13U_MCBXFBV_inj :=  0. ; a13R_MCBXFBV_inj :=  0. ;                               b13M_MCBXFBV_inj:=0; b13U_MCBXFBV_inj:=0; b13R_MCBXFBV_inj:=0;
+a14M_MCBXFBV_inj :=  0.0000 ; a14U_MCBXFBV_inj :=  0. ; a14R_MCBXFBV_inj :=  0. ;                               b14M_MCBXFBV_inj:=0; b14U_MCBXFBV_inj:=0; b14R_MCBXFBV_inj:=0;
+a15M_MCBXFBV_inj :=  0.0000 ; a15U_MCBXFBV_inj :=  0. ; a15R_MCBXFBV_inj :=  0. ;                               b15M_MCBXFBV_inj:=0; b15U_MCBXFBV_inj:=0; b15R_MCBXFBV_inj:=0;
+
+
+! ----------------------------- COLLISION -------------------------------
+!                                bn                                                                                                                             ! No an components in horizontal part
+b1M_MCBXFBH_col  :=  0.0000 ; b1U_MCBXFBH_col  :=  0. ; b1R_MCBXFBH_col  :=  0. ;                               a1M_MCBXFBH_col :=0; a1U_MCBXFBH_col :=0; a1R_MCBXFBH_col :=0;
+b2M_MCBXFBH_col  :=  0.0000 ; b2U_MCBXFBH_col  :=  0. ; b2R_MCBXFBH_col  :=  0. ;                               a2M_MCBXFBH_col :=0; a2U_MCBXFBH_col :=0; a2R_MCBXFBH_col :=0;
+b3M_MCBXFBH_col  := 17.3700 ; b3U_MCBXFBH_col  :=  0. ; b3R_MCBXFBH_col  :=  0. ;                               a3M_MCBXFBH_col :=0; a3U_MCBXFBH_col :=0; a3R_MCBXFBH_col :=0;
+b4M_MCBXFBH_col  :=  0.0000 ; b4U_MCBXFBH_col  :=  0. ; b4R_MCBXFBH_col  :=  0. ;                               a4M_MCBXFBH_col :=0; a4U_MCBXFBH_col :=0; a4R_MCBXFBH_col :=0;
+b5M_MCBXFBH_col  :=  2.4900 ; b5U_MCBXFBH_col  :=  0. ; b5R_MCBXFBH_col  :=  0. ;                               a5M_MCBXFBH_col :=0; a5U_MCBXFBH_col :=0; a5R_MCBXFBH_col :=0;
+b6M_MCBXFBH_col  :=  0.0000 ; b6U_MCBXFBH_col  :=  0. ; b6R_MCBXFBH_col  :=  0. ;                               a6M_MCBXFBH_col :=0; a6U_MCBXFBH_col :=0; a6R_MCBXFBH_col :=0;
+b7M_MCBXFBH_col  :=  0.6200 ; b7U_MCBXFBH_col  :=  0. ; b7R_MCBXFBH_col  :=  0. ;                               a7M_MCBXFBH_col :=0; a7U_MCBXFBH_col :=0; a7R_MCBXFBH_col :=0;
+b8M_MCBXFBH_col  :=  0.0000 ; b8U_MCBXFBH_col  :=  0. ; b8R_MCBXFBH_col  :=  0. ;                               a8M_MCBXFBH_col :=0; a8U_MCBXFBH_col :=0; a8R_MCBXFBH_col :=0;
+b9M_MCBXFBH_col  := -0.7500 ; b9U_MCBXFBH_col  :=  0. ; b9R_MCBXFBH_col  :=  0. ;                               a9M_MCBXFBH_col :=0; a9U_MCBXFBH_col :=0; a9R_MCBXFBH_col :=0;
+b10M_MCBXFBH_col :=  0.0000 ; b10U_MCBXFBH_col :=  0. ; b10R_MCBXFBH_col :=  0. ;                               a10M_MCBXFBH_col:=0; a10U_MCBXFBH_col:=0; a10R_MCBXFBH_col:=0;
+b11M_MCBXFBH_col :=  3.6000 ; b11U_MCBXFBH_col :=  0. ; b11R_MCBXFBH_col :=  0. ;                               a11M_MCBXFBH_col:=0; a11U_MCBXFBH_col:=0; a11R_MCBXFBH_col:=0;
+b12M_MCBXFBH_col :=  0.0000 ; b12U_MCBXFBH_col :=  0. ; b12R_MCBXFBH_col :=  0. ;                               a12M_MCBXFBH_col:=0; a12U_MCBXFBH_col:=0; a12R_MCBXFBH_col:=0;
+b13M_MCBXFBH_col :=  0.0000 ; b13U_MCBXFBH_col :=  0. ; b13R_MCBXFBH_col :=  0. ;                               a13M_MCBXFBH_col:=0; a13U_MCBXFBH_col:=0; a13R_MCBXFBH_col:=0;
+b14M_MCBXFBH_col :=  0.0000 ; b14U_MCBXFBH_col :=  0. ; b14R_MCBXFBH_col :=  0. ;                               a14M_MCBXFBH_col:=0; a14U_MCBXFBH_col:=0; a14R_MCBXFBH_col:=0;
+b15M_MCBXFBH_col :=  0.0000 ; b15U_MCBXFBH_col :=  0. ; b15R_MCBXFBH_col :=  0. ;                               a15M_MCBXFBH_col:=0; a15U_MCBXFBH_col:=0; a15R_MCBXFBH_col:=0;
+
+!                               an                                                                                                                              ! No bn components in vertical part
+a1M_MCBXFBV_col  :=  0.0000 ; a1U_MCBXFBV_col  :=  0. ; a1R_MCBXFBV_col  :=  0. ;                               b1M_MCBXFBV_col :=0; b1U_MCBXFBV_col :=0; b1R_MCBXFBV_col :=0;
+a2M_MCBXFBV_col  :=  0.0000 ; a2U_MCBXFBV_col  :=  0. ; a2R_MCBXFBV_col  :=  0. ;                               b2M_MCBXFBV_col :=0; b2U_MCBXFBV_col :=0; b2R_MCBXFBV_col :=0;
+a3M_MCBXFBV_col  :=-10.3300 ; a3U_MCBXFBV_col  :=  0. ; a3R_MCBXFBV_col  :=  0. ;                               b3M_MCBXFBV_col :=0; b3U_MCBXFBV_col :=0; b3R_MCBXFBV_col :=0;
+a4M_MCBXFBV_col  :=  0.0000 ; a4U_MCBXFBV_col  :=  0. ; a4R_MCBXFBV_col  :=  0. ;                               b4M_MCBXFBV_col :=0; b4U_MCBXFBV_col :=0; b4R_MCBXFBV_col :=0;
+a5M_MCBXFBV_col  := -3.6000 ; a5U_MCBXFBV_col  :=  0. ; a5R_MCBXFBV_col  :=  0. ;                               b5M_MCBXFBV_col :=0; b5U_MCBXFBV_col :=0; b5R_MCBXFBV_col :=0;
+a6M_MCBXFBV_col  :=  0.0000 ; a6U_MCBXFBV_col  :=  0. ; a6R_MCBXFBV_col  :=  0. ;                               b6M_MCBXFBV_col :=0; b6U_MCBXFBV_col :=0; b6R_MCBXFBV_col :=0;
+a7M_MCBXFBV_col  := -3.2600 ; a7U_MCBXFBV_col  :=  0. ; a7R_MCBXFBV_col  :=  0. ;                               b7M_MCBXFBV_col :=0; b7U_MCBXFBV_col :=0; b7R_MCBXFBV_col :=0;
+a8M_MCBXFBV_col  :=  0.0000 ; a8U_MCBXFBV_col  :=  0. ; a8R_MCBXFBV_col  :=  0. ;                               b8M_MCBXFBV_col :=0; b8U_MCBXFBV_col :=0; b8R_MCBXFBV_col :=0;
+a9M_MCBXFBV_col  := -0.5800 ; a9U_MCBXFBV_col  :=  0. ; a9R_MCBXFBV_col  :=  0. ;                               b9M_MCBXFBV_col :=0; b9U_MCBXFBV_col :=0; b9R_MCBXFBV_col :=0;
+a10M_MCBXFBV_col :=  0.0000 ; a10U_MCBXFBV_col :=  0. ; a10R_MCBXFBV_col :=  0. ;                               b10M_MCBXFBV_col:=0; b10U_MCBXFBV_col:=0; b10R_MCBXFBV_col:=0;
+a11M_MCBXFBV_col :=  0.1200 ; a11U_MCBXFBV_col :=  0. ; a11R_MCBXFBV_col :=  0. ;                               b11M_MCBXFBV_col:=0; b11U_MCBXFBV_col:=0; b11R_MCBXFBV_col:=0;
+a12M_MCBXFBV_col :=  0.0000 ; a12U_MCBXFBV_col :=  0. ; a12R_MCBXFBV_col :=  0. ;                               b12M_MCBXFBV_col:=0; b12U_MCBXFBV_col:=0; b12R_MCBXFBV_col:=0;
+a13M_MCBXFBV_col :=  0.0000 ; a13U_MCBXFBV_col :=  0. ; a13R_MCBXFBV_col :=  0. ;                               b13M_MCBXFBV_col:=0; b13U_MCBXFBV_col:=0; b13R_MCBXFBV_col:=0;
+a14M_MCBXFBV_col :=  0.0000 ; a14U_MCBXFBV_col :=  0. ; a14R_MCBXFBV_col :=  0. ;                               b14M_MCBXFBV_col:=0; b14U_MCBXFBV_col:=0; b14R_MCBXFBV_col:=0;
+a15M_MCBXFBV_col :=  0.0000 ; a15U_MCBXFBV_col :=  0. ; a15R_MCBXFBV_col :=  0. ;                               b15M_MCBXFBV_col:=0; b15U_MCBXFBV_col:=0; b15R_MCBXFBV_col:=0;
+
+
+return;
+

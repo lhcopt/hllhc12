@@ -1,0 +1,109 @@
+! S. Fartoukh March 2009
+!Generation of errors for the new IT with the orientation LE-MQX-NLE-...-IP-...-NLE-MQX-LE 
+! S. Fartoukh March 2012
+! Update for compatibility with the macro_error.madx file of SLHCV3.1b
+! R. De Maria Nov 2012
+! Update new names and lead end on the cryostat convention  IP =Q1a||Q1b=   |Q2a==Q2b|   =Q3a||Q3b=
+
+exec new_magnetfamily(MQXCD);
+iap=0;
+
+!Q1a.R5
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.A1R5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+!Q1b.R5
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.B1R5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+!Q2a.R5
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.A2R5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+!Q2b.R5
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.B2R5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+!Q3a.R5
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.A3R5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+!Q3b.R5
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.B3R5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+
+!Q1a.L5
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.A1L5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+!Q1b.L5
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.B1L5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+!Q2a.L5
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.A2L5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+!Q2b.L5
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.B2L5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+!Q3a.L5
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.A3L5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+!Q3b.L5
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.B3L5.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+
+
+!Q1a.R1
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.A1R1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+!Q1b.R1
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.B1R1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+!Q2a.R1
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.A2R1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+!Q2b.R1
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.B2R1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+!Q3a.R1
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.A3R1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+!Q3b.R1
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.B3R1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+
+!Q1a.L1
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.A1L1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+!Q1b.L1
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.B1L1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+!Q2a.L1
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.A2L1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);
+
+!Q2b.L1
+select,flag=error,clear;select,flag=error,pattern="^MQXFB\.B2L1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+!Q3a.L1
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.A3L1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad(MQXCD);
+
+!Q3b.L1
+select,flag=error,clear;select,flag=error,pattern="^MQXFA\.B3L1.*$";
+exec new_magnetindividual(MQXCD,iap);exec errorgenerate_quad_inv(MQXCD);

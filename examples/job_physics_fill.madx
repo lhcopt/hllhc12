@@ -1,0 +1,32 @@
+option, warn,info;
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.2/ slhc";
+system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503 db5";
+
+option, -echo, -warn,info;
+call,file="slhc/toolkit/macro.madx";
+call,file="slhc/hllhc.seq";
+exec,mk_beam(7000);
+exec,myslice;
+on_lhcb=-1; on_alice=1;
+
+!0 hour  npart=2.2e11
+call,file="slhc/squeeze/opt_presqueeze_660_thin.madx";
+on_x1=205e-6/pyIP1b1; on_x5=205e-6/pxIP5b1;
+on_x2=1; on_x8=250e-6/pxIP8b1;
+on_disp=1;
+exec,check_ip(b1); exec,check_ip(b2);
+
+!3 hour  npart=1.85e11
+call,file="slhc/squeeze/opt_round_400_400_400_400_thin.madx";
+on_x1=205e-6/pyIP1b1; on_x5=205e-6/pxIP5b1;
+on_x2=1; on_x8=250e-6/pxIP8b1;
+on_disp=1;
+exec,check_ip(b1); exec,check_ip(b2);
+
+!7 hour npart=1.4e11
+call,file="slhc/squeeze/opt_round_200_200_200_200_thin.madx";
+on_x1=205e-6/pyIP1b1; on_x5=205e-6/pxIP5b1;
+on_x2=1; on_x8=250e-6/pxIP8b1;
+on_disp=1;
+exec,check_ip(b1); exec,check_ip(b2);
+

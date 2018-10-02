@@ -1,0 +1,91 @@
+!!! S. Fartoukh June 2012 
+!!! D2 error table at injection and in collision 
+!!! Based on the measured MBRB (80 mm coilID) error table, with some rounding up, but applied at Rr=17*105/80~22 mm 
+!!! Induced linear imperfection are expected to be sizeable 
+!!! R. De Maria Sep 2012, as v0 but rescaled to new ref. radius 
+!!! M. Giovannozzi July 2013, based on estimate by E. Todesco 01/07/2013, V1.3
+!!! R. De Maria Oct 2013 based on estimate by E. Todesco 05/10/2013, V1.4
+!!!    Expected target after optimization of the iron geometry and asymmetric
+!!!    coils for b4.
+!!! M. Giovannozzi April 2014, based on estimate by E. Todesco 15/04/2014, V2.0
+!!!    Random and uncertainty are equal
+
+! ----------------------------------------------------------------------- 
+! Error type  : M - AVERAGE 
+!               R - STANDARD 
+!               U - UNCERTAINTY 
+! ----------------------------------------------------------------------- 
+! ----------------------------------------------------------------------- 
+! ********Magnet type : MBRD (new D2)*************** 
+! ----------------------------------------------------------------------- 
+
+! Units : relative field error for Rr = 35 mm in units of 10^-4
+ 
+Rr_MBRD :=  0.035 ; 
+!                bn at inj 
+b1M_MBRD_V1_inj  :=  0.000 ;b1M_MBRD_V2_inj  :=  0.000 ;b1U_MBRD_inj  :=  0.000 ;b1R_MBRD_inj  :=  0.000 ; 
+b2M_MBRD_V1_inj  := -5.000 ;b2M_MBRD_V2_inj  :=  5.000 ;b2U_MBRD_inj  :=  0.200 ;b2R_MBRD_inj  :=  0.200 ; 
+b3M_MBRD_V1_inj  :=-19.000 ;b3M_MBRD_V2_inj  :=-19.000 ;b3U_MBRD_inj  :=  0.727 ;b3R_MBRD_inj  :=  0.727 ; 
+b4M_MBRD_V1_inj  :=  2.000 ;b4M_MBRD_V2_inj  := -2.000 ;b4U_MBRD_inj  :=  0.126 ;b4R_MBRD_inj  :=  0.126 ; 
+b5M_MBRD_V1_inj  :=  3.000 ;b5M_MBRD_V2_inj  :=  3.000 ;b5U_MBRD_inj  :=  0.365 ;b5R_MBRD_inj  :=  0.365 ; 
+b6M_MBRD_V1_inj  :=  2.000 ;b6M_MBRD_V2_inj  := -2.000 ;b6U_MBRD_inj  :=  0.060 ;b6R_MBRD_inj  :=  0.060 ; 
+b7M_MBRD_V1_inj  :=  1.300 ;b7M_MBRD_V2_inj  :=  1.300 ;b7U_MBRD_inj  :=  0.165 ;b7R_MBRD_inj  :=  0.165 ; 
+b8M_MBRD_V1_inj  :=  1.000 ;b8M_MBRD_V2_inj  := -1.000 ;b8U_MBRD_inj  :=  0.027 ;b8R_MBRD_inj  :=  0.027 ; 
+b9M_MBRD_V1_inj  :=  0.520 ;b9M_MBRD_V2_inj  :=  0.520 ;b9U_MBRD_inj  :=  0.065 ;b9R_MBRD_inj  :=  0.065 ; 
+b10M_MBRD_V1_inj :=  0.000 ;b10M_MBRD_V2_inj :=  0.000 ;b10U_MBRD_inj :=  0.008 ;b10R_MBRD_inj :=  0.008 ; 
+b11M_MBRD_V1_inj :=  0.000 ;b11M_MBRD_V2_inj :=  0.000 ;b11U_MBRD_inj :=  0.019 ;b11R_MBRD_inj :=  0.019 ; 
+b12M_MBRD_V1_inj :=  0.000 ;b12M_MBRD_V2_inj :=  0.000 ;b12U_MBRD_inj :=  0.003 ;b12R_MBRD_inj :=  0.003 ; 
+b13M_MBRD_V1_inj :=  0.000 ;b13M_MBRD_V2_inj :=  0.000 ;b13U_MBRD_inj :=  0.006 ;b13R_MBRD_inj :=  0.006 ; 
+b14M_MBRD_V1_inj :=  0.000 ;b14M_MBRD_V2_inj :=  0.000 ;b14U_MBRD_inj :=  0.001 ;b14R_MBRD_inj :=  0.001 ; 
+b15M_MBRD_V1_inj :=  0.000 ;b15M_MBRD_V2_inj :=  0.000 ;b15U_MBRD_inj :=  0.002 ;b15R_MBRD_inj :=  0.002 ; 
+ 
+!                an at inj 
+a1M_MBRD_V1_inj  :=  0.000 ;a1M_MBRD_V2_inj  :=  0.000 ;a1U_MBRD_inj  :=  0.000 ;a1R_MBRD_inj  :=  0.000 ; 
+a2M_MBRD_V1_inj  :=  0.000 ;a2M_MBRD_V2_inj  :=  0.000 ;a2U_MBRD_inj  :=  0.679 ;a2R_MBRD_inj  :=  0.679 ; 
+a3M_MBRD_V1_inj  :=  0.000 ;a3M_MBRD_V2_inj  :=  0.000 ;a3U_MBRD_inj  :=  0.282 ;a3R_MBRD_inj  :=  0.282 ; 
+a4M_MBRD_V1_inj  :=  0.000 ;a4M_MBRD_V2_inj  :=  0.000 ;a4U_MBRD_inj  :=  0.444 ;a4R_MBRD_inj  :=  0.444 ; 
+a5M_MBRD_V1_inj  :=  0.000 ;a5M_MBRD_V2_inj  :=  0.000 ;a5U_MBRD_inj  :=  0.152 ;a5R_MBRD_inj  :=  0.152 ; 
+a6M_MBRD_V1_inj  :=  0.000 ;a6M_MBRD_V2_inj  :=  0.000 ;a6U_MBRD_inj  :=  0.176 ;a6R_MBRD_inj  :=  0.176 ; 
+a7M_MBRD_V1_inj  :=  0.000 ;a7M_MBRD_V2_inj  :=  0.000 ;a7U_MBRD_inj  :=  0.057 ;a7R_MBRD_inj  :=  0.057 ; 
+a8M_MBRD_V1_inj  :=  0.000 ;a8M_MBRD_V2_inj  :=  0.000 ;a8U_MBRD_inj  :=  0.061 ;a8R_MBRD_inj  :=  0.061 ; 
+a9M_MBRD_V1_inj  :=  0.000 ;a9M_MBRD_V2_inj  :=  0.000 ;a9U_MBRD_inj  :=  0.020 ;a9R_MBRD_inj  :=  0.020 ; 
+a10M_MBRD_V1_inj :=  0.000 ;a10M_MBRD_V2_inj :=  0.000 ;a10U_MBRD_inj :=  0.025 ;a10R_MBRD_inj :=  0.025 ; 
+a11M_MBRD_V1_inj :=  0.000 ;a11M_MBRD_V2_inj :=  0.000 ;a11U_MBRD_inj :=  0.007 ;a11R_MBRD_inj :=  0.007 ; 
+a12M_MBRD_V1_inj :=  0.000 ;a12M_MBRD_V2_inj :=  0.000 ;a12U_MBRD_inj :=  0.008 ;a12R_MBRD_inj :=  0.008 ; 
+a13M_MBRD_V1_inj :=  0.000 ;a13M_MBRD_V2_inj :=  0.000 ;a13U_MBRD_inj :=  0.002 ;a13R_MBRD_inj :=  0.002 ; 
+a14M_MBRD_V1_inj :=  0.000 ;a14M_MBRD_V2_inj :=  0.000 ;a14U_MBRD_inj :=  0.003 ;a14R_MBRD_inj :=  0.003 ; 
+a15M_MBRD_V1_inj :=  0.000 ;a15M_MBRD_V2_inj :=  0.000 ;a15U_MBRD_inj :=  0.001 ;a15R_MBRD_inj :=  0.001 ; 
+ 
+!                bn at col 
+b1M_MBRD_V1_col  :=  0.000 ;b1M_MBRD_V2_col  :=  0.000 ;b1U_MBRD_col  :=  0.000 ;b1R_MBRD_col  :=  0.000 ; 
+b2M_MBRD_V1_col  :=  1.000 ;b2M_MBRD_V2_col  := -1.000 ;b2U_MBRD_col  :=  1.000 ;b2R_MBRD_col  :=  1.000 ; 
+b3M_MBRD_V1_col  :=  1.000 ;b3M_MBRD_V2_col  :=  1.000 ;b3U_MBRD_col  :=  1.667 ;b3R_MBRD_col  :=  1.667 ; 
+b4M_MBRD_V1_col  := -3.000 ;b4M_MBRD_V2_col  :=  3.000 ;b4U_MBRD_col  :=  0.600 ;b4R_MBRD_col  :=  0.600 ; 
+b5M_MBRD_V1_col  := -1.000 ;b5M_MBRD_V2_col  := -1.000 ;b5U_MBRD_col  :=  0.500 ;b5R_MBRD_col  :=  0.500 ; 
+b6M_MBRD_V1_col  :=  2.000 ;b6M_MBRD_V2_col  := -2.000 ;b6U_MBRD_col  :=  0.060 ;b6R_MBRD_col  :=  0.060 ; 
+b7M_MBRD_V1_col  :=  2.000 ;b7M_MBRD_V2_col  :=  2.000 ;b7U_MBRD_col  :=  0.165 ;b7R_MBRD_col  :=  0.165 ; 
+b8M_MBRD_V1_col  :=  1.000 ;b8M_MBRD_V2_col  := -1.000 ;b8U_MBRD_col  :=  0.027 ;b8R_MBRD_col  :=  0.027 ; 
+b9M_MBRD_V1_col  :=  0.500 ;b9M_MBRD_V2_col  :=  0.500 ;b9U_MBRD_col  :=  0.065 ;b9R_MBRD_col  :=  0.065 ; 
+b10M_MBRD_V1_col :=  0.000 ;b10M_MBRD_V2_col :=  0.000 ;b10U_MBRD_col :=  0.008 ;b10R_MBRD_col :=  0.008 ; 
+b11M_MBRD_V1_col :=  0.030 ;b11M_MBRD_V2_col :=  0.030 ;b11U_MBRD_col :=  0.019 ;b11R_MBRD_col :=  0.019 ; 
+b12M_MBRD_V1_col :=  0.000 ;b12M_MBRD_V2_col :=  0.000 ;b12U_MBRD_col :=  0.003 ;b12R_MBRD_col :=  0.003 ; 
+b13M_MBRD_V1_col :=  0.000 ;b13M_MBRD_V2_col :=  0.000 ;b13U_MBRD_col :=  0.006 ;b13R_MBRD_col :=  0.006 ; 
+b14M_MBRD_V1_col :=  0.000 ;b14M_MBRD_V2_col :=  0.000 ;b14U_MBRD_col :=  0.001 ;b14R_MBRD_col :=  0.001 ; 
+b15M_MBRD_V1_col :=  0.000 ;b15M_MBRD_V2_col :=  0.000 ;b15U_MBRD_col :=  0.002 ;b15R_MBRD_col :=  0.002 ; 
+ 
+!                an at col 
+a1M_MBRD_V1_col  :=  0.000 ;a1M_MBRD_V2_col  :=  0.000 ;a1U_MBRD_col  :=  0.000 ;a1R_MBRD_col  :=  0.000 ; 
+a2M_MBRD_V1_col  :=  0.000 ;a2M_MBRD_V2_col  :=  0.000 ;a2U_MBRD_col  :=  0.679 ;a2R_MBRD_col  :=  0.679 ; 
+a3M_MBRD_V1_col  :=  0.000 ;a3M_MBRD_V2_col  :=  0.000 ;a3U_MBRD_col  :=  0.282 ;a3R_MBRD_col  :=  0.282 ; 
+a4M_MBRD_V1_col  :=  0.000 ;a4M_MBRD_V2_col  :=  0.000 ;a4U_MBRD_col  :=  0.444 ;a4R_MBRD_col  :=  0.444 ; 
+a5M_MBRD_V1_col  :=  0.000 ;a5M_MBRD_V2_col  :=  0.000 ;a5U_MBRD_col  :=  0.152 ;a5R_MBRD_col  :=  0.152 ; 
+a6M_MBRD_V1_col  :=  0.000 ;a6M_MBRD_V2_col  :=  0.000 ;a6U_MBRD_col  :=  0.176 ;a6R_MBRD_col  :=  0.176 ; 
+a7M_MBRD_V1_col  :=  0.000 ;a7M_MBRD_V2_col  :=  0.000 ;a7U_MBRD_col  :=  0.057 ;a7R_MBRD_col  :=  0.057 ; 
+a8M_MBRD_V1_col  :=  0.000 ;a8M_MBRD_V2_col  :=  0.000 ;a8U_MBRD_col  :=  0.061 ;a8R_MBRD_col  :=  0.061 ; 
+a9M_MBRD_V1_col  :=  0.000 ;a9M_MBRD_V2_col  :=  0.000 ;a9U_MBRD_col  :=  0.020 ;a9R_MBRD_col  :=  0.020 ; 
+a10M_MBRD_V1_col :=  0.000 ;a10M_MBRD_V2_col :=  0.000 ;a10U_MBRD_col :=  0.025 ;a10R_MBRD_col :=  0.025 ; 
+a11M_MBRD_V1_col :=  0.000 ;a11M_MBRD_V2_col :=  0.000 ;a11U_MBRD_col :=  0.007 ;a11R_MBRD_col :=  0.007 ; 
+a12M_MBRD_V1_col :=  0.000 ;a12M_MBRD_V2_col :=  0.000 ;a12U_MBRD_col :=  0.008 ;a12R_MBRD_col :=  0.008 ; 
+a13M_MBRD_V1_col :=  0.000 ;a13M_MBRD_V2_col :=  0.000 ;a13U_MBRD_col :=  0.002 ;a13R_MBRD_col :=  0.002 ; 
+a14M_MBRD_V1_col :=  0.000 ;a14M_MBRD_V2_col :=  0.000 ;a14U_MBRD_col :=  0.003 ;a14R_MBRD_col :=  0.003 ; 
+a15M_MBRD_V1_col :=  0.000 ;a15M_MBRD_V2_col :=  0.000 ;a15U_MBRD_col :=  0.001 ;a15R_MBRD_col :=  0.001 ; 

@@ -1,0 +1,52 @@
+generate_fringe(eee,ttt,llrr,ks,kref,isinv):macro={
+klref=kref*l.ttt*ks;
+value,klref,Rr_ttt,l.ttt;
+exec,new_magnetfamily(ttt);
+exec,new_magnetindividual(ttt,iap);
+select,flag=error,clear;select,flag=error,pattern="^eee..llrr$";
+print,text="^eee..llrr$";
+exec,errorgenerate_abs(ttt,isinv,1,klref);
+};
+
+generate_fringe_lr(eee,ttt,ks,kref,isinv):macro={
+print,text="eee,tttcs,FL,kref,isinv";
+if(isinv==0){
+exec,generate_fringe(eee,tttcs,FL,ks,kref,isinv);
+exec,generate_fringe(eee,tttnc,FR,ks,kref,isinv);};
+if(isinv==1){
+exec,generate_fringe(eee,tttnc,FL,ks,kref,isinv);
+exec,generate_fringe(eee,tttcs,FR,ks,kref,isinv);};
+};
+
+
+!IP =Q1a||Q1b=    =Q2a||Q2b=   =Q3a||Q3b=
+!assumes:
+! e.g. b8_MQXFnc_inj, b8_MQXFcs_inj
+! e.g. l.MQXFnc, l.MQXFcs, Rr_MQXFcs, Rr_MQXFnc
+isinv=0;ks= 1;exec,generate_fringe_lr(MQXFA.A1R1,MQXF,ks,kqx1.r1,isinv);
+isinv=1;ks= 1;exec,generate_fringe_lr(MQXFA.B1R1,MQXF,ks,kqx1.r1,isinv);
+isinv=0;ks=-1;exec,generate_fringe_lr(MQXFB.A2R1,MQXF,ks,kqx2a.r1,isinv);
+isinv=1;ks=-1;exec,generate_fringe_lr(MQXFB.B2R1,MQXF,ks,kqx2b.r1,isinv);
+isinv=0;ks= 1;exec,generate_fringe_lr(MQXFA.A3R1,MQXF,ks,kqx3.r1,isinv);
+isinv=1;ks= 1;exec,generate_fringe_lr(MQXFA.B3R1,MQXF,ks,kqx3.r1,isinv);
+
+isinv=0;ks= 1;exec,generate_fringe_lr(MQXFA.A1R5,MQXF,ks,kqx1.r5,isinv);
+isinv=1;ks= 1;exec,generate_fringe_lr(MQXFA.B1R5,MQXF,ks,kqx1.r5,isinv);
+isinv=0;ks=-1;exec,generate_fringe_lr(MQXFB.A2R5,MQXF,ks,kqx2a.r5,isinv);
+isinv=1;ks=-1;exec,generate_fringe_lr(MQXFB.B2R5,MQXF,ks,kqx2b.r5,isinv);
+isinv=0;ks= 1;exec,generate_fringe_lr(MQXFA.A3R5,MQXF,ks,kqx3.r5,isinv);
+isinv=1;ks= 1;exec,generate_fringe_lr(MQXFA.B3R5,MQXF,ks,kqx3.r5,isinv);
+
+isinv=1;ks= 1;exec,generate_fringe_lr(MQXFA.A1L1,MQXF,ks,kqx1.l1,isinv);
+isinv=0;ks= 1;exec,generate_fringe_lr(MQXFA.B1L1,MQXF,ks,kqx1.l1,isinv);
+isinv=1;ks=-1;exec,generate_fringe_lr(MQXFB.A2L1,MQXF,ks,kqx2a.l1,isinv);
+isinv=0;ks=-1;exec,generate_fringe_lr(MQXFB.B2L1,MQXF,ks,kqx2b.l1,isinv);
+isinv=1;ks= 1;exec,generate_fringe_lr(MQXFA.A3L1,MQXF,ks,kqx3.l1,isinv);
+isinv=0;ks= 1;exec,generate_fringe_lr(MQXFA.B3L1,MQXF,ks,kqx3.l1,isinv);
+
+isinv=1;ks= 1;exec,generate_fringe_lr(MQXFA.A1L5,MQXF,ks,kqx1.l5,isinv);
+isinv=0;ks= 1;exec,generate_fringe_lr(MQXFA.B1L5,MQXF,ks,kqx1.l5,isinv);
+isinv=1;ks=-1;exec,generate_fringe_lr(MQXFB.A2L5,MQXF,ks,kqx2a.l5,isinv);
+isinv=0;ks=-1;exec,generate_fringe_lr(MQXFB.B2L5,MQXF,ks,kqx2b.l5,isinv);
+isinv=1;ks= 1;exec,generate_fringe_lr(MQXFA.A3L5,MQXF,ks,kqx3.l5,isinv);
+isinv=0;ks= 1;exec,generate_fringe_lr(MQXFA.B3L5,MQXF,ks,kqx3.l5,isinv);

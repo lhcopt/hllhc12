@@ -1,0 +1,31 @@
+! S. Fartoukh March 2009
+! Generation of errors for new D1 with the orientation LE-MBXB-NLE-Drift_NLE-MBXA-LE->IP and mirror symmetry w.r.t. IP
+! For the time being, the two D1's of a given assembly are treated as a single magnet
+! S. Fartoukh March 2012
+! The second module MBXB does no longer exist
+! The new oreintation is NLE-MBXA-LE->IP and mirror symmetry w.r.t. IP, i.e. D1 on the left is inverted (as in IR2/8)
+
+exec new_magnetfamily(MBXAB);
+iap=0;
+
+!D1.L1 
+select,flag=error,clear;select,flag=error,pattern="^MBXF\.4L1.*$";
+exec new_magnetindividual(MBXAB,iap);exec errorgenerate_dip_inv(MBXAB);
+
+
+!D1.R1
+select,flag=error,clear;select,flag=error,pattern="^MBXF\.4R1.*$";
+exec new_magnetindividual(MBXAB,iap);exec errorgenerate_dip(MBXAB);
+
+
+!D1.L5
+select,flag=error,clear;select,flag=error,pattern="^MBXF\.4L5.*$";
+exec new_magnetindividual(MBXAB,iap);exec errorgenerate_dip_inv(MBXAB);
+
+
+!D1.R5 
+select,flag=error,clear;select,flag=error,pattern="^MBXF\.4R5.*$";
+exec new_magnetindividual(MBXAB,iap);exec errorgenerate_dip(MBXAB);
+
+
+return;

@@ -1,0 +1,80 @@
+exec,select(7,67,78,b1);
+use, sequence=lhcb1, range=s.ds.l7.b1/e.ds.r7.b1;
+acbch7.r7b1=0; acbch9.r7b1=0; acbh11.r7b1=0;
+acbh12.l7b1=0; acbch10.l7b1=0; acbch8.l7b1=0;
+
+select, flag=error, clear;
+select, flag=error, pattern="^MBH\.A8R7.*$";
+select, flag=error, pattern="^MBH\.B8R7.*$";
+select, flag=error, pattern="^MBH\.A8L7.*$";
+select, flag=error, pattern="^MBH\.B8L7.*$";
+efcomp, order=0, radius=0.017,dknr:={b0_MBH};
+eprint;
+
+twiss,beta0=bir7b1,file=twiss_ir7b1_error.tfs;
+
+match,orbit, beta0=bir7b1;
+  WEIGHT,  x = 1, px = 10, y = 1, py = 10;
+  !!! necessary constraints:
+!  constraint, sequence=lhcb1,range=MQ.13L7.B1,x=0, px=0; ! defocus
+  constraint, sequence=lhcb1,range=MQ.13R7.B1,x=0, px=0; ! defocus (bad)
+  constraint, sequence=lhcb1,range=IP7,x=0,px=0;
+  !!! additional constraints:
+  !!constraint, sequence=lhcb1,range=MQ.7R7.B1,x=-0.0005; !focus
+  !constraint, sequence=lhcb1,range=MQ.9R7.B1,x=0; !focus
+  !!constraint, sequence=lhcb1,range=MQ.8R7.B1,x=0; ! defocuc
+  !constraint, sequence=lhcb1,range=MQ.12R7.B1,x=0,px=0;
+  !!constraint, sequence=lhcb1,range=MQ.9L7.B1,x=0;! defocus
+  !!constraint, sequence=lhcb1,range=MQ.8L7.B1,x=-0.0007; ! defocus (bad)
+  !!! LEFT correctors
+  !vary, name=acbh16.l7b1;
+  !vary, name=acbh14.l7b1;
+  !vary, name=acbh12.l7b1;
+  !vary, name=acbch10.l7b1;
+  vary, name=acbch8.l7b1;
+  vary, name=acbch6.l7b1;
+  !!! RIGHT
+  vary, name=acbch7.r7b1;
+  vary, name=acbch9.r7b1;
+  !vary, name=acbh11.r7b1;
+  !vary, name=acbh13.r7b1;
+  !vary, name=acbh15.r7b1;
+  !simplex,calls=100;
+  jacobian,calls=10,tolerance=1e-30;
+endmatch;
+
+
+!twiss,beta0=bir7b1,file=twiss_ir7b1_corr.tfs;
+
+!exec,mk_apir_simple(7,b1,$nrj);
+!system, "cp temp/ap_ir7b1.tfs ap_ir7b1_corr.tfs";
+
+
+brho=nrj*1e9/clight*7000/450;
+value,acbch7.r7b1 *brho/Kmax_MCBCH/l.MCBCH;
+value,acbch8.l7b1 *brho/Kmax_MCBCH/l.MCBCH;
+value,acbch9.r7b1 *brho/Kmax_MCBCH/l.MCBCH;
+value,acbch10.l7b1*brho/Kmax_MCBCH/l.MCBCH;
+value,acbh11.r7b1 *brho/Kmax_MCBH/l.MCBH;
+value,acbh12.l7b1 *brho/Kmax_MCBH/l.MCBH;
+
+value,acbch6.l7b1 ;
+value,acbch7.r7b1 ;
+value,acbch8.l7b1 ;
+value,acbch9.r7b1 ;
+value,acbch10.l7b1;
+value,acbh11.r7b1 ;
+value,acbh12.l7b1 ;
+
+use,sequence=lhcb1;
+b0_MBH=0.045; ! MB stronger 50murad
+select, flag=error, clear;
+select, flag=error, pattern="^MBH\.A8R7.*$";
+select, flag=error, pattern="^MBH\.B8R7.*$";
+select, flag=error, pattern="^MBH\.A8L7.*$";
+select, flag=error, pattern="^MBH\.B8L7.*$";
+efcomp, order=0, radius=0.017,dknr:={b0_MBH};
+
+
+
+

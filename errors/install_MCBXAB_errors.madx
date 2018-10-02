@@ -1,0 +1,47 @@
+! F.F Van der Veken 2015
+! Installing error magnets for the corrector magnets in Q2, Q3 and CP.
+
+
+! Install thin multipoles at MCBX kicker locations for imperfections
+install_thin_kicker(refname):macro={
+	refname..err: multipole;
+	print,text="refname..err refname";
+	if (mylhcbeam<3) {
+		seqedit,sequence=lhcb1;
+		install,element=refname..err,at=0,from=refname;
+		endedit;
+	};
+	seqedit,sequence=lhcb2;
+	install,element=refname..err,at=0,from=refname;
+	endedit;
+};
+
+exec, install_thin_kicker(MCBXFBH.a2L1);
+exec, install_thin_kicker(MCBXFBH.a2R1);
+exec, install_thin_kicker(MCBXFBH.a2L5);
+exec, install_thin_kicker(MCBXFBH.a2R5);
+exec, install_thin_kicker(MCBXFBH.b2L1);
+exec, install_thin_kicker(MCBXFBH.b2R1);
+exec, install_thin_kicker(MCBXFBH.b2L5);
+exec, install_thin_kicker(MCBXFBH.b2R5);
+
+exec, install_thin_kicker(MCBXFBV.a2L1);
+exec, install_thin_kicker(MCBXFBV.a2R1);
+exec, install_thin_kicker(MCBXFBV.a2L5);
+exec, install_thin_kicker(MCBXFBV.a2R5);
+exec, install_thin_kicker(MCBXFBV.b2L1);
+exec, install_thin_kicker(MCBXFBV.b2R1);
+exec, install_thin_kicker(MCBXFBV.b2L5);
+exec, install_thin_kicker(MCBXFBV.b2R5);
+
+exec, install_thin_kicker(MCBXFAH.3L1);
+exec, install_thin_kicker(MCBXFAH.3R1);
+exec, install_thin_kicker(MCBXFAH.3L5);
+exec, install_thin_kicker(MCBXFAH.3R5);
+
+exec, install_thin_kicker(MCBXFAV.3L1);
+exec, install_thin_kicker(MCBXFAV.3R1);
+exec, install_thin_kicker(MCBXFAV.3L5);
+exec, install_thin_kicker(MCBXFAV.3R5);
+
+return;

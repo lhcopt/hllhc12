@@ -1,0 +1,88 @@
+!!! Provided by E. Todesco (version 4 - May 20 2015)
+
+! -----------------------------------------------------------------------
+! Error type  : M - AVERAGE
+!               R - STANDARD
+!               U - UNCERTAINTY
+! -----------------------------------------------------------------------
+
+! Units : relative field error for Rr = 50 mm in units of 10^-4
+Rr_MQXFnc = 0.050; ! reference radius
+l.MQXFnc = 0.341;  ! magnetic length
+
+
+! -----------------------------------------------------------------------
+! ********Magnet type : MQXFnc (new Inner Triplet Quad)*******************
+! -----------------------------------------------------------------------
+!                                bn at injection
+b1M_MQXFnc_inj  :=  0.0000 ; b1U_MQXFnc_inj  :=  0.0000 ; b1R_MQXFnc_inj  :=  0.0000 ;
+b2M_MQXFnc_inj  :=  0.0000 ; b2U_MQXFnc_inj  :=  0.0000 ; b2R_MQXFnc_inj  :=  0.0000 ;
+b3M_MQXFnc_inj  :=  0.0000 ; b3U_MQXFnc_inj  :=  0.0000 ; b3R_MQXFnc_inj  :=  0.0000 ;
+b4M_MQXFnc_inj  :=  0.0000 ; b4U_MQXFnc_inj  :=  0.0000 ; b4R_MQXFnc_inj  :=  0.0000 ;
+b5M_MQXFnc_inj  :=  0.0000 ; b5U_MQXFnc_inj  :=  0.0000 ; b5R_MQXFnc_inj  :=  0.0000 ;
+b6M_MQXFnc_inj  := -0.0250 ; b6U_MQXFnc_inj  :=  0.0000 ; b6R_MQXFnc_inj  :=  0.0000 ;
+b7M_MQXFnc_inj  :=  0.0000 ; b7U_MQXFnc_inj  :=  0.0000 ; b7R_MQXFnc_inj  :=  0.0000 ;
+b8M_MQXFnc_inj  :=  0.0000 ; b8U_MQXFnc_inj  :=  0.0000 ; b8R_MQXFnc_inj  :=  0.0000 ;
+b9M_MQXFnc_inj  :=  0.0000 ; b9U_MQXFnc_inj  :=  0.0000 ; b9R_MQXFnc_inj  :=  0.0000 ;
+b10M_MQXFnc_inj := -0.8210 ; b10U_MQXFnc_inj :=  0.0000 ; b10R_MQXFnc_inj :=  0.0000 ;
+b11M_MQXFnc_inj :=  0.0000 ; b11U_MQXFnc_inj :=  0.0000 ; b11R_MQXFnc_inj :=  0.0000 ;
+b12M_MQXFnc_inj :=  0.0000 ; b12U_MQXFnc_inj :=  0.0000 ; b12R_MQXFnc_inj :=  0.0000 ;
+b13M_MQXFnc_inj :=  0.0000 ; b13U_MQXFnc_inj :=  0.0000 ; b13R_MQXFnc_inj :=  0.0000 ;
+b14M_MQXFnc_inj := -1.0830 ; b14U_MQXFnc_inj :=  0.0000 ; b14R_MQXFnc_inj :=  0.0000 ;
+b15M_MQXFnc_inj :=  0.0000 ; b15U_MQXFnc_inj :=  0.0000 ; b15R_MQXFnc_inj :=  0.0000 ;
+
+!                                bn in collision
+b1M_MQXFnc_col  :=  0.0000 ; b1U_MQXFnc_col  :=  0.0000 ; b1R_MQXFnc_col  :=  0.0000 ;
+b2M_MQXFnc_col  :=  0.0000 ; b2U_MQXFnc_col  :=  0.0000 ; b2R_MQXFnc_col  :=  0.0000 ;
+b3M_MQXFnc_col  :=  0.0000 ; b3U_MQXFnc_col  :=  0.0000 ; b3R_MQXFnc_col  :=  0.0000 ;
+b4M_MQXFnc_col  :=  0.0000 ; b4U_MQXFnc_col  :=  0.0000 ; b4R_MQXFnc_col  :=  0.0000 ;
+b5M_MQXFnc_col  :=  0.0000 ; b5U_MQXFnc_col  :=  0.0000 ; b5R_MQXFnc_col  :=  0.0000 ;
+b6M_MQXFnc_col  := -0.0250 ; b6U_MQXFnc_col  :=  0.0000 ; b6R_MQXFnc_col  :=  0.0000 ;
+b7M_MQXFnc_col  :=  0.0000 ; b7U_MQXFnc_col  :=  0.0000 ; b7R_MQXFnc_col  :=  0.0000 ;
+b8M_MQXFnc_col  :=  0.0000 ; b8U_MQXFnc_col  :=  0.0000 ; b8R_MQXFnc_col  :=  0.0000 ;
+b9M_MQXFnc_col  :=  0.0000 ; b9U_MQXFnc_col  :=  0.0000 ; b9R_MQXFnc_col  :=  0.0000 ;
+b10M_MQXFnc_col := -0.8210 ; b10U_MQXFnc_col :=  0.0000 ; b10R_MQXFnc_col :=  0.0000 ;
+b11M_MQXFnc_col :=  0.0000 ; b11U_MQXFnc_col :=  0.0000 ; b11R_MQXFnc_col :=  0.0000 ;
+b12M_MQXFnc_col :=  0.0000 ; b12U_MQXFnc_col :=  0.0000 ; b12R_MQXFnc_col :=  0.0000 ;
+b13M_MQXFnc_col :=  0.0000 ; b13U_MQXFnc_col :=  0.0000 ; b13R_MQXFnc_col :=  0.0000 ;
+b14M_MQXFnc_col := -1.0830 ; b14U_MQXFnc_col :=  0.0000 ; b14R_MQXFnc_col :=  0.0000 ;
+b15M_MQXFnc_col :=  0.0000 ; b15U_MQXFnc_col :=  0.0000 ; b15R_MQXFnc_col :=  0.0000 ;
+
+!                               an at injection
+a1M_MQXFnc_inj  :=  0.0000 ; a1U_MQXFnc_inj  :=  0.0000 ; a1R_MQXFnc_inj  :=  0.0000 ;
+a2M_MQXFnc_inj  :=  0.0000 ; a2U_MQXFnc_inj  :=  0.0000 ; a2R_MQXFnc_inj  :=  0.0000 ;
+a3M_MQXFnc_inj  :=  0.0000 ; a3U_MQXFnc_inj  :=  0.0000 ; a3R_MQXFnc_inj  :=  0.0000 ;
+a4M_MQXFnc_inj  :=  0.0000 ; a4U_MQXFnc_inj  :=  0.0000 ; a4R_MQXFnc_inj  :=  0.0000 ;
+a5M_MQXFnc_inj  :=  0.0000 ; a5U_MQXFnc_inj  :=  0.0000 ; a5R_MQXFnc_inj  :=  0.0000 ;
+a6M_MQXFnc_inj  :=  0.0000 ; a6U_MQXFnc_inj  :=  0.0000 ; a6R_MQXFnc_inj  :=  0.0000 ;
+a7M_MQXFnc_inj  :=  0.0000 ; a7U_MQXFnc_inj  :=  0.0000 ; a7R_MQXFnc_inj  :=  0.0000 ;
+a8M_MQXFnc_inj  :=  0.0000 ; a8U_MQXFnc_inj  :=  0.0000 ; a8R_MQXFnc_inj  :=  0.0000 ;
+a9M_MQXFnc_inj  :=  0.0000 ; a9U_MQXFnc_inj  :=  0.0000 ; a9R_MQXFnc_inj  :=  0.0000 ;
+a10M_MQXFnc_inj :=  0.0000 ; a10U_MQXFnc_inj :=  0.0000 ; a10R_MQXFnc_inj :=  0.0000 ;
+a11M_MQXFnc_inj :=  0.0000 ; a11U_MQXFnc_inj :=  0.0000 ; a11R_MQXFnc_inj :=  0.0000 ;
+a12M_MQXFnc_inj :=  0.0000 ; a12U_MQXFnc_inj :=  0.0000 ; a12R_MQXFnc_inj :=  0.0000 ;
+a13M_MQXFnc_inj :=  0.0000 ; a13U_MQXFnc_inj :=  0.0000 ; a13R_MQXFnc_inj :=  0.0000 ;
+a14M_MQXFnc_inj :=  0.0000 ; a14U_MQXFnc_inj :=  0.0000 ; a14R_MQXFnc_inj :=  0.0000 ;
+a15M_MQXFnc_inj :=  0.0000 ; a15U_MQXFnc_inj :=  0.0000 ; a15R_MQXFnc_inj :=  0.0000 ;
+
+!                               an in collision
+a1M_MQXFnc_col  :=  0.0000 ; a1U_MQXFnc_col  :=  0.0000 ; a1R_MQXFnc_col  :=  0.0000 ;
+a2M_MQXFnc_col  :=  0.0000 ; a2U_MQXFnc_col  :=  0.0000 ; a2R_MQXFnc_col  :=  0.0000 ;
+a3M_MQXFnc_col  :=  0.0000 ; a3U_MQXFnc_col  :=  0.0000 ; a3R_MQXFnc_col  :=  0.0000 ;
+a4M_MQXFnc_col  :=  0.0000 ; a4U_MQXFnc_col  :=  0.0000 ; a4R_MQXFnc_col  :=  0.0000 ;
+a5M_MQXFnc_col  :=  0.0000 ; a5U_MQXFnc_col  :=  0.0000 ; a5R_MQXFnc_col  :=  0.0000 ;
+a6M_MQXFnc_col  :=  0.0000 ; a6U_MQXFnc_col  :=  0.0000 ; a6R_MQXFnc_col  :=  0.0000 ;
+a7M_MQXFnc_col  :=  0.0000 ; a7U_MQXFnc_col  :=  0.0000 ; a7R_MQXFnc_col  :=  0.0000 ;
+a8M_MQXFnc_col  :=  0.0000 ; a8U_MQXFnc_col  :=  0.0000 ; a8R_MQXFnc_col  :=  0.0000 ;
+a9M_MQXFnc_col  :=  0.0000 ; a9U_MQXFnc_col  :=  0.0000 ; a9R_MQXFnc_col  :=  0.0000 ;
+a10M_MQXFnc_col :=  0.0000 ; a10U_MQXFnc_col :=  0.0000 ; a10R_MQXFnc_col :=  0.0000 ;
+a11M_MQXFnc_col :=  0.0000 ; a11U_MQXFnc_col :=  0.0000 ; a11R_MQXFnc_col :=  0.0000 ;
+a12M_MQXFnc_col :=  0.0000 ; a12U_MQXFnc_col :=  0.0000 ; a12R_MQXFnc_col :=  0.0000 ;
+a13M_MQXFnc_col :=  0.0000 ; a13U_MQXFnc_col :=  0.0000 ; a13R_MQXFnc_col :=  0.0000 ;
+a14M_MQXFnc_col :=  0.0000 ; a14U_MQXFnc_col :=  0.0000 ; a14R_MQXFnc_col :=  0.0000 ;
+a15M_MQXFnc_col :=  0.0000 ; a15U_MQXFnc_col :=  0.0000 ; a15R_MQXFnc_col :=  0.0000 ;
+
+return;
+
+
+

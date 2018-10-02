@@ -1,0 +1,87 @@
+! Beam1 -> LE   =   errorgenerate_dip
+! Beam1 -> NLE  |   errorgenerate_dip_inv
+
+! Aperture 1 is External when Beam 1 enters Lead end
+! Aperture 2 in External when Beam 1 enters Nonlead end
+! Aperture 1 is Internal when Beam 1 enters Nonlead end
+! Aperture 2 in Internal when Beam 1 enters Lead end
+
+! Beam1:  In IP1 Ex IP2 In IP3-4-5 Ex IP6-7-8 In
+! Beam2:  Ex IP1 In IP2 Ex IP3-4-5 In IP6-7-8 Ex
+
+! The orientation is     =MBH| coll |MBH=
+
+! Error tables refer
+! -> =(V1) MBH.B8L7B1|
+! -> =(V2) MBH.B8L7B2|
+
+! Different elements  Q8 and Q10 are the same
+! ext B2 <- =(V1-) MBH.B8L1B2| |MBH.A8L1B2 (V2+)=
+! int B1 -> =(V2+) MBH.B8L1B1| |MBH.A8L1B1 (V1-)=
+!                           IP1
+! ext B1 -> =(V1+) MBH.A8R1B1| |MBH.B8R1B1 (V2-)=
+! int B2 <- =(V2-) MBH.A8R1B2| |MBH.B8R1B2 (V1+)=
+!                          ARC12
+! ext B1 -> =(V1+) MBH.B8L2B1| |MBH.A8L2B1 (V2-)=
+! int B2 <- =(V2-) MBH.B8L2B2| |MBH.A8L2B2 (V1+)=
+!                           IP2
+! ext B2 <- =(V1-) MBH.A8R2B2| |MBH.B8R2B2 (V2+)=
+! int B1 -> =(V2+) MBH.A8R2B1| |MBH.B8R2B1 (V1-)=
+!            ARC23 IR3 ARC34 IR4 ARC45
+! ext B2 <- =(V1-) MBH.B8L5B2| |MBH.A8L5B2 (V2+)=
+! int B1 -> =(V2+) MBH.B8L5B1| |MBH.A8L5B1 (V1-)=
+!                           IP5
+! ext B1 -> =(V1+) MBH.A8R5B1| |MBH.B8R5B1 (V2-)=
+! int B2 <- =(V2-) MBH.A8R5B2| |MBH.B8R5B2 (V1+)=
+!            ARC56 IR6 ARC67 IP7 ARC78
+! ext B1 -> =(V1+) MBH.B8L7B1| |MBH.A8L7B1 (V2-)=
+! int B2 <- =(V2-) MBH.B8L7B2| |MBH.A8L7B2 (V1+)=
+!                         IP8
+! ext B1 -> =(V1+) MBH.A8R7B1| |MBH.B8R7B1 (V2+)=
+! int B2 <- =(V2-) MBH.A8R7B2| |MBH.B8R7B2 (V1-)=
+
+exec new_magnetfamily_MB(MBH);
+
+assign_mbh_err(mbn,irn,apl,apr): macro={
+! apl aperture# Beam1 elem MBH.A
+! apr aperture# Beam1 elem MBH.B
+  value,mbh_irirnqmbn;
+  if (mbh_irirnqmbn >0){
+    if(mylhcbeam==1){
+      if(apl==1) {iapAL=1;iapBL=2;};
+      if(apl==2) {iapAL=2;iapBL=1;};
+      if(apr==1) {iapAr=1;iapBr=2;};
+      if(apr==2) {iapAr=2;iapBr=1;};
+      select,flag=error,clear; select,flag=error,pattern="^MBH\.BmbnLirn.*$";
+      exec new_magnetindividual(MBH,iapBL);exec errorgenerate_dip(MBH);
+      select,flag=error,clear; select,flag=error,pattern="^MBH\.AmbnLirn.*$";
+      exec new_magnetindividual(MBH,iapAL);exec errorgenerate_dip_inv(MBH);
+      select,flag=error,clear; select,flag=error,pattern="^MBH\.AmbnRirn.*$";
+      exec new_magnetindividual(MBH,iapAR);exec errorgenerate_dip(MBH);
+      select,flag=error,clear; select,flag=error,pattern="^MBH\.BmbnRirn.*$";
+      exec new_magnetindividual(MBH,iapBR);exec errorgenerate_dip_inv(MBH);
+    };
+    if(mylhcbeam>1){
+      if(apl==1) {iapAL=2;iapBL=1;};
+      if(apl==2) {iapAL=1;iapBL=2;};
+      if(apr==1) {iapAr=2;iapBr=1;};
+      if(apr==2) {iapAr=1;iapBr=2;};
+      select,flag=error,clear; select,flag=error,pattern="^MBH\.BmbnLirn.*$";
+      exec new_magnetindividual(MBH,iapBL);exec errorgenerate_dip_inv(MBH);
+      select,flag=error,clear; select,flag=error,pattern="^MBH\.AmbnLirn.*$";
+      exec new_magnetindividual(MBH,iapAL);exec errorgenerate_dip(MBH);
+      select,flag=error,clear; select,flag=error,pattern="^MBH\.AmbnRirn.*$";
+      exec new_magnetindividual(MBH,iapAR);exec errorgenerate_dip_inv(MBH);
+      select,flag=error,clear; select,flag=error,pattern="^MBH\.BmbnRirn.*$";
+      exec new_magnetindividual(MBH,iapBR);exec errorgenerate_dip(MBH);
+    };
+    value,apl,iapAL,iapBL,apr,iapAr,iapBr;
+  };
+};
+
+exec,assign_mbh_err(8,1,2,1); exec,assign_mbh_err(10,1,2,1);
+exec,assign_mbh_err(9,1,2,1);
+exec,assign_mbh_err(8,2,1,2); exec,assign_mbh_err(10,2,1,2);
+exec,assign_mbh_err(8,5,2,1); exec,assign_mbh_err(10,5,2,1);
+exec,assign_mbh_err(9,5,2,1);
+exec,assign_mbh_err(8,7,1,1); exec,assign_mbh_err(10,7,1,1);
